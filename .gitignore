@@ -2,6 +2,7 @@
 *.class
 
 #IDEA
+.idea/
 .xml
 .iml
 
