@@ -119,7 +119,19 @@ public class ValueConverter {
      * @return Zonsondergang in hh:mm notatie
      */
     public static String sunSet(short rawValue) {
-
+        String rawTime = String.valueOf(rawValue);
+        String time = "";
+        if (rawTime.length() == 4){
+            String minutes = rawTime.substring(3);
+            String hour = rawTime.substring(1, 2);
+            time = hour + ":" + minutes;
+        }
+        else if (rawTime.length() == 3){
+            String minutes = rawTime.substring(2);
+            String hour = rawTime.substring(1);
+            time = hour + ":" + minutes;
+        }
+        return time;
     }
 
 
