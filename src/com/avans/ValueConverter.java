@@ -72,7 +72,7 @@ public class ValueConverter {
      * @return De hoeveelheid regen in mm
      */
     public static double rainMeter(short rawValue) {
-
+        return (double) rawValue;
     }
 
 
