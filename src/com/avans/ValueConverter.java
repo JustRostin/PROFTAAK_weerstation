@@ -62,7 +62,6 @@ public class ValueConverter {
      * @return De windrichting in graden
      */
     public static double windDirection(short rawValue) {
-
         return (double) rawValue;
     }
 
