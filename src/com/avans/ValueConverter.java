@@ -47,7 +47,7 @@ public class ValueConverter {
      * @return De windsnelheid in km/h
      */
     public static double windSpeed(short rawValue) {
-
+        return Math.round((int)rawValue*1.609344*100)*100;
     }
 
 
