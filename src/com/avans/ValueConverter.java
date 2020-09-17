@@ -9,7 +9,8 @@ public class ValueConverter {
      * @return De luchtdruk in hPa
      */
     public static double airPressure(short rawValue) {
-
+        double calc = 0.03386389*((double)rawValue /1000 );
+        return Math.round(calc * 1000)/1000;
     }
 
 
@@ -33,7 +34,8 @@ public class ValueConverter {
      * @return De relatieve luchtvochtigheid in procenten
      */
     public static double humidity(short rawValue) {
-
+        double calc = (double) rawValue;
+        return calc;
     }
 
 
