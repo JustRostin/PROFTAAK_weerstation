@@ -25,7 +25,8 @@ public class ValueConverter {
      * @return De temperatuur in graden Celcius
      */
     public static double temperature(short rawValue) {
-        return Math.round(((double)rawValue - 32) / 1.8 *100)*100 ;
+
+        return Math.round((((double)rawValue/10 - 32) / 1.8) *10.0 )/10.0 ;
     }
 
 
@@ -87,8 +88,7 @@ public class ValueConverter {
      * @return De uv index (dimensieloos)
      */
     public static double uvIndex(short rawValue) {
-        double uvIndex = rawValue/10;
-        return uvIndex;
+        return (double)rawValue /10;
     }
 
 
