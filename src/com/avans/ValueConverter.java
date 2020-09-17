@@ -22,7 +22,7 @@ public class ValueConverter {
      * @return De temperatuur in graden Celcius
      */
     public static double temperature(short rawValue) {
-        return Math.round(((double)rawValue - 32) / 1.8 *100)*100 ;
+        return Math.round((((double)rawValue - 32) / 1.8) *100.0 )/100.0 ;
     }
 
 
