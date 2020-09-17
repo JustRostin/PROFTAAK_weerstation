@@ -61,9 +61,9 @@ public class ValueConverter {
      * @param rawValue Ruwe meetwaarde van het vp2pro weerstation
      * @return De windrichting in graden
      */
-    public static double windDirection(short rawValue) {
-        double calc = (double) rawValue;
-        return calc;
+    public static int windDirection(short rawValue) {
+        
+        return (int) rawValue;
     }
 
 
