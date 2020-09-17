@@ -1,4 +1,7 @@
 package com.avans;
+import java.util.*;
+import java.lang.*;
+import java.text.*;
 
 public class ValueConverter {
 
@@ -109,7 +112,7 @@ public class ValueConverter {
      * @return Zonsopkomst in hh:mm notatie
      */
     public static String sunRise(short rawValue) {
-        DecimalFormat df = new DecimalFormat("0.00");
+            DecimalFormat df = new DecimalFormat("0.00");
         String time = "Sunrise: " + (String)df.format(rawValue);
         return time;
     }
