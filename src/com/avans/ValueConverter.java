@@ -97,7 +97,7 @@ public class ValueConverter {
      * @return De batterijspanning in Volt
      */
     public static double batteryLevel(short rawValue) {
-
+        return (((double)rawValue * 300) / 512) / 100.0;
     }
 
 
