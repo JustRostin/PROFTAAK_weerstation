@@ -109,7 +109,9 @@ public class ValueConverter {
      * @return Zonsopkomst in hh:mm notatie
      */
     public static String sunRise(short rawValue) {
-
+        DecimalFormat df = new DecimalFormat("0.00");
+        String time = "Sunrise: " + (String)df.format(rawValue);
+        return time;
     }
 
 
