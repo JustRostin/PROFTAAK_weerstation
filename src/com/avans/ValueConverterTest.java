@@ -38,6 +38,7 @@ public class ValueConverterTest {
         System.out.println("BattLevel is "+Converter.batteryLevel(BattLevel)+" en moet 1.22 zijn");
         System.out.println("Sunrise is "+Converter.sunRise(Sunrise)+" en moet 6:30 zijn");
         System.out.println("Sunset is "+Converter.sunSet(Sunset)+" en moet 19:06 zijn");
+        System.out.println("Sunset is "+Converter.windChill(OutsideTemp, WindSpeed));
 
 
     }
