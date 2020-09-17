@@ -13,7 +13,7 @@ public class ValueConverter {
      */
     public static double airPressure(short rawValue) {
         double calc = 0.03386389*((double)rawValue /1000 );
-        return Math.round(calc * 1000)/1000;
+        return Math.round(calc*1000)/1000.0d;
     }
 
 
@@ -38,7 +38,7 @@ public class ValueConverter {
      */
     public static double humidity(short rawValue) {
         double calc = (double) rawValue;
-        return calc;
+        return Math.round(calc);
     }
 
 
