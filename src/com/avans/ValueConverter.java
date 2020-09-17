@@ -1,4 +1,6 @@
 package com.avans;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.lang.*;
 import java.text.*;
@@ -99,8 +101,13 @@ public class ValueConverter {
      * @param rawValue Ruwe meetwaarde van het vp2pro weerstation
      * @return De batterijspanning in Volt
      */
-    public static double batteryLevel(short rawValue) {
-        return (((double)rawValue * 300) / 512) / 100.0;
+    //private static DecimalFormat DF = new DecimalFormat("0.00");
+
+    public static double batteryLevel(short rawValue){
+        double battLevel = ((((double)rawValue * 300) / 512) / 100.0);
+        BigDecimal bd = new BigDecimal(battLevel).setScale(2, RoundingMode.HALF_UP);
+        double newLevel = bd.doubleValue();
+        return newLevel;
     }
 
 
