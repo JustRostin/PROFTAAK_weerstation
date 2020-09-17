@@ -84,7 +84,8 @@ public class ValueConverter {
      * @return De uv index (dimensieloos)
      */
     public static double uvIndex(short rawValue) {
-
+        double uvIndex = rawValue/10;
+        return uvIndex;
     }
 
 
