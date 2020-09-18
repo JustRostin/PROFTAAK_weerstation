@@ -43,7 +43,7 @@ public class ValueConverter {
      */
     public double heatIndex ( double currentTemp, double currentHumidity ) {
         //Setting parameters for Function
-        double T = currentTemp;
+        double T = currentTemp / 10.0;
         double R = currentHumidity;
         final double C1 = -42.379;
         final double C2 = 2.04901523;
@@ -59,8 +59,8 @@ public class ValueConverter {
 
         //Function of Calculating Heat Index
         double answer = C1 + (C2 * T) + (C3 * R) + (C4 * T * R) + (C5 * T2) + (C6 * R2) + (C7 * T2 * R) + (C8 * T * R2) + (C9 * T2 * R2);
-
-        return Math.round(answer * 100.0) / 100.0;
+        double anwserCelsius = Math.round(((answer - 32) / 1.8) *10.0 )/10.0;
+        return anwserCelsius;
     }
 
     /**
