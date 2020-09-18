@@ -1,4 +1,8 @@
 package com.avans;
+import jdk.nashorn.internal.codegen.CompilerConstants;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.lang.*;
 import java.text.*;
@@ -127,8 +131,13 @@ public class ValueConverter {
      * @param rawValue Ruwe meetwaarde van het vp2pro weerstation
      * @return De batterijspanning in Volt
      */
-    public static double batteryLevel(short rawValue) {
-        return (((double)rawValue * 300) / 512) / 100.0;
+    //private static DecimalFormat DF = new DecimalFormat("0.00");
+
+    public static double batteryLevel(short rawValue){
+        double battLevel = ((((double)rawValue * 300) / 512) / 100.0);
+        BigDecimal bd = new BigDecimal(battLevel).setScale(2, RoundingMode.HALF_UP);
+        double newLevel = bd.doubleValue();
+        return newLevel;
     }
 
 
@@ -140,8 +149,18 @@ public class ValueConverter {
      * @return Zonsopkomst in hh:mm notatie
      */
     public static String sunRise(short rawValue) {
-            DecimalFormat df = new DecimalFormat("0.00");
-        String time = "Sunrise: " + (String)df.format(rawValue);
+        String rawTime = String.valueOf(rawValue);
+        String time = "";
+        if (rawTime.length() == 4){
+            String minutes = rawTime.substring(2,4);
+            String hour = rawTime.substring(0,2);
+            time = hour + ":" + minutes;
+        }
+        else if (rawTime.length() == 3){
+            String minutes = rawTime.substring(1,3);
+            String hour = rawTime.substring(0,1);
+            time = hour + ":" + minutes;
+        }
         return time;
     }
 
@@ -156,13 +175,13 @@ public class ValueConverter {
         String rawTime = String.valueOf(rawValue);
         String time = "";
         if (rawTime.length() == 4){
-            String minutes = rawTime.substring(3);
-            String hour = rawTime.substring(1, 2);
+            String minutes = rawTime.substring(2,4);
+            String hour = rawTime.substring(0,2);
             time = hour + ":" + minutes;
         }
         else if (rawTime.length() == 3){
-            String minutes = rawTime.substring(2);
-            String hour = rawTime.substring(1);
+            String minutes = rawTime.substring(1,3);
+            String hour = rawTime.substring(0,1);
             time = hour + ":" + minutes;
         }
         return time;
@@ -170,9 +189,22 @@ public class ValueConverter {
 
     public static double windChill (short rawValue1, short rawValue2){
         double windChill = 35.74 + 0.6215*rawValue1-35.75*(Math.pow(rawValue2, 0.16))+0.4275*rawValue1*(Math.pow(rawValue2, 0.16));
+        windChill = ((windChill/10)-32)/1.8;
+
+        windChill = (double) Math.round(windChill * 100)/ 100;
+
         return windChill;
     }
 
+    public static double dewPoint (short rawValue1, short rawValue2){
+
+        double cOutTemp = temperature(rawValue1);
+
+        double dewPoint = rawValue2 * 0.01 * 6.112 * Math.exp((17.62 * cOutTemp)/(cOutTemp + 243.12));
+        dewPoint = (double) Math.round(dewPoint * 100)/ 100;
+
+        return dewPoint;
+    }
 
 
 }
