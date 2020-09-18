@@ -1,4 +1,6 @@
 package com.avans;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.lang.*;
 import java.text.*;
@@ -99,8 +101,13 @@ public class ValueConverter {
      * @param rawValue Ruwe meetwaarde van het vp2pro weerstation
      * @return De batterijspanning in Volt
      */
-    public static double batteryLevel(short rawValue) {
-        return (((double)rawValue * 300) / 512) / 100.0;
+    //private static DecimalFormat DF = new DecimalFormat("0.00");
+
+    public static double batteryLevel(short rawValue){
+        double battLevel = ((((double)rawValue * 300) / 512) / 100.0);
+        BigDecimal bd = new BigDecimal(battLevel).setScale(2, RoundingMode.HALF_UP);
+        double newLevel = bd.doubleValue();
+        return newLevel;
     }
 
 
@@ -112,8 +119,18 @@ public class ValueConverter {
      * @return Zonsopkomst in hh:mm notatie
      */
     public static String sunRise(short rawValue) {
-            DecimalFormat df = new DecimalFormat("0.00");
-        String time = "Sunrise: " + (String)df.format(rawValue);
+        String rawTime = String.valueOf(rawValue);
+        String time = "";
+        if (rawTime.length() == 4){
+            String minutes = rawTime.substring(2,4);
+            String hour = rawTime.substring(0,2);
+            time = hour + ":" + minutes;
+        }
+        else if (rawTime.length() == 3){
+            String minutes = rawTime.substring(1,3);
+            String hour = rawTime.substring(0,1);
+            time = hour + ":" + minutes;
+        }
         return time;
     }
 
@@ -129,13 +146,13 @@ public class ValueConverter {
         String rawTime = String.valueOf(rawValue);
         String time = "";
         if (rawTime.length() == 4){
-            String minutes = rawTime.substring(3);
-            String hour = rawTime.substring(1, 2);
+            String minutes = rawTime.substring(2,4);
+            String hour = rawTime.substring(0,2);
             time = hour + ":" + minutes;
         }
         else if (rawTime.length() == 3){
-            String minutes = rawTime.substring(2);
-            String hour = rawTime.substring(1);
+            String minutes = rawTime.substring(1,3);
+            String hour = rawTime.substring(0,1);
             time = hour + ":" + minutes;
         }
         return time;
