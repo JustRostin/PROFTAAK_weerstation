@@ -1,4 +1,6 @@
 package com.avans;
+import jdk.nashorn.internal.codegen.CompilerConstants;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
@@ -167,6 +169,15 @@ public class ValueConverter {
         return windChill;
     }
 
+    public static double dewPoint (short rawValue1, short rawValue2){
+
+        double cOutTemp = temperature(rawValue1);
+
+        double dewPoint = rawValue2 * 0.01 * 6.112 * Math.exp((17.62 * cOutTemp)/(cOutTemp + 243.12));
+        dewPoint = (double) Math.round(dewPoint * 100)/ 100;
+
+        return dewPoint;
+    }
 
 
 }
