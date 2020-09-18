@@ -38,7 +38,8 @@ public class ValueConverterTest {
         System.out.println("BattLevel is "+Converter.batteryLevel(BattLevel)+" en moet 1.22 zijn");
         System.out.println("Sunrise is "+Converter.sunRise(Sunrise)+" en moet 6:30 zijn");
         System.out.println("Sunset is "+Converter.sunSet(Sunset)+" en moet 19:06 zijn");
-        System.out.println("Sunset is "+Converter.windChill(OutsideTemp, WindSpeed));
+        System.out.println("Windchill is "+Converter.windChill(OutsideTemp, WindSpeed) +" en moet 20.04 of 20.05 zijn");
+        System.out.println("Dewpoint is "+Converter.dewPoint(OutsideTemp, OutsideHum) +" en moet 12.88 zijn");
 
 
     }
