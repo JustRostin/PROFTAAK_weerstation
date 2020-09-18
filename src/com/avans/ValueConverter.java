@@ -1,8 +1,7 @@
 package com.avans;
 import jdk.nashorn.internal.codegen.CompilerConstants;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.math.*;
 import java.util.*;
 import java.lang.*;
 import java.text.*;
