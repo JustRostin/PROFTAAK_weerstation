@@ -22,6 +22,7 @@ public class ValueConverter {
      * temperature
      *
      * @param rawValue Ruwe meetwaarde van het vp2pro weerstation
+     * @param rawValue Ruwe meetwaarde van het vp2pro weerstation
      * @return De temperatuur in graden Celcius
      */
     public static double temperature(short rawValue) {
@@ -30,6 +31,33 @@ public class ValueConverter {
     }
 
 
+    /**
+     * heatIndex
+     *
+     * @param rawValue Ruwe meetwaarde van het vp2pro weerstation
+     * @return heatindex
+     */
+    public double heatIndex ( double currentTemp, double currentHumidity ) {
+        //Setting parameters for Function
+        double T = currentTemp;
+        double R = currentHumidity;
+        final double C1 = -42.379;
+        final double C2 = 2.04901523;
+        final double C3 = 10.14333127;
+        final double C4 = -0.22475541;
+        final double C5 = -.00683783;
+        final double C6 = -5.481717E-2;
+        final double C7 = 1.22874E-3;
+        final double C8 = 8.5282E-4;
+        final double C9 = -1.99E-6;
+        double T2 = T * T;
+        double R2 = R * R;
+
+        //Function of Calculating Heat Index
+        double answer = C1 + (C2 * T) + (C3 * R) + (C4 * T * R) + (C5 * T2) + (C6 * R2) + (C7 * T2 * R) + (C8 * T * R2) + (C9 * T2 * R2);
+
+        return Math.round(answer * 100.0) / 100.0;
+    }
 
     /**
      * humidity
@@ -116,7 +144,6 @@ public class ValueConverter {
         String time = "Sunrise: " + (String)df.format(rawValue);
         return time;
     }
-
 
 
     /**

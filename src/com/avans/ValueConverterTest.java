@@ -39,6 +39,7 @@ public class ValueConverterTest {
         System.out.println("Sunrise is "+Converter.sunRise(Sunrise)+" en moet 6:30 zijn");
         System.out.println("Sunset is "+Converter.sunSet(Sunset)+" en moet 19:06 zijn");
         System.out.println("Sunset is "+Converter.windChill(OutsideTemp, WindSpeed));
+        System.out.println("Heat index is "+Converter.heatIndex(Converter.temperature(OutsideTemp),Converter.humidity(InsideHum)));
 
 
     }
