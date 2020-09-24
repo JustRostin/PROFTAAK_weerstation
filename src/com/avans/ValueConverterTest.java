@@ -28,12 +28,12 @@ public class ValueConverterTest {
 
         System.out.println("Timestamp of measurement: "+ raw.getDateStamp());
         System.out.println("--------------------------");
-        System.out.println("Luchtdruk is "+Converter.airPressure(raw.getBarometer()));
-        System.out.println("InsideTemp is "+Converter.temperature(raw.getInsideTemp()));
+        System.out.println("Luchtdruk is "+String.format("%.01f", Converter.airPressure(raw.getBarometer())));
+        System.out.println("InsideTemp is "+ String.format("%.01f", Converter.temperature(raw.getInsideTemp())));
         System.out.println("InsideHum is "+Converter.humidity(raw.getInsideHum()));
-        System.out.println("OutsideTemp is "+Converter.temperature(raw.getOutsideTemp()));
-        System.out.println("WindSpeed is "+Converter.windSpeed(raw.getWindSpeed()));
-        System.out.println("AvgWindSpeed is "+Converter.windSpeed(raw.getAvgWindSpeed()));
+        System.out.println("OutsideTemp is "+String.format("%.01f",Converter.temperature(raw.getOutsideTemp())));
+        System.out.println("WindSpeed is "+String.format("%.01f",Converter.windSpeed(raw.getWindSpeed())));
+        System.out.println("AvgWindSpeed is "+String.format("%.01f",Converter.windSpeed(raw.getAvgWindSpeed())));
         System.out.println("WindDir is "+Converter.windDirection(raw.getWindDir()));
         System.out.println("OutsideHum is "+Converter.humidity(raw.getOutsideHum()));
         System.out.println("RainRate is "+Converter.rainMeter(raw.getRainRate()));
@@ -41,9 +41,9 @@ public class ValueConverterTest {
         System.out.println("BattLevel is "+Converter.batteryLevel(raw.getBattLevel()));
         System.out.println("Sunrise is "+Converter.sunRise(raw.getSunrise()));
         System.out.println("Sunset is "+Converter.sunSet(raw.getSunset()));
-        System.out.println("Heat index is "+Converter.heatIndex(raw.getOutsideTemp(),Converter.humidity(raw.getOutsideHum())));
-        System.out.println("Windchill is "+Converter.windChill(raw.getOutsideTemp(), raw.getWindSpeed()));
-        System.out.println("Dewpoint is "+Converter.dewPoint(raw.getOutsideTemp(), raw.getOutsideHum()));
+        System.out.println("Heat index is "+String.format("%.01f",Converter.heatIndex(raw.getOutsideTemp(),Converter.humidity(raw.getOutsideHum()))));
+        System.out.println("Windchill is "+String.format("%.01f",Converter.windChill(raw.getOutsideTemp(), raw.getWindSpeed())));
+        System.out.println("Dewpoint is "+String.format("%.01f",Converter.dewPoint(raw.getOutsideTemp(), raw.getOutsideHum())));
 
 
 

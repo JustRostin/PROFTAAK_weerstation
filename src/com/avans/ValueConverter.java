@@ -30,19 +30,20 @@ public class ValueConverter {
      */
     public double temperature(short rawValue) {
 
-        return Math.round((((double)rawValue/10 - 32) / 1.8) *10.0 )/10.0 ;
+        return ((double)rawValue/10 - 32) / 1.8 ;
     }
 
 
     /**
      * heatIndex
      *
-     * @param rawValue Ruwe meetwaarde van het vp2pro weerstation
+     * @param currentTemp Huidige temperatuur
+     * @param currentHumidity huidige lucht vochtigehid
      * @return heatindex
      */
     public double heatIndex ( double currentTemp, double currentHumidity ) {
         //Setting parameters for Function
-        double T = currentTemp / 10.0;
+        double T = currentTemp;
         double R = currentHumidity;
         final double C1 = -42.379;
         final double C2 = 2.04901523;
@@ -57,9 +58,8 @@ public class ValueConverter {
         double R2 = R * R;
 
         //Function of Calculating Heat Index
-        double answer = C1 + (C2 * T) + (C3 * R) + (C4 * T * R) + (C5 * T2) + (C6 * R2) + (C7 * T2 * R) + (C8 * T * R2) + (C9 * T2 * R2);
-        double anwserCelsius = Math.round(((answer - 32) / 1.8) *10.0 )/10.0;
-        return anwserCelsius;
+        double awnser = C1 + (C2 * T) + (C3 * R) + (C4 * T * R) + (C5 * T2) + (C6 * R2) + (C7 * T2 * R) + (C8 * T * R2) + (C9 * T2 * R2);
+        return awnser;
     }
 
     /**
@@ -70,7 +70,7 @@ public class ValueConverter {
      */
     public double humidity(short rawValue) {
         double calc = (double) rawValue;
-        return Math.round(calc);
+        return calc;
     }
 
 
@@ -83,7 +83,7 @@ public class ValueConverter {
      */
     public double windSpeed(short rawValue) {
 
-        return Math.round(((int)rawValue*1.609344));
+        return (int)rawValue*1.609344;
     }
 
 
@@ -172,7 +172,7 @@ public class ValueConverter {
      */
 
     public String sunSet(short rawValue) {
-        time = sunRise(rawValue);
+        String time = sunRise(rawValue);
 
         return time;
     }
@@ -181,7 +181,7 @@ public class ValueConverter {
         double windChill = 35.74 + 0.6215*rawValue1-35.75*(Math.pow(rawValue2, 0.16))+0.4275*rawValue1*(Math.pow(rawValue2, 0.16));
         windChill = ((windChill/10)-32)/1.8;
 
-        windChill = (double) Math.round(windChill * 100)/ 100;
+
 
         return windChill;
     }
@@ -191,7 +191,6 @@ public class ValueConverter {
         double cOutTemp = temperature(rawValue1);
 
         double dewPoint = rawValue2 * 0.01 * 6.112 * Math.exp((17.62 * cOutTemp)/(cOutTemp + 243.12));
-        dewPoint = (double) Math.round(dewPoint * 100)/ 100;
 
         return dewPoint;
     }
