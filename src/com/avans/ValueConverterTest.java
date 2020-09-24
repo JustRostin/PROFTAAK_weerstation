@@ -25,7 +25,7 @@ public class ValueConverterTest {
         short Sunset = 1906;
 
 
-        System.out.println("Luchtdruk is "+Converter.airPressure(Barometer)+" en moet 1.021 zijn");
+        System.out.println("Luchtdruk is "+Converter.airPressure(Barometer)+" millibar en moet 1021.0 millibar zijn");
         System.out.println("InsideTemp is "+Converter.temperature(InsideTemp)+" en moet 23.4 zijn");
         System.out.println("InsideHum is "+Converter.humidity(InsideHum)+" en moet 48 zijn");
         System.out.println("OutsideTemp is "+Converter.temperature(OutsideTemp)+" en moet 16 zijn");
