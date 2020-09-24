@@ -18,7 +18,7 @@ public class ValueConverterTest {
 //        short AvgWindSpeed = 3;
 //        short WindDir = 257;
 //        short OutsideHum = 71;
-//        short RainRate = 0;
+//        short RainRate = 290;
 //        short UVLevel = 5;
 //        short BattLevel = 209;
 //        short Sunrise = 630;
