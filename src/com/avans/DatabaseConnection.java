@@ -1,3 +1,5 @@
+package com.avans;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -30,7 +32,9 @@ public class DatabaseConnection {
 	 * @return the most recent measurement from the database
 	 */
 	public static RawMeasurement getMostRecentMeasurement() {
+
 		return buildMeasurement(new DataInputStream(buildStream(host + "last/bin")));
+
 	}
 
 	/**
