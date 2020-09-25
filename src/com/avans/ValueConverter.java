@@ -14,7 +14,7 @@ public class ValueConverter {
      * @param rawValue Ruwe meetwaarde van het vp2pro weerstation
      * @return De luchtdruk in hPa
      */
-    public double airPressure(short rawValue) {
+    public static double airPressure(short rawValue) {
         double calc = 0.03386389*((double)rawValue);
         return Math.round(calc);
     }
@@ -28,7 +28,7 @@ public class ValueConverter {
      * @param rawValue Ruwe meetwaarde van het vp2pro weerstation
      * @return De temperatuur in graden Celcius
      */
-    public double temperature(short rawValue) {
+    public static double temperature(short rawValue) {
 
         return ((double)rawValue/10 - 32) / 1.8 ;
     }
@@ -41,7 +41,7 @@ public class ValueConverter {
      * @param currentHumidity huidige lucht vochtigehid
      * @return heatindex
      */
-    public double heatIndex ( double currentTemp, double currentHumidity ) {
+    public static double heatIndex ( double currentTemp, double currentHumidity ) {
         //Setting parameters for Function
         double T = currentTemp;
         double R = currentHumidity;
@@ -68,7 +68,7 @@ public class ValueConverter {
      * @param rawValue Ruwe meetwaarde van het vp2pro weerstation
      * @return De relatieve luchtvochtigheid in procenten
      */
-    public double humidity(short rawValue) {
+    public static double humidity(short rawValue) {
         double calc = (double) rawValue;
         return calc;
     }
@@ -81,7 +81,7 @@ public class ValueConverter {
      * @param rawValue Ruwe meetwaarde van het vp2pro weerstation
      * @return De windsnelheid in km/h
      */
-    public double windSpeed(short rawValue) {
+    public static double windSpeed(short rawValue) {
 
         return (int)rawValue*1.609344;
     }
@@ -94,7 +94,7 @@ public class ValueConverter {
      * @param rawValue Ruwe meetwaarde van het vp2pro weerstation
      * @return De windrichting in graden
      */
-    public double windDirection(short rawValue) {
+    public static double windDirection(short rawValue) {
         return (double) rawValue;
     }
 
@@ -106,7 +106,7 @@ public class ValueConverter {
      * @param rawValue Ruwe meetwaarde van het vp2pro weerstation
      * @return De hoeveelheid regen in mm
      */
-    public double rainMeter(short rawValue) {
+    public static double rainMeter(short rawValue) {
         return (double) rawValue;
     }
 
@@ -118,7 +118,7 @@ public class ValueConverter {
      * @param rawValue Ruwe meetwaarde van het vp2pro weerstation
      * @return De uv index (dimensieloos)
      */
-    public double uvIndex(short rawValue) {
+    public static double uvIndex(short rawValue) {
         return (double)rawValue /10;
     }
 
@@ -132,7 +132,7 @@ public class ValueConverter {
      */
     //private static DecimalFormat DF = new DecimalFormat("0.00");
 
-    public double batteryLevel(short rawValue){
+    public static double batteryLevel(short rawValue){
         double battLevel = ((((double)rawValue * 300) / 512) / 100.0);
         BigDecimal bd = new BigDecimal(battLevel).setScale(2, RoundingMode.HALF_UP);
         double newLevel = bd.doubleValue();
@@ -147,7 +147,7 @@ public class ValueConverter {
      * @param rawValue Ruwe meetwaarde van het vp2pro weerstation
      * @return Zonsopkomst in hh:mm notatie
      */
-    public String sunRise(short rawValue) {
+    public static String sunRise(short rawValue) {
         String rawTime = String.valueOf(rawValue);
         String time = "";
         if (rawTime.length() == 4){
@@ -171,13 +171,13 @@ public class ValueConverter {
      * @return Zonsondergang in hh:mm notatie
      */
 
-    public String sunSet(short rawValue) {
+    public static String sunSet(short rawValue) {
         String time = sunRise(rawValue);
 
         return time;
     }
 
-    public double windChill (short rawValue1, short rawValue2){
+    public static double windChill (short rawValue1, short rawValue2){
         double windChill = 35.74 + 0.6215*rawValue1-35.75*(Math.pow(rawValue2, 0.16))+0.4275*rawValue1*(Math.pow(rawValue2, 0.16));
         windChill = ((windChill/10)-32)/1.8;
 
@@ -186,7 +186,7 @@ public class ValueConverter {
         return windChill;
     }
 
-    public double dewPoint (short rawValue1, short rawValue2){
+    public static double dewPoint (short rawValue1, short rawValue2){
 
         double cOutTemp = temperature(rawValue1);
 
