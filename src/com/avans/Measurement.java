@@ -5,34 +5,115 @@ import java.util.ArrayList;
 
 public class Measurement {
 
-    private RawMeasurement measurement;
+    private String timestamp;
+    private short barometer;
+    private short insideTemp;
+    private short insideHum;
+    private short outsideTemp;
+    private short windSpeed;
+    private short avgWindSpeed;
+    private short windDir;
+    private short outsideHum;
+    private short rainRate;
+    private short UVLevel;
+    private short xmitBatt;
+    private short battLevel;
+    private short sunrise;
+    private short sunset;
+
 
     public Measurement(RawMeasurement data){
-        this.measurement = data;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        this.timestamp = data.getDateStamp().format(formatter);
+        this.barometer = data.getBarometer();
+        this.insideTemp = data.getInsideTemp();
+        this.insideHum = data.getInsideHum();
+        this.outsideTemp = data.getOutsideTemp();
+        this.windSpeed = data.getWindSpeed();
+        this.avgWindSpeed = data.getAvgWindSpeed();
+        this.windDir = data.getWindDir();
+        this.outsideHum = data.getOutsideHum();
+        this.rainRate = data.getRainRate();
+        this.UVLevel = data.getUVLevel();
+        this.xmitBatt = data.getXmitBatt();
+        this.battLevel = data.getBattLevel();
+        this.sunrise = data.getSunrise();
+        this.sunset = data.getSunset();
     }
 
-    public void Convert(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        String timestamp = measurement.getDateStamp().format(formatter);
-        System.out.println("Timestamp: "+timestamp);
-        System.out.println("Luchtdruk is "+String.format("%.01f", ValueConverter.airPressure(measurement.getBarometer())));
-        System.out.println("InsideTemp is "+ String.format("%.01f", ValueConverter.temperature(measurement.getInsideTemp())));
-        System.out.println("InsideHum is "+ValueConverter.humidity(measurement.getInsideHum()));
-        System.out.println("OutsideTemp is "+String.format("%.01f",ValueConverter.temperature(measurement.getOutsideTemp())));
-        System.out.println("WindSpeed is "+String.format("%.01f",ValueConverter.windSpeed(measurement.getWindSpeed())));
-        System.out.println("AvgWindSpeed is "+String.format("%.01f",ValueConverter.windSpeed(measurement.getAvgWindSpeed())));
-        System.out.println("WindDir is "+ValueConverter.windDirection(measurement.getWindDir()));
-        System.out.println("OutsideHum is "+ValueConverter.humidity(measurement.getOutsideHum()));
-        System.out.println("RainRate is "+ValueConverter.rainMeter(measurement.getRainRate()));
-        System.out.println("UVLevel is "+ValueConverter.uvIndex(measurement.getUVLevel()));
-        System.out.println("BattLevel is "+ValueConverter.batteryLevel(measurement.getBattLevel()));
-        System.out.println("Sunrise is "+ValueConverter.sunRise(measurement.getSunrise()));
-        System.out.println("Sunset is "+ValueConverter.sunSet(measurement.getSunset()));
-        System.out.println("Heat index is "+String.format("%.01f",ValueConverter.heatIndex(measurement.getOutsideTemp(),ValueConverter.humidity(measurement.getOutsideHum()))));
-        System.out.println("Windchill is "+String.format("%.01f",ValueConverter.windChill(measurement.getOutsideTemp(), measurement.getWindSpeed())));
-        System.out.println("Dewpoint is "+String.format("%.01f",ValueConverter.dewPoint(measurement.getOutsideTemp(), measurement.getOutsideHum())));
+    public double barometerConvert(){
+        double barometer = ValueConverter.airPressure(this.barometer);
+        return barometer;
     }
+    public double insideTempConvert(){
+        double insideTemp = ValueConverter.temperature(this.insideTemp);
+        return insideTemp;
+    }
+    public double insideHumConvert(){
+        double insideHum = ValueConverter.humidity(this.insideHum);
+        return insideHum;
+    }
+    public double outsideTempConvert(){
+        double outsideTemp = ValueConverter.temperature(this.outsideTemp);
+        return outsideTemp;
+    }
+    public double windSpeedConvert(){
+        double windSpeed = ValueConverter.windSpeed(this.windSpeed);
+        return windSpeed;
+    }
+    public double avgWindSpeedConvert(){
+        double avgWindSpeed = ValueConverter.windSpeed(this.avgWindSpeed);
+        return avgWindSpeed;
+    }
+    public double windDirConvert(){
+        double windDir = ValueConverter.windDirection(this.windDir);
+        return windDir;
+    }
+    public double outsideHumConvert(){
+        double outsideHum = ValueConverter.humidity(this.outsideHum);
+        return outsideHum;
+    }
+    public double rainRateConvert(){
+        double rainRate = ValueConverter.rainMeter(this.rainRate);
+        return rainRate;
+    }
+    public double UVLevelConvert(){
+        double UVLevel = ValueConverter.uvIndex(this.UVLevel);
+        return UVLevel;
+    }
+    public double xmitBattConvert(){
+        double xmitBatt = ValueConverter.batteryLevel(this.xmitBatt);
+        return xmitBatt;
+    }
+    public double battLevelConvert(){
+        double battLevel = ValueConverter.batteryLevel(this.battLevel);
+        return battLevel;
+    }
+    public String sunriseConvert(){
+        String sunrise = ValueConverter.sunRise(this.sunrise);
+        return sunrise;
+    }
+    public String sunsetConvert(){
+        String sunset = ValueConverter.sunSet(this.sunset);
+        return sunset;
+    }
+
     public String toString(){
-        return measurement.toString();
+        String s = "Converted:"
+                + "\nbarometer \t\t= \t" + String.format("%.01f",barometerConvert())
+                + "\ninsideTemp \t\t= \t" + String.format("%.01f",insideTempConvert())
+                + "\ninsideHum \t\t= \t" + insideHumConvert()
+                + "\noutsideTemp \t= \t" + String.format("%.01f",outsideTempConvert())
+                + "\nwindSpeed \t\t= \t" + String.format("%.01f",windSpeedConvert())
+                + "\navgWindSpeed \t= \t" + String.format("%.01f",avgWindSpeedConvert())
+                + "\nwindDir \t\t= \t" + windDirConvert()
+                + "\noutsideHum \t\t= \t" + outsideHumConvert()
+                + "\nrainRate \t\t= \t" + rainRateConvert()
+                + "\nUVLevel \t\t= \t" + UVLevelConvert()
+                + "\nxmitBatt \t\t= \t" + xmitBattConvert()
+                + "\nbattLevel \t\t= \t" + battLevelConvert()
+                + "\nsunrise \t\t= \t" + sunriseConvert()
+                + "\nsunset \t\t\t= \t" + sunsetConvert();
+        return s;
     }
 }

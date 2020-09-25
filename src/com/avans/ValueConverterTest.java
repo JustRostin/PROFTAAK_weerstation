@@ -14,7 +14,7 @@ public class ValueConverterTest {
 
         RawMeasurement raw = DatabaseConnection.getMostRecentMeasurement();
         Measurement measurement = new Measurement(raw);
-        measurement.Convert();
+        System.out.println(measurement);
 
 
 
