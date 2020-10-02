@@ -1,12 +1,13 @@
 package com.avans;
 
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import java.util.*;
+import java.util.function.Function;
 
 public class Main {
 
     public static void main(String[] args) {
-	    IO.init();
-	    clearDM();
+	    menu();
 
 
     }
@@ -256,5 +257,230 @@ public class Main {
     }
 
 
+    public static void writeText(String text){
+        // Creating array of string length
+        char[] ch = new char[text.length()];
+
+        // Copy character by character into array
+        for (int i = 0; i < text.length(); i++) {
+            ch[i] = text.charAt(i);
+        }
+        // Printing content of array to screen
+        for (char c : ch) {
+            IO.writeShort(0x40, c);
+        }
+    }
+    public static void writeNewLine() {
+        IO.writeShort(0x40, '\n');
+    }
+
+    public static void menu() {
+        IO.init();
+        clearDM();
+        if (isKnopBlauwRechtsIngedrukt() || isKnopBlauwLinksIngedrukt() || isKnopRoodIngedrukt()) {
+            writeText("Druk alle knoppen uit");
+        }
+        while (isKnopBlauwRechtsIngedrukt() || isKnopBlauwLinksIngedrukt() || isKnopRoodIngedrukt()) {}
+        clearDM();
+        writeText("Welkom bij Weermenu!");
+        writeNewLine();
+        writeText("Blauw: Scrollen");
+        writeNewLine();
+        writeText("Rood: Afsluiten");
+        while (!(isKnopRoodIngedrukt() || isKnopBlauwRechtsIngedrukt() || isKnopBlauwLinksIngedrukt())) {}
+        DisplayTemp();
+    }
+
+    private static void DisplayTemp() {
+        RawMeasurement raw = DatabaseConnection.getMostRecentMeasurement();
+        Measurement measurement = new Measurement(raw);
+        clearDM();
+        writeText("Temperatuur");
+        writeNewLine();
+        String tempbinnen = "Binnen: "+ String.format("%.01f",measurement.insideTempConvert());
+        writeText(tempbinnen);
+        writeNewLine();
+        String tempbuiten = "Buiten: "+ String.format("%.01f",measurement.outsideTempConvert());
+        writeText(tempbuiten);
+        while (isKnopBlauwRechtsIngedrukt() || isKnopBlauwLinksIngedrukt() || isKnopRoodIngedrukt()) {}
+        while (!(isKnopBlauwLinksIngedrukt() || isKnopBlauwRechtsIngedrukt() || isKnopRoodIngedrukt())) {}
+        if (isKnopBlauwRechtsIngedrukt()) {
+            DisplayHum();
+        } else if (isKnopBlauwLinksIngedrukt()){
+            DisplayBat();
+        } else if (isKnopRoodIngedrukt()) {
+            DisplayQuit();
+        }
+    }
+
+    private static void DisplayHum() {
+        RawMeasurement raw = DatabaseConnection.getMostRecentMeasurement();
+        Measurement measurement = new Measurement(raw);
+        clearDM();
+        writeText("Luchtvochtigheid");
+        writeNewLine();
+        String humbinnen = "Binnen: "+ String.format("%.01f",measurement.insideHumConvert())+"%";
+        writeText(humbinnen);
+        writeNewLine();
+        String humbuiten = "Buiten: "+ String.format("%.01f",measurement.outsideHumConvert())+"%";
+        writeText(humbuiten);
+        while (isKnopBlauwRechtsIngedrukt() || isKnopBlauwLinksIngedrukt() || isKnopRoodIngedrukt()) {}
+        while (!(isKnopBlauwLinksIngedrukt() || isKnopBlauwRechtsIngedrukt() || isKnopRoodIngedrukt())) {}
+        if (isKnopBlauwRechtsIngedrukt()) {
+            DisplayBar();
+        } else if (isKnopBlauwLinksIngedrukt()){
+            DisplayTemp();
+        } else if (isKnopRoodIngedrukt()) {
+            DisplayQuit();
+        }
+    }
+
+    private static void DisplayBar() {
+        RawMeasurement raw = DatabaseConnection.getMostRecentMeasurement();
+        Measurement measurement = new Measurement(raw);
+        clearDM();
+        writeText("Luchtdruk");
+        writeNewLine();
+        String luchtdruk = String.format("%.01f",measurement.barometerConvert())+"millibar";
+        writeText(luchtdruk);
+        while (isKnopBlauwRechtsIngedrukt() || isKnopBlauwLinksIngedrukt() || isKnopRoodIngedrukt()) {}
+        while (!(isKnopBlauwLinksIngedrukt() || isKnopBlauwRechtsIngedrukt() || isKnopRoodIngedrukt())) {}
+        if (isKnopBlauwRechtsIngedrukt()) {
+            DisplayWindSpeed();
+        } else if (isKnopBlauwLinksIngedrukt()){
+            DisplayHum();
+        } else if (isKnopRoodIngedrukt()) {
+            DisplayQuit();
+        }
+    }
+
+    private static void DisplayWindSpeed() {
+        RawMeasurement raw = DatabaseConnection.getMostRecentMeasurement();
+        Measurement measurement = new Measurement(raw);
+        clearDM();
+        writeText("Wind snelheid");
+        writeNewLine();
+        String snelheidnu = "Actueel: "+ String.format("%.01f",measurement.windSpeedConvert())+"km/h";
+        writeText(snelheidnu);
+        writeNewLine();
+        String snelheidgem = "Gemiddelde: "+ String.format("%.01f",measurement.avgWindSpeedConvert())+"km/h";
+        writeText(snelheidgem);
+        while (isKnopBlauwRechtsIngedrukt() || isKnopBlauwLinksIngedrukt() || isKnopRoodIngedrukt()) {}
+        while (!(isKnopBlauwLinksIngedrukt() || isKnopBlauwRechtsIngedrukt() || isKnopRoodIngedrukt())) {}
+        if (isKnopBlauwRechtsIngedrukt()) {
+            DisplayWindDir();
+        } else if (isKnopBlauwLinksIngedrukt()){
+            DisplayBar();
+        } else if (isKnopRoodIngedrukt()) {
+            DisplayQuit();
+        }
+    }
+
+    private static void DisplayWindDir() {
+        RawMeasurement raw = DatabaseConnection.getMostRecentMeasurement();
+        Measurement measurement = new Measurement(raw);
+        clearDM();
+        writeText("Windrichting");
+        writeNewLine();
+        String richting = "Richting: "+ String.format("%.01f",measurement.windDirConvert())+" Deg";
+        writeText(richting);
+        while (isKnopBlauwRechtsIngedrukt() || isKnopBlauwLinksIngedrukt() || isKnopRoodIngedrukt()) {}
+        while (!(isKnopBlauwLinksIngedrukt() || isKnopBlauwRechtsIngedrukt() || isKnopRoodIngedrukt())) {}
+        if (isKnopBlauwRechtsIngedrukt()) {
+            DisplayRain();
+        } else if (isKnopBlauwLinksIngedrukt()){
+            DisplayWindSpeed();
+        } else if (isKnopRoodIngedrukt()) {
+            DisplayQuit();
+        }
+    }
+
+    private static void DisplayRain() {
+        RawMeasurement raw = DatabaseConnection.getMostRecentMeasurement();
+        Measurement measurement = new Measurement(raw);
+        clearDM();
+        writeText("Regenval");
+        writeNewLine();
+        String regen = String.format("%.01f",measurement.rainRateConvert())+" mm/h";
+        writeText(regen);
+        while (isKnopBlauwRechtsIngedrukt() || isKnopBlauwLinksIngedrukt() || isKnopRoodIngedrukt()) {}
+        while (!(isKnopBlauwLinksIngedrukt() || isKnopBlauwRechtsIngedrukt() || isKnopRoodIngedrukt())) {}
+        if (isKnopBlauwRechtsIngedrukt()) {
+            DisplayUV();
+        } else if (isKnopBlauwLinksIngedrukt()){
+            DisplayWindDir();
+        } else if (isKnopRoodIngedrukt()) {
+            DisplayQuit();
+        }
+    }
+
+    private static void DisplayUV() {
+        RawMeasurement raw = DatabaseConnection.getMostRecentMeasurement();
+        Measurement measurement = new Measurement(raw);
+        clearDM();
+        writeText("UV Niveau");
+        writeNewLine();
+        String level = String.format("%.01f",measurement.UVLevelConvert());
+        writeText(level);
+        while (isKnopBlauwRechtsIngedrukt() || isKnopBlauwLinksIngedrukt() || isKnopRoodIngedrukt()) {}
+        while (!(isKnopBlauwLinksIngedrukt() || isKnopBlauwRechtsIngedrukt() || isKnopRoodIngedrukt())) {}
+        if (isKnopBlauwRechtsIngedrukt()) {
+            DisplaySun();
+        } else if (isKnopBlauwLinksIngedrukt()){
+            DisplayRain();
+        } else if (isKnopRoodIngedrukt()) {
+            DisplayQuit();
+        }
+    }
+
+    private static void DisplaySun() {
+        RawMeasurement raw = DatabaseConnection.getMostRecentMeasurement();
+        Measurement measurement = new Measurement(raw);
+        clearDM();
+        writeText("Zon");
+        writeNewLine();
+        String sunrise = "Zonsopkomst: "+ measurement.sunriseConvert();
+        writeText(sunrise);
+        writeNewLine();
+        String sunset = "Zonsondergang: "+ measurement.sunsetConvert();
+        writeText(sunset);
+        while (isKnopBlauwRechtsIngedrukt() || isKnopBlauwLinksIngedrukt() || isKnopRoodIngedrukt()) {}
+        while (!(isKnopBlauwLinksIngedrukt() || isKnopBlauwRechtsIngedrukt() || isKnopRoodIngedrukt())) {}
+        if (isKnopBlauwRechtsIngedrukt()) {
+            DisplayBat();
+        } else if (isKnopBlauwLinksIngedrukt()){
+            DisplayUV();
+        } else if (isKnopRoodIngedrukt()) {
+            DisplayQuit();
+        }
+    }
+
+    private static void DisplayBat() {
+        RawMeasurement raw = DatabaseConnection.getMostRecentMeasurement();
+        Measurement measurement = new Measurement(raw);
+        clearDM();
+        writeText("Batterij");
+        writeNewLine();
+        String batt = "Batterij: "+ String.format("%.01f",measurement.battLevelConvert())+" Volt";
+        writeText(batt);
+        while (isKnopBlauwRechtsIngedrukt() || isKnopBlauwLinksIngedrukt() || isKnopRoodIngedrukt()) {}
+        while (!(isKnopBlauwLinksIngedrukt() || isKnopBlauwRechtsIngedrukt() || isKnopRoodIngedrukt())) {}
+        if (isKnopBlauwRechtsIngedrukt()) {
+            DisplayTemp();
+        } else if (isKnopBlauwLinksIngedrukt()){
+            DisplaySun();
+        } else if (isKnopRoodIngedrukt()) {
+            DisplayQuit();
+        }
+    }
+
+    private static void DisplayQuit() {
+        clearDM();
+        writeText("Afsluiten...");
+        IO.delay(500);
+        clearDM();
+        writeNewLine();
+        writeText("Afgesloten");
+    }
 
 }
