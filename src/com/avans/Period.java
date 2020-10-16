@@ -3,7 +3,6 @@ package com.avans;
 import java.time.*;
 import java.time.temporal.*;
 import java.util.*;
-import java.text.DateFormatSymbols;
 
 public class Period {
 
@@ -97,57 +96,57 @@ public class Period {
         return measurements;
     }
 
-    public void getWettestMonth()
-    {
-        ArrayList<Integer> months = new ArrayList<>();
-        ArrayList<Double> rain = new ArrayList<>();
-        ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
-        for (RawMeasurement rawMeasurement : rawMeasurements) {
-            Measurement measurement = new Measurement(rawMeasurement);
-            if(measurement.rainRateConvert() >= 0 && measurement.rainRateConvert() < 1000){
-                int month = rawMeasurement.getDateStamp().getMonthValue();
-                String monthyear = month+""+rawMeasurement.getDateStamp().getYear();
-                month = Integer.parseInt(monthyear);
-                if (!months.contains(month)){
-                    months.add(month);
-                    System.out.println("added "+month);
-                    rain.add(measurement.rainRateConvert());
+    //TODO tests
+    public  String degreeDays(Measurement measurement){
+        double degreeDays = 0.0;
+        double singleDegreeDay;
+        ArrayList<Measurement> temperature = getMeasurements();
+        double avInsideTemp = 18.0;
 
-
-                } else {
-                    int index = months.indexOf(month);
-                    System.out.println("Adding to existing "+month);
-                    double currentrain = rain.get(index);
-                    rain.set(index,currentrain+measurement.rainRateConvert());
-                }
-
+        for (int i = 0; i < temperature.size() ; i++) {
+            singleDegreeDay = avInsideTemp - temperature.get(i).outsideTempConvert();
+            if (singleDegreeDay < 0){
+                singleDegreeDay = 0;
             }
+            degreeDays = degreeDays + singleDegreeDay;
         }
-        //Debugging if necessary
-//        System.out.println("----Array month----");
-//        System.out.println(months);
-//        System.out.println("-------------------");
-//        System.out.println("----Array Rain-----");
-//        System.out.println(rain);
-//        System.out.println("-------------------");
-        double maxVal = Collections.max(rain);
-        int indexMax = rain.indexOf(maxVal);
-        int month = months.get(indexMax);
-        String monthyear = ""+month;
-        String monthonly = "";
-        String yearonly = "";
-        if (monthyear.length()==6){
-             monthonly = ""+monthyear.charAt(0)+monthyear.charAt(1);
-            yearonly = ""+monthyear.substring(2);
-        } else {
-             monthonly = ""+monthyear.charAt(0);
-             yearonly = ""+monthyear.substring(1);
-        }
-
-        LocalDate localDate = LocalDate.of(0, Integer.parseInt(monthonly), 1);
-        String name = localDate.getMonth().name();
-        System.out.println("Meeste regen is gevallen in de maand: "+name+" "+yearonly+" met een hoeveelheid van: "+maxVal);
+        int resultValue = (int)degreeDays;
+        String result = "Weighted degree days: " + degreeDays + " --> " + resultValue;
+        return result;
     }
 
+    //TODO test
+    public String weightedDegreeDays(Measurement measurement){
+        ArrayList<Measurement> temperature = getMeasurements();
+        double singleDegreeDay;
+        double avInsideTemp = 18.0;
+        double weightingfactor;
+        double weightedDegreeDays = 0.0;
+        LocalDate day = this.beginDate;
 
+        for(int i = 0; i < temperature.size(); i++){
+            singleDegreeDay = avInsideTemp - temperature.get(i).outsideTempConvert();
+            if (singleDegreeDay < 0){
+                singleDegreeDay = 0;
+            }
+            if (day.getMonthValue() >= 4 && day.getMonthValue() <= 9){
+                weightingfactor = 0.8;
+            } else if (day.getMonthValue() == 3 || day.getMonthValue() == 10){
+                weightingfactor = 1.0;
+            } else {
+                weightingfactor = 1.1;
+            }
+            double addWeightedDegreeDays = singleDegreeDay * weightingfactor;
+            if( addWeightedDegreeDays < 0){
+                addWeightedDegreeDays = 0;
+            }
+            weightedDegreeDays = weightedDegreeDays + addWeightedDegreeDays;
+            day = day.plusDays(1);
+        }
+
+        int resultValue = (int)weightedDegreeDays;
+        String result = "Weighted degree days: " + weightedDegreeDays + " --> " + resultValue;
+
+        return result;
+    }
 }
