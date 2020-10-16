@@ -3,7 +3,7 @@ package com.avans;
 import java.time.*;
 import java.time.temporal.*;
 import java.util.*;
-import java.text.DateFormatSymbols;
+import java.text.*;
 
 public class Period {
 
@@ -148,6 +148,46 @@ public class Period {
         String name = localDate.getMonth().name();
         System.out.println("Meeste regen is gevallen in de maand: "+name+" "+yearonly+" met een hoeveelheid van: "+maxVal);
     }
+
+
+
+    //Raoul individuele opdracht E
+    //get maximum continuous rainfall
+    public Double getMaxContRain() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        double rain = 0.0; //accumulated amount of rain
+        ArrayList<Double> showers = new ArrayList<Double>();
+        boolean isEnd = false;
+        //Find rainfall
+        for (Measurement measurement: measurements) {
+            if (measurement.rainRateConvert() < 32000.0) { //verwijder deze lijn wanneer data controle van getMeasurements werkt
+                if (measurement.rainRateConvert() > 0.0) {
+                    isEnd = false;
+                    double mm = (measurement.rainRateConvert()*0.02)/60;
+                    rain += mm;
+                } else {
+                    if (!isEnd) {
+                        isEnd = true;
+                        showers.add(rain);
+                        rain = 0;
+                    }
+                }
+            } //verwijder deze lijn wanneer data controle van getMeasurements werkt
+        }
+        //Find biggest rainfall
+        double max = 0.0;
+        for (Double rainfall: showers) {
+            if (rainfall > max) {
+                max = rainfall;
+            }
+        }
+        System.out.println("max: "+String.format("%.01f",max)+" mm"); //print result
+        return max; //return result
+    }
+
+
+
+
 
 
 }
