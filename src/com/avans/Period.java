@@ -135,15 +135,18 @@ public class Period {
         int month = months.get(indexMax);
         String monthyear = ""+month;
         String monthonly = "";
+        String yearonly = "";
         if (monthyear.length()==6){
              monthonly = ""+monthyear.charAt(0)+monthyear.charAt(1);
+            yearonly = ""+monthyear.substring(2);
         } else {
              monthonly = ""+monthyear.charAt(0);
+             yearonly = ""+monthyear.substring(1);
         }
 
         LocalDate localDate = LocalDate.of(0, Integer.parseInt(monthonly), 1);
         String name = localDate.getMonth().name();
-        System.out.println("Meeste regen is gevallen in de maand: "+name+" met een hoeveelheid van: "+maxVal);
+        System.out.println("Meeste regen is gevallen in de maand: "+name+" "+yearonly+" met een hoeveelheid van: "+maxVal);
     }
 
 
