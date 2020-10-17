@@ -57,40 +57,20 @@ public class Period {
         ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
         for (RawMeasurement rawMeasurement : rawMeasurements) {
             Measurement measurement = new Measurement(rawMeasurement);
-            if(measurement.barometerConvert() < 1099 && measurement.barometerConvert() > 900) {
-                measurements.add(measurement);
-            }
-            if(measurement.avgWindSpeedConvert() > 0.0 && measurement.avgWindSpeedConvert() < 20.0){
-                measurements.add(measurement);
-            }
-            if(measurement.battLevelConvert() > 0.0 && measurement.battLevelConvert() < 2.0){
-                measurements.add(measurement);
-            }
-            if(measurement.insideHumConvert() > 0 && measurement.insideHumConvert() < 100){
-                measurements.add(measurement);
-            }
-            if(measurement.insideTempConvert() > 15.0 && measurement.insideTempConvert() < 40.0){
-                measurements.add(measurement);
-            }
-            if(measurement.outsideHumConvert() > 0 && measurement.outsideHumConvert() < 100){
-                measurements.add(measurement);
-            }
-            if(measurement.outsideTempConvert() > -20 && measurement.outsideTempConvert() < 45.0){
-                measurements.add(measurement);
-            }
-            if(measurement.rainRateConvert() >= 0 && measurement.rainRateConvert() < 1000){
-                measurements.add(measurement);
-            }
-            if(measurement.UVLevelConvert() >= 0.0 && measurement.UVLevelConvert() < 10.0){
-                measurements.add(measurement);
-            }
-            if(measurement.windDirConvert() >= 0 && measurement.windDirConvert() <= 360){
-                measurements.add(measurement);
-            }
-            if(measurement.windSpeedConvert() >= 0.0 && measurement.windSpeedConvert() < 20.0){
-                measurements.add(measurement);
-            }
-            if(measurement.xmitBattConvert() >= 0.0 && measurement.xmitBattConvert() < 100.0){
+            boolean IsGood = true;
+            if(!(measurement.barometerConvert() < 1099 && measurement.barometerConvert() > 900))        {IsGood = false;}
+            if(!(measurement.avgWindSpeedConvert() > 0.0 && measurement.avgWindSpeedConvert() < 20.0))  {IsGood = false;}
+            if(!(measurement.battLevelConvert() > 0.0 && measurement.battLevelConvert() < 2.0))         {IsGood = false;}
+            if(!(measurement.insideHumConvert() > 0 && measurement.insideHumConvert() < 100))           {IsGood = false;}
+            if(!(measurement.insideTempConvert() > 15.0 && measurement.insideTempConvert() < 40.0))     {IsGood = false;}
+            if(!(measurement.outsideHumConvert() > 0 && measurement.outsideHumConvert() < 100))         {IsGood = false;}
+            if(!(measurement.outsideTempConvert() > -20 && measurement.outsideTempConvert() < 45.0))    {IsGood = false;}
+            if(!(measurement.rainRateConvert() >= 0 && measurement.rainRateConvert() < 1000))           {IsGood = false;}
+            if(!(measurement.UVLevelConvert() >= 0.0 && measurement.UVLevelConvert() < 10.0))           {IsGood = false;}
+            if(!(measurement.windDirConvert() >= 0 && measurement.windDirConvert() <= 360))             {IsGood = false;}
+            if(!(measurement.windSpeedConvert() >= 0.0 && measurement.windSpeedConvert() < 20.0))       {IsGood = false;}
+            if(!(measurement.xmitBattConvert() >= 0.0 && measurement.xmitBattConvert() < 100.0))        {IsGood = false;}
+            if (IsGood) {
                 measurements.add(measurement);
             }
         }
@@ -160,19 +140,17 @@ public class Period {
         boolean isEnd = false;
         //Find rainfall
         for (Measurement measurement: measurements) {
-            if (measurement.rainRateConvert() < 32000.0) { //verwijder deze lijn wanneer data controle van getMeasurements werkt
-                if (measurement.rainRateConvert() > 0.0) {
-                    isEnd = false;
-                    double mm = (measurement.rainRateConvert()*0.02)/60;
-                    rain += mm;
-                } else {
-                    if (!isEnd) {
-                        isEnd = true;
-                        showers.add(rain);
-                        rain = 0;
-                    }
+            if (measurement.rainRateConvert() > 0.0) {
+                isEnd = false;
+                double mm = (measurement.rainRateConvert()*0.2)/60;
+                rain += mm;
+            } else {
+                if (!isEnd) {
+                    isEnd = true;
+                    showers.add(rain);
+                    rain = 0;
                 }
-            } //verwijder deze lijn wanneer data controle van getMeasurements werkt
+            }
         }
         //Find biggest rainfall
         double max = 0.0;
