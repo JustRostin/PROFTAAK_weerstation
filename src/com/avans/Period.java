@@ -76,7 +76,6 @@ public class Period {
         }
         return measurements;
     }
-
     public void getWettestMonth()
     {
         ArrayList<Integer> months = new ArrayList<>();
@@ -117,11 +116,11 @@ public class Period {
         String monthonly = "";
         String yearonly = "";
         if (monthyear.length()==6){
-             monthonly = ""+monthyear.charAt(0)+monthyear.charAt(1);
+            monthonly = ""+monthyear.charAt(0)+monthyear.charAt(1);
             yearonly = ""+monthyear.substring(2);
         } else {
-             monthonly = ""+monthyear.charAt(0);
-             yearonly = ""+monthyear.substring(1);
+            monthonly = ""+monthyear.charAt(0);
+            yearonly = ""+monthyear.substring(1);
         }
 
         LocalDate localDate = LocalDate.of(0, Integer.parseInt(monthonly), 1);
@@ -129,6 +128,61 @@ public class Period {
         System.out.println("Meeste regen is gevallen in de maand: "+name+" "+yearonly+" met een hoeveelheid van: "+maxVal);
     }
 
+
+
+    //TODO tests
+    public  String degreeDays(Measurement measurement){
+        double degreeDays = 0.0;
+        double singleDegreeDay;
+        ArrayList<Measurement> temperature = getMeasurements();
+        double avInsideTemp = 18.0;
+
+        for (int i = 0; i < temperature.size() ; i++) {
+            singleDegreeDay = avInsideTemp - temperature.get(i).outsideTempConvert();
+            if (singleDegreeDay < 0){
+                singleDegreeDay = 0;
+            }
+            degreeDays = degreeDays + singleDegreeDay;
+        }
+        int resultValue = (int)degreeDays;
+        String result = "Weighted degree days: " + degreeDays + " --> " + resultValue;
+        return result;
+    }
+
+    //TODO test
+    public String weightedDegreeDays(Measurement measurement){
+        ArrayList<Measurement> temperature = getMeasurements();
+        double singleDegreeDay;
+        double avInsideTemp = 18.0;
+        double weightingfactor;
+        double weightedDegreeDays = 0.0;
+        LocalDate day = this.beginDate;
+
+        for(int i = 0; i < temperature.size(); i++){
+            singleDegreeDay = avInsideTemp - temperature.get(i).outsideTempConvert();
+            if (singleDegreeDay < 0){
+                singleDegreeDay = 0;
+            }
+            if (day.getMonthValue() >= 4 && day.getMonthValue() <= 9){
+                weightingfactor = 0.8;
+            } else if (day.getMonthValue() == 3 || day.getMonthValue() == 10){
+                weightingfactor = 1.0;
+            } else {
+                weightingfactor = 1.1;
+            }
+            double addWeightedDegreeDays = singleDegreeDay * weightingfactor;
+            if( addWeightedDegreeDays < 0){
+                addWeightedDegreeDays = 0;
+            }
+            weightedDegreeDays = weightedDegreeDays + addWeightedDegreeDays;
+            day = day.plusDays(1);
+        }
+
+        int resultValue = (int)weightedDegreeDays;
+        String result = "Weighted degree days: " + weightedDegreeDays + " --> " + resultValue;
+
+        return result;
+    }
 
 
     //Raoul individuele opdracht E
@@ -162,9 +216,6 @@ public class Period {
         System.out.println("max: "+String.format("%.01f",max)+" mm"); //print result
         return max; //return result
     }
-
-
-
 
 
 
