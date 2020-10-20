@@ -189,6 +189,9 @@ public class Period {
     //get maximum continuous rainfall
     public Double getMaxContRain() {
         ArrayList<Measurement> measurements = getMeasurements();
+        return getMaxContRain(measurements);
+    }
+    public Double getMaxContRain(ArrayList<Measurement> measurements) {
         double rain = 0.0; //accumulated amount of rain
         ArrayList<Double> showers = new ArrayList<Double>();
         boolean isEnd = false;
@@ -206,6 +209,7 @@ public class Period {
                 }
             }
         }
+        showers.add(rain);
         //Find biggest rainfall
         double max = 0.0;
         for (Double rainfall: showers) {
@@ -216,7 +220,34 @@ public class Period {
         System.out.println("max: "+String.format("%.01f",max)+" mm"); //print result
         return max; //return result
     }
+    public void TestGetMaxContRain() {
+        ArrayList<Measurement> testwaarden = new ArrayList<>();
+        short[] waarden = {0,5,9,5,4,7,3,6,5,4,8,9,3,5,4,6,8,7,1,6,8,2,5,4,6,0,-1,2,2,6,8,4,7,8,8,8,9,9,6,6,5,4,1,3,0,9,9,9,9,9,9,9,9,9};
+        for (Short getal: waarden) {
+            Measurement measurement = new Measurement((short)0,(short)0,(short)0,(short)0,(short)0,(short)0,(short)0,(short)0,getal,(short)0,(short)0,(short)0,(short)0,(short)0);
+            testwaarden.add(measurement);
+        }
+        getMaxContRain(testwaarden);
+        System.out.println("Test resultaat hoort 0,4mm te zijn");
 
+        ArrayList<Measurement> testwaarden2 = new ArrayList<>();
+        short[] waarden2 = {0,-1,-5,-6,0,5,9,3,1,7,3,2,1,8,9,6,4,4,7,2,1,6,8,2,1,7,2,0,0,0,0,0,0,0,0,0,0,0,0,9,6,2,4,3,4,1,2,2,4,5,3,6,4,4,3};
+        for (Short getal: waarden2) {
+            Measurement measurement = new Measurement((short)0,(short)0,(short)0,(short)0,(short)0,(short)0,(short)0,(short)0,getal,(short)0,(short)0,(short)0,(short)0,(short)0);
+            testwaarden2.add(measurement);
+        }
+        getMaxContRain(testwaarden2);
+        System.out.println("Test resultaat hoort 0,3mm te zijn");
+
+        ArrayList<Measurement> testwaarden3 = new ArrayList<>();
+        short[] waarden3 = {0,0,0,0,0,0,0,0,0,0,0};
+        for (Short getal: waarden3) {
+            Measurement measurement = new Measurement((short)0,(short)0,(short)0,(short)0,(short)0,(short)0,(short)0,(short)0,getal,(short)0,(short)0,(short)0,(short)0,(short)0);
+            testwaarden3.add(measurement);
+        }
+        getMaxContRain(testwaarden3);
+        System.out.println("Test resultaat hoort 0,0mm te zijn");
+    }
 
 
 }
