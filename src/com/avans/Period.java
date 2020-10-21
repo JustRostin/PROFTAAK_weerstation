@@ -28,7 +28,7 @@ public class Period {
     }
 
     public Period(int days) {
-        this.beginDate = LocalDate.now().minus(java.time.Period.ofDays(days));
+        this.beginDate = LocalDate.now().minusDays(days);
         this.endDate = LocalDate.now();
     }
 
@@ -81,6 +81,12 @@ public class Period {
         }
         return measurements;
     }
+
+    public Measurement getLatestMeasurement() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        return measurements.get(measurements.size()-1);
+    }
+
     public void getLowest(RawMeasurement rawmeasurement) {
         ArrayList<Measurement> measurements = new ArrayList<>();
         ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
