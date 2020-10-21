@@ -1,5 +1,7 @@
 package com.avans;
 
+import sun.security.util.Length;
+
 import java.time.*;
 import java.time.temporal.*;
 import java.util.*;
@@ -33,6 +35,7 @@ public class Period {
     public void setStart(int day, int month, int year) {
         this.beginDate = LocalDate.of(year, month, day);
     }
+
     public void setStart(LocalDate beginPeriod) {
         this.beginDate = beginPeriod;
     }
@@ -40,9 +43,11 @@ public class Period {
     public void setEnd(int day, int month, int year) {
         this.beginDate = LocalDate.of(year, month, day);
     }
+
     public void setEnd(LocalDate endPeriod) {
         this.beginDate = endPeriod;
     }
+
 
     public long getNumberOfDays(){
         return ChronoUnit.DAYS.between(beginDate, endDate);
@@ -76,6 +81,87 @@ public class Period {
         }
         return measurements;
     }
+    public void getLowest(RawMeasurement rawmeasurement) {
+        ArrayList<Measurement> measurements = new ArrayList<>();
+        ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
+        double lowest = -40;
+        for (RawMeasurement rawMeasurement : rawMeasurements) {
+            Measurement measurement = new Measurement(rawMeasurement);
+            if (measurement.outsideTempConvert() > -20 && measurement.outsideTempConvert() < 45.0) {
+                if (measurement.outsideTempConvert() < lowest) {
+                    lowest = measurement.outsideTempConvert();
+                }
+            }
+        }
+    }
+
+    public void getHighest(RawMeasurement rawmeasurement) {
+        ArrayList<Measurement> measurements = new ArrayList<>();
+        ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
+        double highest = 60;
+        for (RawMeasurement rawMeasurement : rawMeasurements) {
+            Measurement measurement = new Measurement(rawMeasurement);
+            if (measurement.outsideTempConvert() > -20 && measurement.outsideTempConvert() < 45.0) {
+                if (measurement.outsideTempConvert() > highest) {
+                    highest = measurement.outsideTempConvert();
+                }
+            }
+        }
+    }
+
+    public double getAverage(RawMeasurement rawmeasurement) {
+        ArrayList<Measurement> measurements = new ArrayList<>();
+        ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
+        double average = -40;
+        double total = 0.0;
+        int amount = 0;
+        for (RawMeasurement rawMeasurement : rawMeasurements) {
+            Measurement measurement = new Measurement(rawMeasurement);
+            if (measurement.outsideTempConvert() > -20 && measurement.outsideTempConvert() < 45.0) {
+                amount++;
+                total += measurement.outsideTempConvert();
+            }
+        }
+        average = total / amount;
+        return average;
+    }
+
+    public void getmode() {
+        ArrayList<Measurement> measurements = new ArrayList<>();
+        ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
+        ArrayList<Double> temperatures = new ArrayList<>();
+        HashMap<Double, Integer> elementCountMap = new HashMap<>();
+
+
+        for (RawMeasurement rawMeasurement : rawMeasurements) {
+            Measurement measurement = new Measurement(rawMeasurement);
+            if((measurement.outsideTempConvert() > -20 && measurement.outsideTempConvert() < 45.0)){
+                temperatures.add(measurement.outsideTempConvert());
+            }
+
+        }
+
+        for (double t : temperatures){
+            if (elementCountMap.containsKey(t)){
+                elementCountMap.put(t, elementCountMap.get(t)+1);
+            } else {
+                elementCountMap.put(t,1);
+            }
+
+        }
+
+        Set<Map.Entry<Double, Integer>> entrySet = elementCountMap.entrySet();
+        double element = 0;
+        int frequency = 1;
+        for (Map.Entry<Double, Integer> entry :entrySet ){
+            if (entry.getValue() > frequency){
+                element = entry.getKey();
+                frequency = entry.getValue();
+            }
+        }
+        System.out.println("De meest voorkomende temp: " + String.format("%.01f",element) + " komt " + frequency + " keer voor");
+    }
+  
     public void getWettestMonth()
     {
         ArrayList<Integer> months = new ArrayList<>();
@@ -89,13 +175,13 @@ public class Period {
                 month = Integer.parseInt(monthyear);
                 if (!months.contains(month)){
                     months.add(month);
-                    System.out.println("added "+month);
+                    //System.out.println("added "+month);
                     rain.add(measurement.rainRateConvert());
 
 
                 } else {
                     int index = months.indexOf(month);
-                    System.out.println("Adding to existing "+month);
+                    //System.out.println("Adding to existing "+month);
                     double currentrain = rain.get(index);
                     rain.set(index,currentrain+measurement.rainRateConvert());
                 }
@@ -250,4 +336,10 @@ public class Period {
     }
 
 
+//    public double getMedian(RawMeasurement rawmeasurement) {
+//        ArrayList<Measurement> measurements = new ArrayList<>();
+//        ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
+//       Collections.sort(rawMeasurements);
+//        double median = rawMeasurements.get(rawMeasurements.size() / 2);
+//    }
 }
