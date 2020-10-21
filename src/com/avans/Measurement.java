@@ -1,5 +1,6 @@
 package com.avans;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -39,6 +40,28 @@ public class Measurement {
         this.battLevel = data.getBattLevel();
         this.sunrise = data.getSunrise();
         this.sunset = data.getSunset();
+    }
+
+    public Measurement(short barometer, short insideTemp, short insideHum, short outsideTemp,
+                       short windSpeed, short avgWindSpeed, short windDir, short outsideHum,
+                       short rainRate, short UVLevel, short xmitBatt, short battLevel,
+                       short sunrise, short sunset) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        this.timestamp = LocalDateTime.now().format(formatter);
+        this.barometer = barometer;
+        this.insideTemp = insideTemp;
+        this.insideHum = insideHum;
+        this.outsideTemp = outsideTemp;
+        this.windSpeed = windSpeed;
+        this.avgWindSpeed = avgWindSpeed;
+        this.windDir = windDir;
+        this.outsideHum = outsideHum;
+        this.rainRate = rainRate;
+        this.UVLevel = UVLevel;
+        this.xmitBatt = xmitBatt;
+        this.battLevel = battLevel;
+        this.sunrise = sunrise;
+        this.sunset = sunset;
     }
 
     public double barometerConvert(){
