@@ -1,10 +1,14 @@
 package com.avans;
 
+import java.time.LocalDate;
+
 public class Main {
 
     public static void main(String[] args) {
-        IO.init();
-	    menu();
+//        IO.init();
+//	    menu();
+        Period p = new Period(LocalDate.now().minus(java.time.Period.ofYears(1)), LocalDate.now());
+        p.getmode();
     }
 
     public static void writeText(String text){
