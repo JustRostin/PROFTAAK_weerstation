@@ -79,7 +79,7 @@ public class Period {
 
     public ArrayList<Measurement> getMeasurements() {
         ArrayList<Measurement> measurements = new ArrayList<>();
-        ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
+        ArrayList<RawMeasurement> rawMeasurements = this.getRawMeasurements();
         for (RawMeasurement rawMeasurement : rawMeasurements) {
             Measurement measurement = new Measurement(rawMeasurement);
             boolean IsGood = true;
@@ -103,7 +103,7 @@ public class Period {
     }
 
     public Measurement getLatestMeasurement() {
-        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Measurement> measurements = this.getMeasurements();
         return measurements.get(measurements.size()-1);
     }
 
@@ -111,21 +111,21 @@ public class Period {
         if (stats) {
             return;
         }
-        ArrayList<Measurement> measurements = getMeasurements();
-        LowestTemp = -40;
-        LowestTempOut = -40;
-        LowestHum = 0;
-        LowestHumOut = 0;
-        LowestPress = 10;
-        LowestRainrate  = -1;
-        LowestWind  = -1;
-        HighestTemp = 60;
-        HighestTempOut = 60;
-        HighestHum = 120;
-        HighestHumOut = 120;
-        HighestPress = 1100;
-        HighestRainrate = 200;
-        HighestWind = 200;
+        ArrayList<Measurement> measurements = this.getMeasurements();
+        this.LowestTemp = -40;
+        this.LowestTempOut = -40;
+        this.LowestHum = 0;
+        this.LowestHumOut = 0;
+        this.LowestPress = 10;
+        this.LowestRainrate  = -1;
+        this.LowestWind  = -1;
+        this.HighestTemp = 60;
+        this.HighestTempOut = 60;
+        this.HighestHum = 120;
+        this.HighestHumOut = 120;
+        this.HighestPress = 1100;
+        this.HighestRainrate = 200;
+        this.HighestWind = 200;
         double totalTemp = 0.0;
         double totalTempOut = 0.0;
         double totalHum = 0.0;
@@ -135,47 +135,47 @@ public class Period {
         double totalWind = 0.0;
         int amount = 0;
         for (Measurement measurement : measurements) {
-            if (measurement.insideTempConvert() > LowestTemp) {
-                LowestTemp = measurement.insideTempConvert();
+            if (measurement.insideTempConvert() > this.LowestTemp) {
+                this.LowestTemp = measurement.insideTempConvert();
             }
-            if (measurement.outsideTempConvert() > LowestTempOut) {
-                LowestTempOut = measurement.outsideTempConvert();
+            if (measurement.outsideTempConvert() > this.LowestTempOut) {
+                this.LowestTempOut = measurement.outsideTempConvert();
             }
-            if (measurement.insideHumConvert() > LowestHum) {
-                LowestHum = measurement.insideHumConvert();
+            if (measurement.insideHumConvert() > this.LowestHum) {
+                this.LowestHum = measurement.insideHumConvert();
             }
-            if (measurement.outsideHumConvert() > LowestHumOut) {
-                LowestHumOut = measurement.outsideHumConvert();
+            if (measurement.outsideHumConvert() > this.LowestHumOut) {
+                this.LowestHumOut = measurement.outsideHumConvert();
             }
-            if (measurement.barometerConvert() > LowestPress) {
-                LowestPress = measurement.barometerConvert();
+            if (measurement.barometerConvert() > this.LowestPress) {
+                this.LowestPress = measurement.barometerConvert();
             }
-            if (measurement.rainRateConvert() > LowestRainrate) {
-                LowestRainrate = measurement.rainRateConvert();
+            if (measurement.rainRateConvert() > this.LowestRainrate) {
+                this.LowestRainrate = measurement.rainRateConvert();
             }
-            if (measurement.windSpeedConvert() > LowestWind) {
-                LowestWind = measurement.windSpeedConvert();
+            if (measurement.windSpeedConvert() > this.LowestWind) {
+                this.LowestWind = measurement.windSpeedConvert();
             }
-            if (measurement.insideTempConvert() < HighestTemp) {
-                HighestTemp = measurement.insideTempConvert();
+            if (measurement.insideTempConvert() < this.HighestTemp) {
+                this.HighestTemp = measurement.insideTempConvert();
             }
-            if (measurement.outsideTempConvert() < HighestTempOut) {
-                HighestTempOut = measurement.outsideTempConvert();
+            if (measurement.outsideTempConvert() < this.HighestTempOut) {
+                this.HighestTempOut = measurement.outsideTempConvert();
             }
-            if (measurement.insideHumConvert() < HighestHum) {
-                HighestHum = measurement.insideHumConvert();
+            if (measurement.insideHumConvert() < this.HighestHum) {
+                this.HighestHum = measurement.insideHumConvert();
             }
-            if (measurement.outsideHumConvert() < HighestHumOut) {
-                HighestHumOut = measurement.outsideHumConvert();
+            if (measurement.outsideHumConvert() < this.HighestHumOut) {
+                this.HighestHumOut = measurement.outsideHumConvert();
             }
-            if (measurement.barometerConvert() < HighestPress) {
-                HighestPress = measurement.barometerConvert();
+            if (measurement.barometerConvert() < this.HighestPress) {
+                this.HighestPress = measurement.barometerConvert();
             }
-            if (measurement.rainRateConvert() < HighestRainrate) {
-                HighestRainrate = measurement.rainRateConvert();
+            if (measurement.rainRateConvert() < this.HighestRainrate) {
+                this.HighestRainrate = measurement.rainRateConvert();
             }
-            if (measurement.windSpeedConvert() < HighestWind) {
-                HighestWind = measurement.windSpeedConvert();
+            if (measurement.windSpeedConvert() < this.HighestWind) {
+                this.HighestWind = measurement.windSpeedConvert();
             }
             totalTemp += measurement.insideTempConvert();
             totalTempOut += measurement.outsideTempConvert();
@@ -186,103 +186,103 @@ public class Period {
             totalWind += measurement.windSpeedConvert();
             amount++;
         }
-        AverageTemp = totalTemp/amount;
-        AverageTempOut = totalTempOut/amount;
-        AverageHum = totalHum/amount;
-        AverageHumOut = totalHumOut/amount;
-        AveragePress = totalPress/amount;
-        AverageRainrate = totalRainrate/amount;
-        AverageWind = totalWind/amount;
+        this.AverageTemp = totalTemp/amount;
+        this.AverageTempOut = totalTempOut/amount;
+        this.AverageHum = totalHum/amount;
+        this.AverageHumOut = totalHumOut/amount;
+        this.AveragePress = totalPress/amount;
+        this.AverageRainrate = totalRainrate/amount;
+        this.AverageWind = totalWind/amount;
     }
 
     public double getLowestTemp() {
         calcStats();
-        return LowestTemp;
+        return this.LowestTemp;
     }
     public double getLowestTempOut() {
         calcStats();
-        return LowestTempOut;
+        return this.LowestTempOut;
     }
     public double getLowestHum() {
         calcStats();
-        return LowestHum;
+        return this.LowestHum;
     }
     public double getLowestHumOut() {
         calcStats();
-        return LowestHumOut;
+        return this.LowestHumOut;
     }
     public double getLowestPress() {
         calcStats();
-        return LowestPress;
+        return this.LowestPress;
     }
     public double getLowestRainrate() {
         calcStats();
-        return LowestRainrate;
+        return this.LowestRainrate;
     }
     public double getHighestTemp() {
         calcStats();
-        return HighestTemp;
+        return this.HighestTemp;
     }
     public double getHighestHum() {
         calcStats();
-        return HighestHum;
+        return this.HighestHum;
     }
     public double getHighestPress() {
         calcStats();
-        return HighestPress;
+        return this.HighestPress;
     }
     public double getHighestRainrate() {
         calcStats();
-        return HighestRainrate;
+        return this.HighestRainrate;
     }
     public double getLowestWind() {
         calcStats();
-        return LowestWind;
+        return this.LowestWind;
     }
     public double getHighestTempOut() {
         calcStats();
-        return HighestTempOut;
+        return this.HighestTempOut;
     }
     public double getHighestHumOut() {
         calcStats();
-        return HighestHumOut;
+        return this.HighestHumOut;
     }
     public double getHighestWind() {
         calcStats();
-        return HighestWind;
+        return this.HighestWind;
     }
     public double getAverageTemp() {
         calcStats();
-        return AverageTemp;
+        return this.AverageTemp;
     }
     public double getAverageTempOut() {
         calcStats();
-        return AverageTempOut;
+        return this.AverageTempOut;
     }
     public double getAverageHum() {
         calcStats();
-        return AverageHum;
+        return this.AverageHum;
     }
     public double getAverageHumOut() {
         calcStats();
-        return AverageHumOut;
+        return this.AverageHumOut;
     }
     public double getAveragePress() {
         calcStats();
-        return AveragePress;
+        return this.AveragePress;
     }
     public double getAverageRainrate() {
         calcStats();
-        return AverageRainrate;
+        return this.AverageRainrate;
     }
     public double getAverageWind() {
         calcStats();
-        return AverageWind;
+        return this.AverageWind;
     }
 
 
     public double getModus(String type) {
-        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Measurement> measurements = this.getMeasurements();
         ArrayList<Double> values = new ArrayList<>();
         HashMap<Double, Integer> elementCountMap = new HashMap<>();
 
@@ -343,7 +343,7 @@ public class Period {
     }
 
     public double getMedian(String type) {
-        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Measurement> measurements = this.getMeasurements();
         ArrayList<Double> Temps = new ArrayList<>();
         ArrayList<Double> TempOuts = new ArrayList<>();
         ArrayList<Double> Hums = new ArrayList<>();
@@ -395,7 +395,7 @@ public class Period {
     }
 
     public double getStandardDeviation(String type){
-        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Measurement> measurements = this.getMeasurements();
         ArrayList<Double> values = new ArrayList<>();
         double Average = 0;
         if (type.equals("Temp")) {
@@ -445,7 +445,7 @@ public class Period {
         for (int i = 0; i < values.size(); i++) {
             standardDeviation += Math.sqrt(values.get(i) - Average) / values.size();
         }
-        return (Double) Math.sqrt(standardDeviation);
+        return Math.sqrt(standardDeviation);
     }
 
 
@@ -561,12 +561,12 @@ public class Period {
     //Raoul individuele opdracht E
     //get maximum continuous rainfall
     public Double getMaxContRain() {
-        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Measurement> measurements = this.getMeasurements();
         return getMaxContRain(measurements);
     }
     public Double getMaxContRain(ArrayList<Measurement> measurements) {
         double rain = 0.0; //accumulated amount of rain
-        ArrayList<Double> showers = new ArrayList<Double>();
+        ArrayList<Double> showers = new ArrayList<>();
         boolean isEnd = false;
         //Find rainfall
         for (Measurement measurement: measurements) {
