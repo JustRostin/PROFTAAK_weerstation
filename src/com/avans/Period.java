@@ -30,6 +30,7 @@ public class Period {
     private double AveragePress;
     private double AverageRainrate;
     private double AverageWind;
+    private double AverageWindChill;
     private boolean stats = false;
 
     public Period() {
@@ -133,6 +134,7 @@ public class Period {
         double totalPress = 0.0;
         double totalRainrate = 0.0;
         double totalWind = 0.0;
+        double totalWindChill = 0.0;
         int amount = 0;
         for (Measurement measurement : measurements) {
             if (measurement.insideTempConvert() > LowestTemp) {
@@ -184,6 +186,7 @@ public class Period {
             totalPress += measurement.barometerConvert();
             totalRainrate += measurement.rainRateConvert();
             totalWind += measurement.windSpeedConvert();
+            totalWindChill += measurement.windChillConvert();
             amount++;
         }
         AverageTemp = totalTemp/amount;
@@ -193,6 +196,7 @@ public class Period {
         AveragePress = totalPress/amount;
         AverageRainrate = totalRainrate/amount;
         AverageWind = totalWind/amount;
+        AverageWindChill = totalWindChill/amount;
     }
 
     public double getLowestTemp() {
@@ -278,6 +282,10 @@ public class Period {
     public double getAverageWind() {
         calcStats();
         return AverageWind;
+    }
+    public double getAverageWindChill() {
+        calcStats();
+        return AverageWindChill;
     }
 
 
@@ -627,47 +635,67 @@ public class Period {
     //Wesley individuele opdracht J
     //get good days
     public int getGoodDays(){
-        double goodWindChillLow = 20.0;
-        double goodWindChillHigh = 25.0;
-        double goodWindSpeedAVG = 6.0;
-        double goodMAXRainfall = 0.2;
+        double goodWindChillLow = 15.0;
+        double goodWindChillHigh = 20.0;
+        double goodWindSpeedAVG = 10.0;
+        double goodMAXRainfall = 0.3;
+
         double windChillDay;
         double windSpeedAVGDay;
         double rainfallMAXDay;
 
+        LocalDate firstDay = this.beginDate;
+        LocalDate currentDay = this.endDate;
+        LocalDate lastDay = this.endDate;
 
         ArrayList<Measurement> measurements = getMeasurements();
-        int gooddays = 0;
+        int goodDays = 0;
+        int counter = 0;
+        long numberOfDays = getNumberOfDays();
 
-        for( int i = 0 ; i < measurements.size() ; i++ ){
-            windChillDay = measurements.get(i).windChillConvert();
+        while( counter < numberOfDays) {
+            setStart(currentDay);
+            setEnd(currentDay);
+
+            windChillDay = getAverageWindChill();
+            windSpeedAVGDay = getAverageWind();
+            rainfallMAXDay = getHighestRainrate();
+
             if ( windChillDay >= goodWindChillLow && windChillDay >= goodWindChillHigh ){
-                for( int ii = 0 ; ii < measurements.size() ; ii++ ){
-                    windSpeedAVGDay = measurements.get(ii).avgWindSpeedConvert();
-                    if ( windSpeedAVGDay <= goodWindSpeedAVG ){
-                        for ( int iii = 0 ; iii < measurements.size() ; iii++ ){
-                            rainfallMAXDay = measurements.get(iii).rainRateConvert();
-                            if ( rainfallMAXDay <= goodMAXRainfall ){
-                                gooddays = gooddays + 1;
+                if (windSpeedAVGDay <= goodWindSpeedAVG) {
+                        if (rainfallMAXDay <= goodMAXRainfall) {
+                            goodDays = goodDays + 1;
+                        }
+                    }
+                }
+
+            currentDay = currentDay.minusDays(1);
+            counter++;
+
+            }
+        System.out.println("Good days between " + firstDay + " and " + lastDay + ": " + goodDays);
+        return goodDays;
+    }
+
+
+        /*
+            for (int i = 0; i < measurements.size(); i++) {
+                windChillDay = measurements.get(i).windChillConvert();
+                if (windChillDay >= goodWindChillLow && windChillDay >= goodWindChillHigh) {
+                    for (int ii = 0; ii < measurements.size(); ii++) {
+                        windSpeedAVGDay = measurements.get(ii).avgWindSpeedConvert();
+                        if (windSpeedAVGDay <= goodWindSpeedAVG) {
+                            for (int iii = 0; iii < measurements.size(); iii++) {
+                                rainfallMAXDay = measurements.get(iii).rainRateConvert();
+                                if (rainfallMAXDay <= goodMAXRainfall) {
+                                    gooddays = gooddays + 1;
+                                }
                             }
                         }
                     }
                 }
             }
-        }
 
-        System.out.println("Good days: " + gooddays);
-        return gooddays;
-    }
-    /*
-    ArrayList<Measurement> temperature = getMeasurements();
-    for (int i = 0; i < temperature.size() ; i++) {
-        singleDegreeDay = avInsideTemp - temperature.get(i).outsideTempConvert();
-        if (singleDegreeDay < 0){
-            singleDegreeDay = 0;
-        }
-        degreeDays = degreeDays + singleDegreeDay;
-    }
-    */
+         */
 
 }

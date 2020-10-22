@@ -7,6 +7,7 @@ public class Main {
     public static void main(String[] args) {
         IO.init();
         menu();
+
     }
 
     public static void menu() {
@@ -99,8 +100,8 @@ public class Main {
     }
 
     private static void SelectDisplay(int DisplayNumber, Period period) {
-        if (DisplayNumber < 0) { DisplayNumber = 10; }
-        if (DisplayNumber > 10) { DisplayNumber = 0; }
+        if (DisplayNumber < 0) { DisplayNumber = 11; }
+        if (DisplayNumber > 11) { DisplayNumber = 0; }
         switch(DisplayNumber) {
             case 0:
                 DisplayTemp(period, DisplayNumber);
@@ -133,6 +134,9 @@ public class Main {
                 DisplayBat(period, DisplayNumber);
                 break;
             case 10:
+                DisplayGoodDays(period, DisplayNumber);
+                break;
+            case 11:
                 DisplayQuit(period, DisplayNumber);
                 break;
             default:
@@ -472,6 +476,38 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Niveau");
         GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            SelectStart(LocalDate.now().minus(java.time.Period.ofDays(7)));
+        }
+    }
+
+    private static void DisplayGoodDays(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeText("Good Days Processing");
+        GUI.writeNewLine();
+
+        int goodDayscount = period.getGoodDays();
+        String goodDays = "Good Days: " + goodDayscount;
+        GUI.clearDM();
+        GUI.writeText(goodDays);
+        GUI.writeNewLine();
+
+        int[] address = {0x20,0x22,0x24};
+        for (int i = 0; i < address.length; i++){
+            if (i==1){
+                GUI.writeNumber(address[i],(goodDayscount%10),false);
+            } else {
+                GUI.writeNumber(address[i],(goodDayscount%10),false);
+            }
+            goodDayscount = goodDayscount / 10;
+        }
+
         while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
         while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
