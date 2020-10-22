@@ -1,16 +1,36 @@
 package com.avans;
 
-import sun.security.util.Length;
-
 import java.time.*;
 import java.time.temporal.*;
 import java.util.*;
-import java.text.*;
 
 public class Period {
 
     private LocalDate beginDate;
     private LocalDate endDate;
+
+    private double LowestTemp;
+    private double LowestTempOut;
+    private double LowestHum;
+    private double LowestHumOut;
+    private double LowestPress;
+    private double LowestRainrate;
+    private double LowestWind;
+    private double HighestTemp;
+    private double HighestTempOut;
+    private double HighestHum;
+    private double HighestHumOut;
+    private double HighestPress;
+    private double HighestRainrate;
+    private double HighestWind;
+    private double AverageTemp;
+    private double AverageTempOut;
+    private double AverageHum;
+    private double AverageHumOut;
+    private double AveragePress;
+    private double AverageRainrate;
+    private double AverageWind;
+    private boolean stats = false;
 
     public Period() {
         beginDate = LocalDate.now();
@@ -87,73 +107,227 @@ public class Period {
         return measurements.get(measurements.size()-1);
     }
 
-    public void getLowest(RawMeasurement rawmeasurement) {
-        ArrayList<Measurement> measurements = new ArrayList<>();
-        ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
-        double lowest = -40;
-        for (RawMeasurement rawMeasurement : rawMeasurements) {
-            Measurement measurement = new Measurement(rawMeasurement);
-            if (measurement.outsideTempConvert() > -20 && measurement.outsideTempConvert() < 45.0) {
-                if (measurement.outsideTempConvert() < lowest) {
-                    lowest = measurement.outsideTempConvert();
-                }
-            }
+    public void calcStats() {
+        if (stats) {
+            return;
         }
-    }
-
-    public void getHighest(RawMeasurement rawmeasurement) {
-        ArrayList<Measurement> measurements = new ArrayList<>();
-        ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
-        double highest = 60;
-        for (RawMeasurement rawMeasurement : rawMeasurements) {
-            Measurement measurement = new Measurement(rawMeasurement);
-            if (measurement.outsideTempConvert() > -20 && measurement.outsideTempConvert() < 45.0) {
-                if (measurement.outsideTempConvert() > highest) {
-                    highest = measurement.outsideTempConvert();
-                }
-            }
-        }
-    }
-
-    public double getAverage(RawMeasurement rawmeasurement) {
-        ArrayList<Measurement> measurements = new ArrayList<>();
-        ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
-        double average = -40;
-        double total = 0.0;
+        ArrayList<Measurement> measurements = getMeasurements();
+        LowestTemp = -40;
+        LowestTempOut = -40;
+        LowestHum = 0;
+        LowestHumOut = 0;
+        LowestPress = 10;
+        LowestRainrate  = -1;
+        LowestWind  = -1;
+        HighestTemp = 60;
+        HighestTempOut = 60;
+        HighestHum = 120;
+        HighestHumOut = 120;
+        HighestPress = 1100;
+        HighestRainrate = 200;
+        HighestWind = 200;
+        double totalTemp = 0.0;
+        double totalTempOut = 0.0;
+        double totalHum = 0.0;
+        double totalHumOut = 0.0;
+        double totalPress = 0.0;
+        double totalRainrate = 0.0;
+        double totalWind = 0.0;
         int amount = 0;
-        for (RawMeasurement rawMeasurement : rawMeasurements) {
-            Measurement measurement = new Measurement(rawMeasurement);
-            if (measurement.outsideTempConvert() > -20 && measurement.outsideTempConvert() < 45.0) {
-                amount++;
-                total += measurement.outsideTempConvert();
+        for (Measurement measurement : measurements) {
+            if (measurement.insideTempConvert() > LowestTemp) {
+                LowestTemp = measurement.insideTempConvert();
             }
+            if (measurement.outsideTempConvert() > LowestTempOut) {
+                LowestTempOut = measurement.outsideTempConvert();
+            }
+            if (measurement.insideHumConvert() > LowestHum) {
+                LowestHum = measurement.insideHumConvert();
+            }
+            if (measurement.outsideHumConvert() > LowestHumOut) {
+                LowestHumOut = measurement.outsideHumConvert();
+            }
+            if (measurement.barometerConvert() > LowestPress) {
+                LowestPress = measurement.barometerConvert();
+            }
+            if (measurement.rainRateConvert() > LowestRainrate) {
+                LowestRainrate = measurement.rainRateConvert();
+            }
+            if (measurement.windSpeedConvert() > LowestWind) {
+                LowestWind = measurement.windSpeedConvert();
+            }
+            if (measurement.insideTempConvert() < HighestTemp) {
+                HighestTemp = measurement.insideTempConvert();
+            }
+            if (measurement.outsideTempConvert() < HighestTempOut) {
+                HighestTempOut = measurement.outsideTempConvert();
+            }
+            if (measurement.insideHumConvert() < HighestHum) {
+                HighestHum = measurement.insideHumConvert();
+            }
+            if (measurement.outsideHumConvert() < HighestHumOut) {
+                HighestHumOut = measurement.outsideHumConvert();
+            }
+            if (measurement.barometerConvert() < HighestPress) {
+                HighestPress = measurement.barometerConvert();
+            }
+            if (measurement.rainRateConvert() < HighestRainrate) {
+                HighestRainrate = measurement.rainRateConvert();
+            }
+            if (measurement.windSpeedConvert() < HighestWind) {
+                HighestWind = measurement.windSpeedConvert();
+            }
+            totalTemp += measurement.insideTempConvert();
+            totalTempOut += measurement.outsideTempConvert();
+            totalHum += measurement.insideHumConvert();
+            totalHumOut += measurement.outsideHumConvert();
+            totalPress += measurement.barometerConvert();
+            totalRainrate += measurement.rainRateConvert();
+            totalWind += measurement.windSpeedConvert();
+            amount++;
         }
-        average = total / amount;
-        return average;
+        AverageTemp = totalTemp/amount;
+        AverageTempOut = totalTempOut/amount;
+        AverageHum = totalHum/amount;
+        AverageHumOut = totalHumOut/amount;
+        AveragePress = totalPress/amount;
+        AverageRainrate = totalRainrate/amount;
+        AverageWind = totalWind/amount;
     }
 
-    public void getmode() {
-        ArrayList<Measurement> measurements = new ArrayList<>();
-        ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
-        ArrayList<Double> temperatures = new ArrayList<>();
+    public double getLowestTemp() {
+        calcStats();
+        return LowestTemp;
+    }
+    public double getLowestTempOut() {
+        calcStats();
+        return LowestTempOut;
+    }
+    public double getLowestHum() {
+        calcStats();
+        return LowestHum;
+    }
+    public double getLowestHumOut() {
+        calcStats();
+        return LowestHumOut;
+    }
+    public double getLowestPress() {
+        calcStats();
+        return LowestPress;
+    }
+    public double getLowestRainrate() {
+        calcStats();
+        return LowestRainrate;
+    }
+    public double getHighestTemp() {
+        calcStats();
+        return HighestTemp;
+    }
+    public double getHighestHum() {
+        calcStats();
+        return HighestHum;
+    }
+    public double getHighestPress() {
+        calcStats();
+        return HighestPress;
+    }
+    public double getHighestRainrate() {
+        calcStats();
+        return HighestRainrate;
+    }
+    public double getLowestWind() {
+        calcStats();
+        return LowestWind;
+    }
+    public double getHighestTempOut() {
+        calcStats();
+        return HighestTempOut;
+    }
+    public double getHighestHumOut() {
+        calcStats();
+        return HighestHumOut;
+    }
+    public double getHighestWind() {
+        calcStats();
+        return HighestWind;
+    }
+    public double getAverageTemp() {
+        calcStats();
+        return AverageTemp;
+    }
+    public double getAverageTempOut() {
+        calcStats();
+        return AverageTempOut;
+    }
+    public double getAverageHum() {
+        calcStats();
+        return AverageHum;
+    }
+    public double getAverageHumOut() {
+        calcStats();
+        return AverageHumOut;
+    }
+    public double getAveragePress() {
+        calcStats();
+        return AveragePress;
+    }
+    public double getAverageRainrate() {
+        calcStats();
+        return AverageRainrate;
+    }
+    public double getAverageWind() {
+        calcStats();
+        return AverageWind;
+    }
+
+
+    public double getModus(String type) {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> values = new ArrayList<>();
         HashMap<Double, Integer> elementCountMap = new HashMap<>();
 
-
-        for (RawMeasurement rawMeasurement : rawMeasurements) {
-            Measurement measurement = new Measurement(rawMeasurement);
-            if((measurement.outsideTempConvert() > -20 && measurement.outsideTempConvert() < 45.0)){
-                temperatures.add(measurement.outsideTempConvert());
+        if (type.equals("Temp")) {
+            for (Measurement measurement : measurements) {
+                values.add(measurement.insideTempConvert());
             }
-
+        }
+        if (type.equals("TempOut")) {
+            for (Measurement measurement : measurements) {
+                values.add(measurement.outsideTempConvert());
+            }
+        }
+        if (type.equals("Hum")) {
+            for (Measurement measurement : measurements) {
+                values.add(measurement.insideHumConvert());
+            }
+        }
+        if (type.equals("HumOut")) {
+            for (Measurement measurement : measurements) {
+                values.add(measurement.outsideHumConvert());
+            }
+        }
+        if (type.equals("Press")) {
+            for (Measurement measurement : measurements) {
+                values.add(measurement.barometerConvert());
+            }
+        }
+        if (type.equals("Rainrate")) {
+            for (Measurement measurement : measurements) {
+                values.add(measurement.rainRateConvert());
+            }
+        }
+        if (type.equals("Wind")) {
+            for (Measurement measurement : measurements) {
+                values.add(measurement.windSpeedConvert());
+            }
         }
 
-        for (double t : temperatures){
+        for (double t : values){
             if (elementCountMap.containsKey(t)){
                 elementCountMap.put(t, elementCountMap.get(t)+1);
             } else {
                 elementCountMap.put(t,1);
             }
-
         }
 
         Set<Map.Entry<Double, Integer>> entrySet = elementCountMap.entrySet();
@@ -165,9 +339,116 @@ public class Period {
                 frequency = entry.getValue();
             }
         }
-        System.out.println("De meest voorkomende temp: " + String.format("%.01f",element) + " komt " + frequency + " keer voor");
+        return element;
     }
-  
+
+    public double getMedian(String type) {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> Temps = new ArrayList<>();
+        ArrayList<Double> TempOuts = new ArrayList<>();
+        ArrayList<Double> Hums = new ArrayList<>();
+        ArrayList<Double> HumOuts = new ArrayList<>();
+        ArrayList<Double> Press = new ArrayList<>();
+        ArrayList<Double> Rainrates = new ArrayList<>();
+        ArrayList<Double> Winds = new ArrayList<>();
+
+        for (Measurement measurement: measurements) {
+            Temps.add(measurement.insideTempConvert());
+            TempOuts.add(measurement.outsideTempConvert());
+            Hums.add(measurement.insideHumConvert());
+            HumOuts.add(measurement.outsideHumConvert());
+            Press.add(measurement.barometerConvert());
+            Rainrates.add(measurement.rainRateConvert());
+            Winds.add(measurement.windSpeedConvert());
+        }
+
+        Collections.sort(Temps);
+        Collections.sort(TempOuts);
+        Collections.sort(Hums);
+        Collections.sort(HumOuts);
+        Collections.sort(Press);
+        Collections.sort(Rainrates);
+        Collections.sort(Winds);
+
+        if (type.equals("Temp")) {
+            return Temps.get(Temps.size() / 2);
+        }
+        if (type.equals("TempOut")) {
+            return TempOuts.get(TempOuts.size() / 2);
+        }
+        if (type.equals("Hum")) {
+            return Hums.get(Hums.size() / 2);
+        }
+        if (type.equals("HumOut")) {
+            return HumOuts.get(HumOuts.size() / 2);
+        }
+        if (type.equals("Press")) {
+            return Press.get(Press.size() / 2);
+        }
+        if (type.equals("Rainrate")) {
+            return Rainrates.get(Rainrates.size() / 2);
+        }
+        if (type.equals("Wind")) {
+            return Winds.get(Winds.size() / 2);
+        }
+        return 0.0;
+    }
+
+    public double getStandardDeviation(String type){
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> values = new ArrayList<>();
+        double Average = 0;
+        if (type.equals("Temp")) {
+            Average = getAverageTemp();
+            for (Measurement measurement : measurements) {
+                values.add(measurement.insideTempConvert());
+            }
+        }
+        if (type.equals("TempOut")) {
+            Average = getAverageTempOut();
+            for (Measurement measurement : measurements) {
+                values.add(measurement.outsideTempConvert());
+            }
+        }
+        if (type.equals("Hum")) {
+            Average = getAverageHum();
+            for (Measurement measurement : measurements) {
+                values.add(measurement.insideHumConvert());
+            }
+        }
+        if (type.equals("HumOut")) {
+            Average = getAverageHumOut();
+            for (Measurement measurement : measurements) {
+                values.add(measurement.outsideHumConvert());
+            }
+        }
+        if (type.equals("Press")) {
+            Average = getAveragePress();
+            for (Measurement measurement : measurements) {
+                values.add(measurement.barometerConvert());
+            }
+        }
+        if (type.equals("Rainrate")) {
+            Average = getAverageRainrate();
+            for (Measurement measurement : measurements) {
+                values.add(measurement.rainRateConvert());
+            }
+        }
+        if (type.equals("Wind")) {
+            Average = getAverageWind();
+            for (Measurement measurement : measurements) {
+                values.add(measurement.windSpeedConvert());
+            }
+        }
+
+        double standardDeviation = 0;
+        for (int i = 0; i < values.size(); i++) {
+            standardDeviation += Math.sqrt(values.get(i) - Average) / values.size();
+        }
+        return (Double) Math.sqrt(standardDeviation);
+    }
+
+
     public void getWettestMonth()
     {
         ArrayList<Integer> months = new ArrayList<>();
@@ -342,10 +623,5 @@ public class Period {
     }
 
 
-//    public double getMedian(RawMeasurement rawmeasurement) {
-//        ArrayList<Measurement> measurements = new ArrayList<>();
-//        ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
-//       Collections.sort(rawMeasurements);
-//        double median = rawMeasurements.get(rawMeasurements.size() / 2);
-//    }
+
 }

@@ -99,37 +99,40 @@ public class Main {
     }
 
     private static void SelectDisplay(int DisplayNumber, Period period) {
-        if (DisplayNumber < 0) { DisplayNumber = 9; }
-        if (DisplayNumber > 9) { DisplayNumber = 0; }
+        if (DisplayNumber < 0) { DisplayNumber = 10; }
+        if (DisplayNumber > 10) { DisplayNumber = 0; }
         switch(DisplayNumber) {
             case 0:
                 DisplayTemp(period, DisplayNumber);
                 break;
             case 1:
-                DisplayHum(period, DisplayNumber);
+                DisplayTempStats(period, DisplayNumber);
                 break;
             case 2:
-                DisplayBar(period, DisplayNumber);
+                DisplayHum(period, DisplayNumber);
                 break;
             case 3:
-                DisplayWindSpeed(period, DisplayNumber);
+                DisplayBar(period, DisplayNumber);
                 break;
             case 4:
-                DisplayWindDir(period, DisplayNumber);
+                DisplayWindSpeed(period, DisplayNumber);
                 break;
             case 5:
-                DisplayRain(period, DisplayNumber);
+                DisplayWindDir(period, DisplayNumber);
                 break;
             case 6:
-                DisplayUV(period, DisplayNumber);
+                DisplayRain(period, DisplayNumber);
                 break;
             case 7:
-                DisplaySun(period, DisplayNumber);
+                DisplayUV(period, DisplayNumber);
                 break;
             case 8:
-                DisplayBat(period, DisplayNumber);
+                DisplaySun(period, DisplayNumber);
                 break;
             case 9:
+                DisplayBat(period, DisplayNumber);
+                break;
+            case 10:
                 DisplayQuit(period, DisplayNumber);
                 break;
             default:
@@ -163,6 +166,44 @@ public class Main {
         GUI.writeText("Binnen       Buiten");
         GUI.writeNewLine();
         GUI.writeText("Huidige temperatuur");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            SelectStart(LocalDate.now().minus(java.time.Period.ofDays(7)));
+        }
+    }
+    private static void DisplayTempStats(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        int lowest = (int)Math.round(period.getLowestTemp()*10);
+        int[] address = {0x20,0x22,0x24};
+        for (int i = 0; i < address.length; i++){
+            if (i==1){
+                GUI.writeNumber(address[i],(lowest%10),true);
+            } else {
+                GUI.writeNumber(address[i],(lowest%10),false);
+            }
+            lowest = lowest / 10;
+        }
+        int highest = (int)Math.round(period.getHighestTemp()*10);
+        int[] address2 = {0x30,0x32,0x34};
+        for (int i = 0; i < address2.length; i++){
+            if (i==1){
+                GUI.writeNumber(address2[i],(highest%10),true);
+            } else {
+                GUI.writeNumber(address2[i],(highest%10),false);
+            }
+            highest = highest / 10;
+        }
+        GUI.writeText("Laagste     Hoogste");
+        GUI.writeNewLine();
+        GUI.writeText("Temperatuur van");
+        GUI.writeNewLine();
+        GUI.writeText("Periode");
         GUI.writeNewLine();
         while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
         while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
