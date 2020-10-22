@@ -629,5 +629,45 @@ public class Period {
     }
 
 
+    //Jason individuele opdracht F
+    //get boolean heatwave
+    public boolean heatwave() {
+        boolean heatwave = false;
+        int tropicalDays = 0;
+        int summerDays = 0;
+
+        LocalDate day = this.beginDate;
+        ArrayList<Double> maxPerDay = new ArrayList<>();
+
+        for (int i = 0; i < this.getNumberOfDays(); i++) {
+            day = day.plusDays(i);
+            Period dag = new Period(day, day);
+            maxPerDay.add( dag.getHighestTempOut() );
+        }
+        for (Double max : maxPerDay) {
+            if (max >= 25.0) {
+                if (max >= 30.0) {
+                    tropicalDays++;
+                }
+                summerDays++;
+                if (tropicalDays >= 3 && summerDays >= 5) {
+                    heatwave = true;
+                }
+            } else {
+                tropicalDays = 0;
+                summerDays = 0;
+            }
+        }
+        return heatwave;
+    }
+    public static void testjason() {
+        Period periode = new Period();
+        periode.setStart(1, 8, 2019);
+        periode.setEnd(30, 9, 2019);
+        if (periode.heatwave()) {
+            System.out.print("HIJ WERKT!");
+        }
+        //moet werken hittegolf volgens knmi op 23 augustus
+    }
 
 }
