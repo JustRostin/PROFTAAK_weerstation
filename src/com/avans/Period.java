@@ -401,7 +401,9 @@ public class Period {
         if (type.equals("Temp")) {
             Average = getAverageTemp();
             for (Measurement measurement : measurements) {
-                values.add(measurement.insideTempConvert());
+                if (measurement.insideTempConvert() != 0){
+                    values.add(measurement.insideTempConvert());
+                }
             }
         }
         if (type.equals("TempOut")) {
@@ -443,7 +445,11 @@ public class Period {
 
         double standardDeviation = 0;
         for (int i = 0; i < values.size(); i++) {
-            standardDeviation += Math.sqrt(values.get(i) - Average) / values.size();
+            if ((values.get(i) - Average)<0) {
+                standardDeviation += (Math.sqrt((values.get(i) - Average)*-1) / values.size());
+            } else {
+                standardDeviation += (Math.sqrt(values.get(i) - Average) / values.size());
+            }
         }
         return Math.sqrt(standardDeviation);
     }
