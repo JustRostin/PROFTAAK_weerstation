@@ -5,9 +5,8 @@ import java.time.LocalDate;
 public class Main {
 
     public static void main(String[] args) {
-        //IO.init();
-        //menu();
-        Period.testjason();
+        IO.init();
+        menu();
     }
 
     public static void menu() {
