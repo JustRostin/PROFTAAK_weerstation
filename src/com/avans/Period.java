@@ -217,6 +217,49 @@ public class Period {
         return max; //return result
     }
 
+    //Wesley individuele opdracht J
+    //get good days
 
+    public int getGoodDays(){
+        double goodWindChillLow = 20.0;
+        double goodWindChillHigh = 25.0;
+        double goodWindSpeedAVG = 6.0;
+        double goodMAXRainfall = 0.2;
+        double windChillDay;
+        double windSpeedAVGDay;
+        double rainfallMAXDay;
 
+        ArrayList<Measurement> measurements = getMeasurements();
+        int gooddays = 0;
+
+        for( int i = 0 ; i < measurements.size() ; i++ ){
+            windChillDay = measurements.get(i).windChillConvert();
+                if ( windChillDay >= goodWindChillLow && windChillDay >= goodWindChillHigh ){
+                    for( int ii = 0 ; ii < measurements.size() ; ii++ ){
+                        windSpeedAVGDay = measurements.get(ii).avgWindSpeedConvert();
+                            if ( windSpeedAVGDay <= goodWindSpeedAVG ){
+                                for ( int iii = 0 ; iii < measurements.size() ; iii++ ){
+                                    rainfallMAXDay = measurements.get(iii).rainRateConvert();
+                                        if ( rainfallMAXDay <= goodMAXRainfall ){
+                                            gooddays = gooddays + 1;
+                                        }
+                            }
+                        }
+                    }
+                }
+        }
+
+        System.out.println("Good days: " + gooddays);
+        return gooddays;
+    }
+    /*
+    ArrayList<Measurement> temperature = getMeasurements();
+    for (int i = 0; i < temperature.size() ; i++) {
+        singleDegreeDay = avInsideTemp - temperature.get(i).outsideTempConvert();
+        if (singleDegreeDay < 0){
+            singleDegreeDay = 0;
+        }
+        degreeDays = degreeDays + singleDegreeDay;
+    }
+    */
 }

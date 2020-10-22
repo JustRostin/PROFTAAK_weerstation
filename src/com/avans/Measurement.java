@@ -20,6 +20,7 @@ public class Measurement {
     private short battLevel;
     private short sunrise;
     private short sunset;
+    private short windChill;
 
 
     public Measurement(RawMeasurement data){
@@ -97,6 +98,10 @@ public class Measurement {
         String sunset = ValueConverter.sunSet(this.sunset);
         return sunset;
     }
+    public double windChillConvert(){
+        double windChill = ValueConverter.windChill(this.outsideTemp, this.avgWindSpeed);
+        return windChill;
+    }
 
     public String toString(){
         String s = "Converted:"
@@ -109,6 +114,7 @@ public class Measurement {
                 + "\nwindDir \t\t= \t" + windDirConvert()
                 + "\noutsideHum \t\t= \t" + outsideHumConvert()
                 + "\nrainRate \t\t= \t" + rainRateConvert()
+                + "\nwindchill \t\t= \t" + String.format("%.01f",windChillConvert())
                 + "\nUVLevel \t\t= \t" + UVLevelConvert()
                 + "\nxmitBatt \t\t= \t" + xmitBattConvert()
                 + "\nbattLevel \t\t= \t" + battLevelConvert()

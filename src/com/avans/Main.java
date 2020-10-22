@@ -223,6 +223,8 @@ public class Main {
         }
     }
 
+
+
     private static void DisplayQuit() {
         GUI.clearDM();
         writeText("Afsluiten...");
