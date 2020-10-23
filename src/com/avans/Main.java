@@ -1,6 +1,7 @@
 package com.avans;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -14,7 +15,7 @@ public class Main {
         if (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {
             GUI.writeText("Druk alle knoppen uit");
         }
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
         GUI.clearDM();
         GUI.writeText("Welkom bij Weermenu!");
         GUI.writeNewLine();
@@ -46,8 +47,8 @@ public class Main {
             day = day / 10;
         }
         GUI.writeText("Selecteer startdatum.");
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectStart(start.plusDays(1));
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -78,8 +79,8 @@ public class Main {
             day = day / 10;
         }
         GUI.writeText("Selecteer einddatum.");
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectEnd(start, end.plusDays(1));
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -99,8 +100,8 @@ public class Main {
     }
 
     private static void SelectDisplay(int DisplayNumber, Period period) {
-        if (DisplayNumber < 0) { DisplayNumber = 10; }
-        if (DisplayNumber > 10) { DisplayNumber = 0; }
+        if (DisplayNumber < 0) { DisplayNumber = 13; }
+        if (DisplayNumber > 13) { DisplayNumber = 0; }
         switch(DisplayNumber) {
             case 0:
                 DisplayTemp(period, DisplayNumber);
@@ -130,7 +131,19 @@ public class Main {
                 DisplayBat(period, DisplayNumber);
                 break;
             case 9:
+                DisplayMaxContRain(period, DisplayNumber);
+                break;
+            case 10:
+                DisplayHeatwave(period, DisplayNumber);
+                break;
+            case 11:
+                DisplayDegreeDays(period, DisplayNumber);
+                break;
+            case 12:
                 DisplayQuit(period, DisplayNumber);
+                break;
+            case 13:
+                DisplayPeriodChange(period, DisplayNumber);
                 break;
             default:
                 DisplayQuit(period, DisplayNumber);
@@ -146,8 +159,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Huidige temperatuur");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -166,8 +179,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Van periode");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -186,8 +199,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Van periode");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -206,8 +219,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Van periode");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -226,8 +239,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Van periode");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -246,8 +259,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Temperatuur periode");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -267,8 +280,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Luchtvochtigheid");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -287,8 +300,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Van periode");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -307,8 +320,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Van periode");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -327,8 +340,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Van periode");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -347,8 +360,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Van periode");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -367,8 +380,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Luchtvochtigheid periode");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -385,8 +398,8 @@ public class Main {
         GUI.writeValue("Top",(int)Math.round(measurement.barometerConvert()*10),1);
         GUI.writeText("Luchtdruk in bar");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -405,8 +418,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Van periode");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -425,8 +438,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Van periode");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -442,8 +455,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Luchtdruk periode");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -463,8 +476,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Windsnelheid in km/u");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -483,8 +496,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Van periode");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -503,8 +516,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Van periode");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -520,8 +533,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Windsnelheid periode");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -540,8 +553,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Graden");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -562,8 +575,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("mm/u       mm");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -582,8 +595,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Van periode");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -602,8 +615,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Van periode");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -621,8 +634,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Van periode");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -638,8 +651,8 @@ public class Main {
         GUI.writeValue("Left",(int)Math.round(measurement.windDirConvert()*10),1);
         GUI.writeText("UV niveau");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -659,8 +672,8 @@ public class Main {
         GUI.writeNewLine();
         String sunset = "Zonsondergang: "+ measurement.sunsetConvert();
         GUI.writeText(sunset);
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -681,8 +694,8 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Niveau");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
@@ -692,6 +705,68 @@ public class Main {
         }
     }
 
+    private static void DisplayMaxContRain(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeValue("Top",(int)Math.round(period.getMaxContRain()*10),1);
+        GUI.writeText("Grootste regenval");
+        GUI.writeNewLine();
+        GUI.writeText("Van deze periode");
+        GUI.writeNewLine();
+        GUI.writeText("In mm/u");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            SelectDisplay(0,period);
+        }
+    }
+
+    private static void DisplayHeatwave(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeText("Periode heeft");
+        GUI.writeNewLine();
+        if (period.heatwave()){
+            GUI.writeText("Wel een");
+            GUI.writeNewLine();
+        } else {
+            GUI.writeText("Geen");
+            GUI.writeNewLine();
+        }
+        GUI.writeText("Hittegolf");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            SelectDisplay(0,period);
+        }
+    }
+
+    //TODO add degreeDays Display here
+    private static void DisplayDegreeDays(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        //GUI.writeValue("Top"/"Left"/"Right",(int)Math.round([aantalgraaddagen]),0);
+        GUI.writeText("Graaddagen");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            SelectDisplay(0,period);
+        }
+    }
+
+
     private static void DisplayQuit(Period period, int DisplayNumber) {
         GUI.clearDM();
         GUI.writeText("Afsluiten?");
@@ -700,14 +775,28 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Rood is afsluiten");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
             SelectDisplay(DisplayNumber-1,period);
         } else if (GUI.isKnopRoodIngedrukt()) {
             Quit();
+        }
+    }
+    private static void DisplayPeriodChange(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeText("Periode veranderen?");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            SelectStart(LocalDate.now().minus(java.time.Period.ofDays(7)));
         }
     }
 
