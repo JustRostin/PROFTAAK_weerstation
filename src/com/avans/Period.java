@@ -128,58 +128,83 @@ public class Period {
         System.out.println("Meeste regen is gevallen in de maand: "+name+" "+yearonly+" met een hoeveelheid van: "+maxVal);
     }
 
+    // Individuele opdracht Lieselotte Sihasale: graaddagen.
+    public  String degreeDays(){
+        ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
+        int counter = 0;
+        double pTotal = 0.0;
+        double totalDegreeDays= 0.0;
+        LocalDate pDay = LocalDate.of(1900,1,1);
 
-
-    //TODO tests
-    public  String degreeDays(Measurement measurement){
-        double degreeDays = 0.0;
-        double singleDegreeDay;
-        ArrayList<Measurement> temperature = getMeasurements();
-        double avInsideTemp = 18.0;
-
-        for (int i = 0; i < temperature.size() ; i++) {
-            singleDegreeDay = avInsideTemp - temperature.get(i).outsideTempConvert();
-            if (singleDegreeDay < 0){
-                singleDegreeDay = 0;
+        for (RawMeasurement rawMeasurement : rawMeasurements) {
+            Measurement measurement = new Measurement(rawMeasurement);
+            if((measurement.outsideTempConvert() > -20 && measurement.outsideTempConvert() < 45.0)){
+                LocalDate day = measurement.getTimeStamp(rawMeasurement);
+                if (!pDay.isEqual(LocalDate.of(1900, 1, 1))) {
+                    if (!pDay.equals(day)) {
+                        double avOutsideTemp = pTotal / counter;
+                        double avInsideTemp = 18.0;
+                        double weightedDegreeDays = avInsideTemp - avOutsideTemp;
+                        if(weightedDegreeDays < 0){
+                            weightedDegreeDays = 0;
+                        }
+                        totalDegreeDays += weightedDegreeDays;
+                        pTotal = 0.0;
+                        counter = 0;
+                    }
+                }
+                pTotal = pTotal + measurement.outsideTempConvert();
+                counter++;
+                pDay = day;
             }
-            degreeDays = degreeDays + singleDegreeDay;
         }
-        int resultValue = (int)degreeDays;
-        String result = "Weighted degree days: " + degreeDays + " --> " + resultValue;
+
+        String resultValue = String.format("%.0f",totalDegreeDays);
+        String result = "Degree days: " + resultValue;
         return result;
     }
 
-    //TODO test
-    public String weightedDegreeDays(Measurement measurement){
-        ArrayList<Measurement> temperature = getMeasurements();
-        double singleDegreeDay;
-        double avInsideTemp = 18.0;
-        double weightingfactor;
-        double weightedDegreeDays = 0.0;
-        LocalDate day = this.beginDate;
+    // Individuele opdracht Lieselotte Sihasale: gewogen graaddagen.
+    public String weightedDegreeDays(){
+        ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
+        int counter = 0;
+        double pTotal = 0.0;
+        double weightingFactor;
+        double totalWeightedDegreeDays= 0.0;
+        LocalDate pDay = LocalDate.of(1900,1,1);
 
-        for(int i = 0; i < temperature.size(); i++){
-            singleDegreeDay = avInsideTemp - temperature.get(i).outsideTempConvert();
-            if (singleDegreeDay < 0){
-                singleDegreeDay = 0;
+        for (RawMeasurement rawMeasurement : rawMeasurements) {
+            Measurement measurement = new Measurement(rawMeasurement);
+            if((measurement.outsideTempConvert() > -20 && measurement.outsideTempConvert() < 45.0)){
+                LocalDate day = measurement.getTimeStamp(rawMeasurement);
+                if (!pDay.isEqual(LocalDate.of(1900, 1, 1))) {
+                    if (!pDay.equals(day)) {
+                        double avOutsideTemp = pTotal / counter;
+                        double avInsideTemp = 18.0;
+                        double weightedDegreeDays = avInsideTemp - avOutsideTemp;
+                        if(weightedDegreeDays < 0){
+                            weightedDegreeDays = 0;
+                        }
+                        totalWeightedDegreeDays += weightedDegreeDays;
+                        pTotal = 0.0;
+                        counter = 0;
+                    }
+                }
+                if (day.getMonthValue() >= 4 && day.getMonthValue() <= 9) {
+                    weightingFactor = 0.8;
+                } else if (day.getMonthValue() == 3 || day.getMonthValue() == 10) {
+                    weightingFactor = 1.0;
+                } else {
+                    weightingFactor = 1.1;
+                }
+                pTotal = pTotal + (measurement.outsideTempConvert() * weightingFactor);
+                counter++;
+                pDay = day;
             }
-            if (day.getMonthValue() >= 4 && day.getMonthValue() <= 9){
-                weightingfactor = 0.8;
-            } else if (day.getMonthValue() == 3 || day.getMonthValue() == 10){
-                weightingfactor = 1.0;
-            } else {
-                weightingfactor = 1.1;
-            }
-            double addWeightedDegreeDays = singleDegreeDay * weightingfactor;
-            if( addWeightedDegreeDays < 0){
-                addWeightedDegreeDays = 0;
-            }
-            weightedDegreeDays = weightedDegreeDays + addWeightedDegreeDays;
-            day = day.plusDays(1);
         }
 
-        int resultValue = (int)weightedDegreeDays;
-        String result = "Weighted degree days: " + weightedDegreeDays + " --> " + resultValue;
+        String resultValue = String.format("%.0f",totalWeightedDegreeDays);
+        String result = "Weighted degree days: " + resultValue;
 
         return result;
     }
