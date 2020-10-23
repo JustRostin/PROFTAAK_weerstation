@@ -31,6 +31,9 @@ public class Period {
     private double AverageRainrate;
     private double AverageWind;
     private boolean stats = false;
+    private ArrayList<Measurement> cachedMeasurements = new ArrayList<>();
+    private LocalDate cachedStart = LocalDate.of(2000,1,1);
+    private LocalDate cachedEnd = LocalDate.of(2000,1,1);
 
     public Period() {
         beginDate = LocalDate.now();
@@ -79,25 +82,32 @@ public class Period {
 
     public ArrayList<Measurement> getMeasurements() {
         ArrayList<Measurement> measurements = new ArrayList<>();
-        ArrayList<RawMeasurement> rawMeasurements = this.getRawMeasurements();
-        for (RawMeasurement rawMeasurement : rawMeasurements) {
-            Measurement measurement = new Measurement(rawMeasurement);
-            boolean IsGood = true;
-            if(!(measurement.barometerConvert() < 1099 && measurement.barometerConvert() > 900))        {IsGood = false;}
-            if(!(measurement.avgWindSpeedConvert() > 0.0 && measurement.avgWindSpeedConvert() < 20.0))  {IsGood = false;}
-            if(!(measurement.battLevelConvert() > 0.0 && measurement.battLevelConvert() < 2.0))         {IsGood = false;}
-            if(!(measurement.insideHumConvert() > 0 && measurement.insideHumConvert() < 100))           {IsGood = false;}
-            if(!(measurement.insideTempConvert() > 15.0 && measurement.insideTempConvert() < 40.0))     {IsGood = false;}
-            if(!(measurement.outsideHumConvert() > 0 && measurement.outsideHumConvert() < 100))         {IsGood = false;}
-            if(!(measurement.outsideTempConvert() > -20 && measurement.outsideTempConvert() < 45.0))    {IsGood = false;}
-            if(!(measurement.rainRateConvert() >= 0 && measurement.rainRateConvert() < 1000))           {IsGood = false;}
-            if(!(measurement.UVLevelConvert() >= 0.0 && measurement.UVLevelConvert() < 10.0))           {IsGood = false;}
-            if(!(measurement.windDirConvert() >= 0 && measurement.windDirConvert() <= 360))             {IsGood = false;}
-            if(!(measurement.windSpeedConvert() >= 0.0 && measurement.windSpeedConvert() < 20.0))       {IsGood = false;}
-            if(!(measurement.xmitBattConvert() >= 0.0 && measurement.xmitBattConvert() < 100.0))        {IsGood = false;}
-            if (IsGood) {
-                measurements.add(measurement);
+        if (this.cachedStart.equals(this.beginDate) && this.cachedEnd.equals(this.endDate)) {
+            measurements = this.cachedMeasurements;
+        } else {
+            ArrayList<RawMeasurement> rawMeasurements = this.getRawMeasurements();
+            for (RawMeasurement rawMeasurement : rawMeasurements) {
+                Measurement measurement = new Measurement(rawMeasurement);
+                boolean IsGood = true;
+                if(!(measurement.barometerConvert() < 1099 && measurement.barometerConvert() > 900))        {IsGood = false;}
+                if(!(measurement.avgWindSpeedConvert() > 0.0 && measurement.avgWindSpeedConvert() < 20.0))  {IsGood = false;}
+                if(!(measurement.battLevelConvert() > 0.0 && measurement.battLevelConvert() < 2.0))         {IsGood = false;}
+                if(!(measurement.insideHumConvert() > 0 && measurement.insideHumConvert() < 100))           {IsGood = false;}
+                if(!(measurement.insideTempConvert() > 15.0 && measurement.insideTempConvert() < 40.0))     {IsGood = false;}
+                if(!(measurement.outsideHumConvert() > 0 && measurement.outsideHumConvert() < 100))         {IsGood = false;}
+                if(!(measurement.outsideTempConvert() > -20 && measurement.outsideTempConvert() < 45.0))    {IsGood = false;}
+                if(!(measurement.rainRateConvert() >= 0 && measurement.rainRateConvert() < 1000))           {IsGood = false;}
+                if(!(measurement.UVLevelConvert() >= 0.0 && measurement.UVLevelConvert() < 10.0))           {IsGood = false;}
+                if(!(measurement.windDirConvert() >= 0 && measurement.windDirConvert() <= 360))             {IsGood = false;}
+                if(!(measurement.windSpeedConvert() >= 0.0 && measurement.windSpeedConvert() < 20.0))       {IsGood = false;}
+                if(!(measurement.xmitBattConvert() >= 0.0 && measurement.xmitBattConvert() < 100.0))        {IsGood = false;}
+                if (IsGood) {
+                    measurements.add(measurement);
+                }
             }
+            this.cachedMeasurements = measurements;
+            this.cachedStart = this.beginDate;
+            this.cachedEnd = this.endDate;
         }
         return measurements;
     }
