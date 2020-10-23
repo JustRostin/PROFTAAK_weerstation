@@ -57,18 +57,22 @@ public class Period {
 
     public void setStart(int day, int month, int year) {
         this.beginDate = LocalDate.of(year, month, day);
+        this.stats = false;
     }
 
     public void setStart(LocalDate beginPeriod) {
         this.beginDate = beginPeriod;
+        this.stats = false;
     }
 
     public void setEnd(int day, int month, int year) {
         this.beginDate = LocalDate.of(year, month, day);
+        this.stats = false;
     }
 
     public void setEnd(LocalDate endPeriod) {
         this.beginDate = endPeriod;
+        this.stats = false;
     }
 
 
@@ -122,20 +126,20 @@ public class Period {
             return;
         }
         ArrayList<Measurement> measurements = this.getMeasurements();
-        this.LowestTemp = -40;
-        this.LowestTempOut = -40;
-        this.LowestHum = 0;
-        this.LowestHumOut = 0;
-        this.LowestPress = 10;
-        this.LowestRainrate  = -1;
-        this.LowestWind  = -1;
-        this.HighestTemp = 60;
-        this.HighestTempOut = 60;
-        this.HighestHum = 120;
-        this.HighestHumOut = 120;
-        this.HighestPress = 1100;
-        this.HighestRainrate = 200;
-        this.HighestWind = 200;
+        this.LowestTemp = 60;
+        this.LowestTempOut = 60;
+        this.LowestHum = 120;
+        this.LowestHumOut = 120;
+        this.LowestPress = 1100;
+        this.LowestRainrate  = 200;
+        this.LowestWind  = 200;
+        this.HighestTemp = -40;
+        this.HighestTempOut = -40;
+        this.HighestHum = 0;
+        this.HighestHumOut = 0;
+        this.HighestPress = 10;
+        this.HighestRainrate = -1;
+        this.HighestWind = -1;
         double totalTemp = 0.0;
         double totalTempOut = 0.0;
         double totalHum = 0.0;
@@ -145,46 +149,46 @@ public class Period {
         double totalWind = 0.0;
         int amount = 0;
         for (Measurement measurement : measurements) {
-            if (measurement.insideTempConvert() > this.LowestTemp) {
+            if (measurement.insideTempConvert() < this.LowestTemp) {
                 this.LowestTemp = measurement.insideTempConvert();
             }
-            if (measurement.outsideTempConvert() > this.LowestTempOut) {
+            if (measurement.outsideTempConvert() < this.LowestTempOut) {
                 this.LowestTempOut = measurement.outsideTempConvert();
             }
-            if (measurement.insideHumConvert() > this.LowestHum) {
+            if (measurement.insideHumConvert() < this.LowestHum) {
                 this.LowestHum = measurement.insideHumConvert();
             }
-            if (measurement.outsideHumConvert() > this.LowestHumOut) {
+            if (measurement.outsideHumConvert() < this.LowestHumOut) {
                 this.LowestHumOut = measurement.outsideHumConvert();
             }
-            if (measurement.barometerConvert() > this.LowestPress) {
+            if (measurement.barometerConvert() < this.LowestPress) {
                 this.LowestPress = measurement.barometerConvert();
             }
-            if (measurement.rainRateConvert() > this.LowestRainrate) {
+            if (measurement.rainRateConvert() < this.LowestRainrate) {
                 this.LowestRainrate = measurement.rainRateConvert();
             }
-            if (measurement.windSpeedConvert() > this.LowestWind) {
+            if (measurement.windSpeedConvert() < this.LowestWind) {
                 this.LowestWind = measurement.windSpeedConvert();
             }
-            if (measurement.insideTempConvert() < this.HighestTemp) {
+            if (measurement.insideTempConvert() > this.HighestTemp) {
                 this.HighestTemp = measurement.insideTempConvert();
             }
-            if (measurement.outsideTempConvert() < this.HighestTempOut) {
+            if (measurement.outsideTempConvert() > this.HighestTempOut) {
                 this.HighestTempOut = measurement.outsideTempConvert();
             }
-            if (measurement.insideHumConvert() < this.HighestHum) {
+            if (measurement.insideHumConvert() > this.HighestHum) {
                 this.HighestHum = measurement.insideHumConvert();
             }
-            if (measurement.outsideHumConvert() < this.HighestHumOut) {
+            if (measurement.outsideHumConvert() > this.HighestHumOut) {
                 this.HighestHumOut = measurement.outsideHumConvert();
             }
-            if (measurement.barometerConvert() < this.HighestPress) {
+            if (measurement.barometerConvert() > this.HighestPress) {
                 this.HighestPress = measurement.barometerConvert();
             }
-            if (measurement.rainRateConvert() < this.HighestRainrate) {
+            if (measurement.rainRateConvert() > this.HighestRainrate) {
                 this.HighestRainrate = measurement.rainRateConvert();
             }
-            if (measurement.windSpeedConvert() < this.HighestWind) {
+            if (measurement.windSpeedConvert() > this.HighestWind) {
                 this.HighestWind = measurement.windSpeedConvert();
             }
             totalTemp += measurement.insideTempConvert();
@@ -577,8 +581,7 @@ public class Period {
     //Raoul individuele opdracht E
     //get maximum continuous rainfall
     public Double getMaxContRain() {
-        ArrayList<Measurement> measurements = this.getMeasurements();
-        return getMaxContRain(measurements);
+        return getMaxContRain(this.getMeasurements());
     }
     public Double getMaxContRain(ArrayList<Measurement> measurements) {
         double rain = 0.0; //accumulated amount of rain
