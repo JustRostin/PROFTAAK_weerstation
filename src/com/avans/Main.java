@@ -5,9 +5,8 @@ import java.time.LocalDate;
 public class Main {
 
     public static void main(String[] args) {
-        //IO.init();
-        //menu();
-        Period.testjason();
+        IO.init();
+        menu();
     }
 
     public static void menu() {
@@ -107,33 +106,30 @@ public class Main {
                 DisplayTemp(period, DisplayNumber);
                 break;
             case 1:
-                DisplayTempStats(period, DisplayNumber);
-                break;
-            case 2:
                 DisplayHum(period, DisplayNumber);
                 break;
-            case 3:
-                DisplayBar(period, DisplayNumber);
+            case 2:
+                DisplayPres(period, DisplayNumber);
                 break;
-            case 4:
+            case 3:
                 DisplayWindSpeed(period, DisplayNumber);
                 break;
-            case 5:
+            case 4:
                 DisplayWindDir(period, DisplayNumber);
                 break;
-            case 6:
+            case 5:
                 DisplayRain(period, DisplayNumber);
                 break;
-            case 7:
+            case 6:
                 DisplayUV(period, DisplayNumber);
                 break;
-            case 8:
+            case 7:
                 DisplaySun(period, DisplayNumber);
                 break;
-            case 9:
+            case 8:
                 DisplayBat(period, DisplayNumber);
                 break;
-            case 10:
+            case 9:
                 DisplayQuit(period, DisplayNumber);
                 break;
             default:
@@ -144,26 +140,8 @@ public class Main {
     private static void DisplayTemp(Period period, int DisplayNumber) {
         Measurement measurement = period.getLatestMeasurement();
         GUI.clearDM();
-        int binnen = (int)Math.round(measurement.insideTempConvert()*10);
-        int[] address = {0x20,0x22,0x24};
-        for (int i = 0; i < address.length; i++){
-            if (i==1){
-                GUI.writeNumber(address[i],(binnen%10),true);
-            } else {
-                GUI.writeNumber(address[i],(binnen%10),false);
-            }
-            binnen = binnen / 10;
-        }
-        int buiten = (int)Math.round(measurement.outsideTempConvert()*10);
-        int[] address2 = {0x30,0x32,0x34};
-        for (int i = 0; i < address2.length; i++){
-            if (i==1){
-                GUI.writeNumber(address2[i],(buiten%10),true);
-            } else {
-                GUI.writeNumber(address2[i],(buiten%10),false);
-            }
-            buiten = buiten / 10;
-        }
+        GUI.writeValue("Left",(int)Math.round(measurement.insideTempConvert()*10),1);
+        GUI.writeValue("Right",(int)Math.round(measurement.outsideTempConvert()*10),1);
         GUI.writeText("Binnen       Buiten");
         GUI.writeNewLine();
         GUI.writeText("Huidige temperatuur");
@@ -175,36 +153,18 @@ public class Main {
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
             SelectDisplay(DisplayNumber-1,period);
         } else if (GUI.isKnopRoodIngedrukt()) {
-            SelectStart(LocalDate.now().minus(java.time.Period.ofDays(7)));
+            DisplayTempLowest(period, DisplayNumber);
         }
     }
-    private static void DisplayTempStats(Period period, int DisplayNumber) {
+    private static void DisplayTempLowest(Period period, int DisplayNumber) {
         GUI.clearDM();
-        int lowest = (int)Math.round(period.getLowestTemp()*10);
-        int[] address = {0x20,0x22,0x24};
-        for (int i = 0; i < address.length; i++){
-            if (i==1){
-                GUI.writeNumber(address[i],(lowest%10),true);
-            } else {
-                GUI.writeNumber(address[i],(lowest%10),false);
-            }
-            lowest = lowest / 10;
-        }
-        int highest = (int)Math.round(period.getHighestTemp()*10);
-        int[] address2 = {0x30,0x32,0x34};
-        for (int i = 0; i < address2.length; i++){
-            if (i==1){
-                GUI.writeNumber(address2[i],(highest%10),true);
-            } else {
-                GUI.writeNumber(address2[i],(highest%10),false);
-            }
-            highest = highest / 10;
-        }
-        GUI.writeText("Laagste     Hoogste");
+        GUI.writeValue("Left",(int)Math.round(period.getLowestTemp()*10),1);
+        GUI.writeValue("Right",(int)Math.round(period.getLowestTempOut()*10),1);
+        GUI.writeText("Binnen       Buiten");
         GUI.writeNewLine();
-        GUI.writeText("Temperatuur van");
+        GUI.writeText("Laagste temperatuur");
         GUI.writeNewLine();
-        GUI.writeText("Periode");
+        GUI.writeText("Van periode");
         GUI.writeNewLine();
         while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
         while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
@@ -213,33 +173,96 @@ public class Main {
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
             SelectDisplay(DisplayNumber-1,period);
         } else if (GUI.isKnopRoodIngedrukt()) {
-            SelectStart(LocalDate.now().minus(java.time.Period.ofDays(7)));
+            DisplayTempHighest(period, DisplayNumber);
         }
     }
+    private static void DisplayTempHighest(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeValue("Left",(int)Math.round(period.getHighestTemp()*10),1);
+        GUI.writeValue("Right",(int)Math.round(period.getHighestTempOut()*10),1);
+        GUI.writeText("Binnen       Buiten");
+        GUI.writeNewLine();
+        GUI.writeText("Hoogste temperatuur");
+        GUI.writeNewLine();
+        GUI.writeText("Van periode");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            DisplayTempStatsIn(period, DisplayNumber);
+        }
+    }
+    private static void DisplayTempStatsIn(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeValue("Left",(int)Math.round(period.getModus("Temp")*10),1);
+        GUI.writeValue("Right",(int)Math.round(period.getMedian("Temp")*10),1);
+        GUI.writeText("Modus      mediaan");
+        GUI.writeNewLine();
+        GUI.writeText("Binnen temperatuur");
+        GUI.writeNewLine();
+        GUI.writeText("Van periode");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            DisplayTempStatsOut(period, DisplayNumber);
+        }
+    }
+    private static void DisplayTempStatsOut(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeValue("Left",(int)Math.round(period.getModus("TempOut")*10),1);
+        GUI.writeValue("Right",(int)Math.round(period.getMedian("TempOut")*10),1);
+        GUI.writeText("Modus      mediaan");
+        GUI.writeNewLine();
+        GUI.writeText("Buiten temperatuur");
+        GUI.writeNewLine();
+        GUI.writeText("Van periode");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            DisplayTempStatsSD(period, DisplayNumber);
+        }
+    }
+    private static void DisplayTempStatsSD(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeValue("Left",(int)Math.round(period.getStandardDeviation("Temp")*10),1);
+        GUI.writeValue("Right",(int)Math.round(period.getStandardDeviation("TempOut")*10),1);
+        GUI.writeText("Binnen      Buiten");
+        GUI.writeNewLine();
+        GUI.writeText("Standaarddeviatie");
+        GUI.writeNewLine();
+        GUI.writeText("Temperatuur periode");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            DisplayTemp(period, DisplayNumber);
+        }
+    }
+
 
     private static void DisplayHum(Period period, int DisplayNumber) {
         Measurement measurement = period.getLatestMeasurement();
         GUI.clearDM();
-        int binnen = (int)Math.round(measurement.insideHumConvert()*10);
-        int[] address = {0x20,0x22,0x24};
-        for (int i = 0; i < address.length; i++){
-            if (i==1){
-                GUI.writeNumber(address[i],(binnen%10),true);
-            } else {
-                GUI.writeNumber(address[i],(binnen%10),false);
-            }
-            binnen = binnen / 10;
-        }
-        int buiten = (int)Math.round(measurement.outsideHumConvert()*10);
-        int[] address2 = {0x30,0x32,0x34};
-        for (int i = 0; i < address2.length; i++){
-            if (i==1){
-                GUI.writeNumber(address2[i],(buiten%10),true);
-            } else {
-                GUI.writeNumber(address2[i],(buiten%10),false);
-            }
-            buiten = buiten / 10;
-        }
+        GUI.writeValue("Left",(int)Math.round(measurement.insideHumConvert()*10),1);
+        GUI.writeValue("Right",(int)Math.round(measurement.outsideHumConvert()*10),1);
         GUI.writeText("Binnen       Buiten");
         GUI.writeNewLine();
         GUI.writeText("Luchtvochtigheid");
@@ -251,23 +274,115 @@ public class Main {
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
             SelectDisplay(DisplayNumber-1,period);
         } else if (GUI.isKnopRoodIngedrukt()) {
-            SelectStart(LocalDate.now().minus(java.time.Period.ofDays(7)));
+            DisplayHumLowest(period, DisplayNumber);
+        }
+    }
+    private static void DisplayHumLowest(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeValue("Left",(int)Math.round(period.getLowestHum()*10),1);
+        GUI.writeValue("Right",(int)Math.round(period.getLowestHumOut()*10),1);
+        GUI.writeText("Binnen       Buiten");
+        GUI.writeNewLine();
+        GUI.writeText("Laagste Luchtvochtigheid");
+        GUI.writeNewLine();
+        GUI.writeText("Van periode");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            DisplayHumHighest(period, DisplayNumber);
+        }
+    }
+    private static void DisplayHumHighest(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeValue("Left",(int)Math.round(period.getHighestHum()*10),1);
+        GUI.writeValue("Right",(int)Math.round(period.getHighestHumOut()*10),1);
+        GUI.writeText("Binnen       Buiten");
+        GUI.writeNewLine();
+        GUI.writeText("Hoogste Luchtvochtigheid");
+        GUI.writeNewLine();
+        GUI.writeText("Van periode");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            DisplayHumStatsIn(period, DisplayNumber);
+        }
+    }
+    private static void DisplayHumStatsIn(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeValue("Left",(int)Math.round(period.getModus("Hum")*10),1);
+        GUI.writeValue("Right",(int)Math.round(period.getMedian("Hum")*10),1);
+        GUI.writeText("Modus      mediaan");
+        GUI.writeNewLine();
+        GUI.writeText("Binnen luchtvochtigheid");
+        GUI.writeNewLine();
+        GUI.writeText("Van periode");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            DisplayHumStatsOut(period, DisplayNumber);
+        }
+    }
+    private static void DisplayHumStatsOut(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeValue("Left",(int)Math.round(period.getModus("HumOut")*10),1);
+        GUI.writeValue("Right",(int)Math.round(period.getMedian("HumOut")*10),1);
+        GUI.writeText("Modus      mediaan");
+        GUI.writeNewLine();
+        GUI.writeText("Buiten luchtvochtigheid");
+        GUI.writeNewLine();
+        GUI.writeText("Van periode");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            DisplayHumStatsSD(period, DisplayNumber);
+        }
+    }
+    private static void DisplayHumStatsSD(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeValue("Left",(int)Math.round(period.getStandardDeviation("Hum")*10),1);
+        GUI.writeValue("Right",(int)Math.round(period.getStandardDeviation("HumOut")*10),1);
+        GUI.writeText("Binnen      Buiten");
+        GUI.writeNewLine();
+        GUI.writeText("Standaarddeviatie");
+        GUI.writeNewLine();
+        GUI.writeText("Luchtvochtigheid periode");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            DisplayHum(period, DisplayNumber);
         }
     }
 
-    private static void DisplayBar(Period period, int DisplayNumber) {
+
+    private static void DisplayPres(Period period, int DisplayNumber) {
         Measurement measurement = period.getLatestMeasurement();
         GUI.clearDM();
-        int druk = (int)Math.round(measurement.barometerConvert()*10);
-        int[] address = {0x10,0x12,0x14,0x16,0x18};
-        for (int i = 0; i < address.length; i++){
-            if (i==1){
-                GUI.writeNumber(address[i],(druk%10),true);
-            } else {
-                GUI.writeNumber(address[i],(druk%10),false);
-            }
-            druk = druk / 10;
-        }
+        GUI.writeValue("Top",(int)Math.round(measurement.barometerConvert()*10),1);
         GUI.writeText("Luchtdruk in bar");
         GUI.writeNewLine();
         while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
@@ -277,33 +392,73 @@ public class Main {
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
             SelectDisplay(DisplayNumber-1,period);
         } else if (GUI.isKnopRoodIngedrukt()) {
-            SelectStart(LocalDate.now().minus(java.time.Period.ofDays(7)));
+            DisplayPresHighest(period, DisplayNumber);
         }
     }
+    private static void DisplayPresHighest(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeValue("Left",(int)Math.round(period.getLowestPress()*10),1);
+        GUI.writeValue("Right",(int)Math.round(period.getHighestPress()*10),1);
+        GUI.writeText("Laagste     hoogste");
+        GUI.writeNewLine();
+        GUI.writeText("Luchtdruk");
+        GUI.writeNewLine();
+        GUI.writeText("Van periode");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            DisplayPresStats(period, DisplayNumber);
+        }
+    }
+    private static void DisplayPresStats(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeValue("Left",(int)Math.round(period.getModus("Press")*10),1);
+        GUI.writeValue("Right",(int)Math.round(period.getMedian("Press")*10),1);
+        GUI.writeText("Modus      mediaan");
+        GUI.writeNewLine();
+        GUI.writeText("Luchtdruk");
+        GUI.writeNewLine();
+        GUI.writeText("Van periode");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            DisplayPresStatsSD(period, DisplayNumber);
+        }
+    }
+    private static void DisplayPresStatsSD(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeValue("Left",(int)Math.round(period.getStandardDeviation("Press")*10),1);
+        GUI.writeText("Standaarddeviatie");
+        GUI.writeNewLine();
+        GUI.writeText("Luchtdruk periode");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            DisplayPres(period, DisplayNumber);
+        }
+    }
+
 
     private static void DisplayWindSpeed(Period period, int DisplayNumber) {
         Measurement measurement = period.getLatestMeasurement();
         GUI.clearDM();
-        int huidig = (int)Math.round(measurement.windSpeedConvert()*10);
-        int[] address = {0x20,0x22,0x24};
-        for (int i = 0; i < address.length; i++){
-            if (i==1){
-                GUI.writeNumber(address[i],(huidig%10),true);
-            } else {
-                GUI.writeNumber(address[i],(huidig%10),false);
-            }
-            huidig = huidig / 10;
-        }
-        int Gemiddelde = (int)Math.round(measurement.avgWindSpeedConvert()*10);
-        int[] address2 = {0x30,0x32,0x34};
-        for (int i = 0; i < address2.length; i++){
-            if (i==1){
-                GUI.writeNumber(address2[i],(Gemiddelde%10),true);
-            } else {
-                GUI.writeNumber(address2[i],(Gemiddelde%10),false);
-            }
-            Gemiddelde = Gemiddelde / 10;
-        }
+        GUI.writeValue("Left",(int)Math.round(measurement.windSpeedConvert()*10),1);
+        GUI.writeValue("Right",(int)Math.round(measurement.avgWindSpeedConvert()*10),1);
         GUI.writeText("Huidig     Gemiddelde");
         GUI.writeNewLine();
         GUI.writeText("Windsnelheid in km/u");
@@ -315,23 +470,72 @@ public class Main {
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
             SelectDisplay(DisplayNumber-1,period);
         } else if (GUI.isKnopRoodIngedrukt()) {
-            SelectStart(LocalDate.now().minus(java.time.Period.ofDays(7)));
+            DisplayWindHighest(period, DisplayNumber);
         }
     }
+    private static void DisplayWindHighest(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeValue("Left",(int)Math.round(period.getLowestWind()*10),1);
+        GUI.writeValue("Right",(int)Math.round(period.getHighestWind()*10),1);
+        GUI.writeText("Laagste     hoogste");
+        GUI.writeNewLine();
+        GUI.writeText("Windsnelheid");
+        GUI.writeNewLine();
+        GUI.writeText("Van periode");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            DisplayWindStats(period, DisplayNumber);
+        }
+    }
+    private static void DisplayWindStats(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeValue("Left",(int)Math.round(period.getModus("Wind")*10),1);
+        GUI.writeValue("Right",(int)Math.round(period.getMedian("Wind")*10),1);
+        GUI.writeText("Modus      mediaan");
+        GUI.writeNewLine();
+        GUI.writeText("Windsnelheid");
+        GUI.writeNewLine();
+        GUI.writeText("Van periode");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            DisplayWindStatsSD(period, DisplayNumber);
+        }
+    }
+    private static void DisplayWindStatsSD(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeValue("Left",(int)Math.round(period.getStandardDeviation("Wind")*10),1);
+        GUI.writeText("Standaarddeviatie");
+        GUI.writeNewLine();
+        GUI.writeText("Windsnelheid periode");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            DisplayWindSpeed(period, DisplayNumber);
+        }
+    }
+
 
     private static void DisplayWindDir(Period period, int DisplayNumber) {
         Measurement measurement = period.getLatestMeasurement();
         GUI.clearDM();
-        int richting = (int)Math.round(measurement.windDirConvert()*10);
-        int[] address = {0x10,0x12,0x14,0x16};
-        for (int i = 0; i < address.length; i++){
-            if (i==1){
-                GUI.writeNumber(address[i],(richting%10),true);
-            } else {
-                GUI.writeNumber(address[i],(richting%10),false);
-            }
-            richting = richting / 10;
-        }
+        GUI.writeValue("Top",(int)Math.round(measurement.windDirConvert()*10),1);
         GUI.writeText("Windrichting in");
         GUI.writeNewLine();
         GUI.writeText("Graden");
@@ -343,44 +547,16 @@ public class Main {
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
             SelectDisplay(DisplayNumber-1,period);
         } else if (GUI.isKnopRoodIngedrukt()) {
-            SelectStart(LocalDate.now().minus(java.time.Period.ofDays(7)));
+            SelectDisplay(0,period);
         }
     }
 
     private static void DisplayRain(Period period, int DisplayNumber) {
         Measurement measurement = period.getLatestMeasurement();
         GUI.clearDM();
-        int huidig = (int)Math.round(measurement.rainRateConvert()*10);
-        int[] address3 = {0x20,0x22,0x24};
-        for (int i = 0; i < address3.length; i++){
-            if (i==1){
-                GUI.writeNumber(address3[i],(huidig%10),true);
-            } else {
-                GUI.writeNumber(address3[i],(huidig%10),false);
-            }
-            huidig = huidig / 10;
-        }
-        int hoogste = (int)Math.round(period.getMaxContRain()*10);
-        int[] address = {0x30,0x32,0x34};
-        for (int i = 0; i < address.length; i++){
-            if (i==1){
-                GUI.writeNumber(address[i],(hoogste%10),true);
-            } else {
-                GUI.writeNumber(address[i],(hoogste%10),false);
-            }
-            hoogste = hoogste / 10;
-        }
-        int totaal = (int)Math.round(period.getMaxContRain()*10);
-        int[] address2 = {0x10,0x12,0x14,0x16,0x18};
-        for (int i = 0; i < address2.length; i++){
-            if (i==1){
-                GUI.writeNumber(address2[i],(totaal%10),true);
-            } else {
-                GUI.writeNumber(address2[i],(totaal%10),false);
-            }
-            totaal = totaal / 10;
-        }
-        GUI.writeText("Regen   Totaal    ");
+        GUI.writeValue("Left",(int)Math.round(measurement.rainRateConvert()*10),1);
+        GUI.writeValue("Right",(int)Math.round(period.getMaxContRain()*10),1);
+        GUI.writeText("Regen   ");
         GUI.writeNewLine();
         GUI.writeText("Huidig   Grootste bui");
         GUI.writeNewLine();
@@ -393,23 +569,73 @@ public class Main {
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
             SelectDisplay(DisplayNumber-1,period);
         } else if (GUI.isKnopRoodIngedrukt()) {
-            SelectStart(LocalDate.now().minus(java.time.Period.ofDays(7)));
+            DisplayRainHighest(period, DisplayNumber);
+        }
+    }
+    private static void DisplayRainHighest(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeValue("Left",(int)Math.round(period.getLowestRainrate()*10),1);
+        GUI.writeValue("Right",(int)Math.round(period.getHighestRainrate()*10),1);
+        GUI.writeText("Laagste     hoogste");
+        GUI.writeNewLine();
+        GUI.writeText("Regenval mm/u");
+        GUI.writeNewLine();
+        GUI.writeText("Van periode");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            DisplayRainStats(period, DisplayNumber);
+        }
+    }
+    private static void DisplayRainStats(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeValue("Left",(int)Math.round(period.getModus("Rainrate")*10),1);
+        GUI.writeValue("Right",(int)Math.round(period.getMedian("Rainrate")*10),1);
+        GUI.writeText("Modus      mediaan");
+        GUI.writeNewLine();
+        GUI.writeText("Regenval mm/u");
+        GUI.writeNewLine();
+        GUI.writeText("Van periode");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            DisplayRainStatsSD(period, DisplayNumber);
+        }
+    }
+    private static void DisplayRainStatsSD(Period period, int DisplayNumber) {
+        GUI.clearDM();
+        GUI.writeValue("Left",(int)Math.round(period.getStandardDeviation("Rainrate")*10),1);
+        GUI.writeText("Standaarddeviatie");
+        GUI.writeNewLine();
+        GUI.writeText("Regenval mm/u");
+        GUI.writeNewLine();
+        GUI.writeText("Van periode");
+        GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            DisplayRain(period, DisplayNumber);
         }
     }
 
     private static void DisplayUV(Period period, int DisplayNumber) {
         Measurement measurement = period.getLatestMeasurement();
         GUI.clearDM();
-        int uv = (int)Math.round(measurement.windDirConvert()*10);
-        int[] address = {0x10,0x12,0x14,0x16};
-        for (int i = 0; i < address.length; i++){
-            if (i==1){
-                GUI.writeNumber(address[i],(uv%10),true);
-            } else {
-                GUI.writeNumber(address[i],(uv%10),false);
-            }
-            uv = uv / 10;
-        }
+        GUI.writeValue("Left",(int)Math.round(measurement.windDirConvert()*10),1);
         GUI.writeText("UV niveau");
         GUI.writeNewLine();
         while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
@@ -419,7 +645,7 @@ public class Main {
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
             SelectDisplay(DisplayNumber-1,period);
         } else if (GUI.isKnopRoodIngedrukt()) {
-            SelectStart(LocalDate.now().minus(java.time.Period.ofDays(7)));
+            SelectDisplay(0,period);
         }
     }
 
@@ -440,33 +666,15 @@ public class Main {
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
             SelectDisplay(DisplayNumber-1,period);
         } else if (GUI.isKnopRoodIngedrukt()) {
-            SelectStart(LocalDate.now().minus(java.time.Period.ofDays(7)));
+            SelectDisplay(0,period);
         }
     }
 
     private static void DisplayBat(Period period, int DisplayNumber) {
         Measurement measurement = period.getLatestMeasurement();
         GUI.clearDM();
-        int batt = (int)Math.round(measurement.battLevelConvert()*10);
-        int[] address = {0x20,0x22,0x24};
-        for (int i = 0; i < address.length; i++){
-            if (i==2){
-                GUI.writeNumber(address[i],(batt%10),true);
-            } else {
-                GUI.writeNumber(address[i],(batt%10),false);
-            }
-            batt = batt / 10;
-        }
-        int xmitt = (int)Math.round(measurement.xmitBattConvert()*10);
-        int[] address2 = {0x30,0x32,0x34};
-        for (int i = 0; i < address2.length; i++){
-            if (i==2){
-                GUI.writeNumber(address2[i],(xmitt%10),true);
-            } else {
-                GUI.writeNumber(address2[i],(xmitt%10),false);
-            }
-            xmitt = xmitt / 10;
-        }
+        GUI.writeValue("Left",(int)Math.round(measurement.battLevelConvert()*10),2);
+        GUI.writeValue("Right",(int)Math.round(measurement.xmitBattConvert()*10),2);
         GUI.writeText("Binnen       Buiten");
         GUI.writeNewLine();
         GUI.writeText("Huidige Batterij");
@@ -480,7 +688,7 @@ public class Main {
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
             SelectDisplay(DisplayNumber-1,period);
         } else if (GUI.isKnopRoodIngedrukt()) {
-            SelectStart(LocalDate.now().minus(java.time.Period.ofDays(7)));
+            SelectDisplay(0,period);
         }
     }
 

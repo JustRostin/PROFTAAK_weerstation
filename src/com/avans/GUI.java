@@ -70,4 +70,38 @@ public class GUI {
         }
     }
 
+    public static void writeValue(String type, int value, int commaPositie){
+        if (type.equals("Left")){
+            int[] address = {0x20,0x22,0x24};
+            for (int i = 0; i < address.length; i++){
+                if (i==commaPositie){
+                    GUI.writeNumber(address[i],(value%10),true);
+                } else {
+                    GUI.writeNumber(address[i],(value%10),false);
+                }
+                value = value / 10;
+            }
+        } else if (type.equals("Top")) {
+            int[] address = {0x10,0x12,0x14,0x16,0x18};
+            for (int i = 0; i < address.length; i++){
+                if (i==commaPositie){
+                    GUI.writeNumber(address[i],(value%10),true);
+                } else {
+                    GUI.writeNumber(address[i],(value%10),false);
+                }
+                value = value / 10;
+            }
+        } else if (type.equals("Right")) {
+            int[] address = {0x30,0x32,0x34};
+            for (int i = 0; i < address.length; i++){
+                if (i==commaPositie){
+                    GUI.writeNumber(address[i],(value%10),true);
+                } else {
+                    GUI.writeNumber(address[i],(value%10),false);
+                }
+                value = value / 10;
+            }
+        }
+    }
+
 }
