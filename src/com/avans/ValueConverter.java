@@ -178,7 +178,7 @@ public class ValueConverter {
     }
 
     public static double windChill (short rawValue1, short rawValue2){
-        double windChill = 35.74 + 0.6215*rawValue1-35.75*(Math.pow(rawValue2, 0.16))+0.4275*rawValue1*(Math.pow(rawValue2, 0.16));
+        double windChill = 13.12 + 0.6215 * rawValue1 - 11.37 * (Math.pow(rawValue2, 0.16)) + 0.3965 * rawValue1 *(Math.pow(rawValue2, 0.16));
         windChill = ((windChill/10)-32)/1.8;
 
 

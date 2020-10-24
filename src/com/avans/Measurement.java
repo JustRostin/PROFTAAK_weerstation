@@ -1,6 +1,7 @@
 package com.avans;
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ public class Measurement {
     private short battLevel;
     private short sunrise;
     private short sunset;
+    private short windChill;
 
 
     public Measurement(RawMeasurement data){
@@ -63,6 +65,11 @@ public class Measurement {
         this.sunrise = sunrise;
         this.sunset = sunset;
     }
+    
+    public LocalDate getTimeStamp(RawMeasurement data){
+        LocalDate stamp = data.getDateStamp().toLocalDate();
+        return stamp;
+    }
 
     public double barometerConvert(){
         double barometer = ValueConverter.airPressure(this.barometer);
@@ -95,6 +102,10 @@ public class Measurement {
     public double outsideHumConvert(){
         double outsideHum = ValueConverter.humidity(this.outsideHum);
         return outsideHum;
+    }
+    public double windChillConvert(){
+        double windChill = ValueConverter.windChill(this.outsideTemp, this.avgWindSpeed);
+        return windChill;
     }
     public double rainRateConvert(){
         double rainRate = ValueConverter.rainMeter(this.rainRate);
@@ -132,6 +143,7 @@ public class Measurement {
                 + "\nwindDir \t\t= \t" + windDirConvert()
                 + "\noutsideHum \t\t= \t" + outsideHumConvert()
                 + "\nrainRate \t\t= \t" + rainRateConvert()
+                + "\nwindchill \t\t= \t" + String.format("%.01f",windChillConvert())
                 + "\nUVLevel \t\t= \t" + UVLevelConvert()
                 + "\nxmitBatt \t\t= \t" + xmitBattConvert()
                 + "\nbattLevel \t\t= \t" + battLevelConvert()
