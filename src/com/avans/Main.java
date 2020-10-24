@@ -8,6 +8,7 @@ public class Main {
     public static void main(String[] args) {
         IO.init();
         menu();
+
     }
 
     public static void menu() {
@@ -749,14 +750,29 @@ public class Main {
         }
     }
 
-    //TODO add degreeDays Display here
-    private static void DisplayDegreeDays(Period period, int DisplayNumber) {
+    private static void DisplayGoodDays(Period period, int DisplayNumber) {
         GUI.clearDM();
-        //GUI.writeValue("Top"/"Left"/"Right",(int)Math.round([aantalgraaddagen]),0);
-        GUI.writeText("Graaddagen");
+        GUI.writeText("Good Days Processing");
         GUI.writeNewLine();
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
+
+        int goodDayscount = period.getGoodDays();
+        String goodDays = "Good Days: " + goodDayscount;
+        GUI.clearDM();
+        GUI.writeText(goodDays);
+        GUI.writeNewLine();
+
+        int[] address = {0x20,0x22,0x24};
+        for (int i = 0; i < address.length; i++){
+            if (i==1){
+                GUI.writeNumber(address[i],(goodDayscount%10),false);
+            } else {
+                GUI.writeNumber(address[i],(goodDayscount%10),false);
+            }
+            goodDayscount = goodDayscount / 10;
+        }
+
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
