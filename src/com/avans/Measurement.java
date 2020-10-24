@@ -1,6 +1,7 @@
 package com.avans;
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -63,6 +64,11 @@ public class Measurement {
         this.battLevel = battLevel;
         this.sunrise = sunrise;
         this.sunset = sunset;
+    }
+    
+    public LocalDate getTimeStamp(RawMeasurement data){
+        LocalDate stamp = data.getDateStamp().toLocalDate();
+        return stamp;
     }
 
     public double barometerConvert(){
