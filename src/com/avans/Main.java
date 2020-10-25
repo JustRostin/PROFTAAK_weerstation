@@ -7,7 +7,8 @@ public class Main {
     public static void main(String[] args) {
         //IO.init();
         //menu();
-        Period.testjason();
+        Period.testjason1();
+        Period.testjason2();
     }
 
     public static void menu() {
