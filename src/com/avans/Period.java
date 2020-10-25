@@ -735,11 +735,10 @@ public class Period {
         LocalDate firstDay = this.beginDate;
         LocalDate currentDay = this.endDate;
         LocalDate lastDay = this.endDate;
-
-        ArrayList<Measurement> measurements = getMeasurements();
+        
         int goodDays = 0;
         int counter = 0;
-        long numberOfDays = getNumberOfDays();
+        long numberOfDays = this.getNumberOfDays();
 
         while( counter < numberOfDays) {
             this.setStart(currentDay);
