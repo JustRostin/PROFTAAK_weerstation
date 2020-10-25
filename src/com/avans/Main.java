@@ -45,13 +45,75 @@ public class Main {
             GUI.writeNumber(addressday[i],(day%10),false);
             day = day / 10;
         }
-        GUI.writeText("Selecteer startdatum.");
+        GUI.writeText("Selecteer start Dag.");
         while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
         while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectStart(start.plusDays(1));
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
             SelectStart(start.minusDays(1));
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            SelectStartMonth(start);
+        }
+    }
+    private static void SelectStartMonth(LocalDate start) {
+        GUI.clearDM();
+        int year = start.getYear();
+        int month = start.getMonthValue();
+        int day = start.getDayOfMonth();
+        int[] addressyear = {0x10,0x12,0x14,0x16};
+        for (int i = 0; i < addressyear.length; i++){
+            GUI.writeNumber(addressyear[i],(year%10),false);
+            year = year / 10;
+        }
+        int[] addressmonth = {0x30,0x32};
+        for (int i = 0; i < addressmonth.length; i++){
+            GUI.writeNumber(addressmonth[i],(month%10),false);
+            month = month / 10;
+        }
+        int[] addressday = {0x20,0x22};
+        for (int i = 0; i < addressday.length; i++){
+            GUI.writeNumber(addressday[i],(day%10),false);
+            day = day / 10;
+        }
+        GUI.writeText("Selecteer start Maand.");
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectStartMonth(start.plusMonths(1));
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectStartMonth(start.minusMonths(1));
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            SelectStartYear(start);
+        }
+    }
+    private static void SelectStartYear(LocalDate start) {
+        GUI.clearDM();
+        int year = start.getYear();
+        int month = start.getMonthValue();
+        int day = start.getDayOfMonth();
+        int[] addressyear = {0x10,0x12,0x14,0x16};
+        for (int i = 0; i < addressyear.length; i++){
+            GUI.writeNumber(addressyear[i],(year%10),false);
+            year = year / 10;
+        }
+        int[] addressmonth = {0x30,0x32};
+        for (int i = 0; i < addressmonth.length; i++){
+            GUI.writeNumber(addressmonth[i],(month%10),false);
+            month = month / 10;
+        }
+        int[] addressday = {0x20,0x22};
+        for (int i = 0; i < addressday.length; i++){
+            GUI.writeNumber(addressday[i],(day%10),false);
+            day = day / 10;
+        }
+        GUI.writeText("Selecteer start Jaar.");
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectStartYear(start.plusYears(1));
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectStartYear(start.minusYears(1));
         } else if (GUI.isKnopRoodIngedrukt()) {
             SelectEnd(start, LocalDate.now());
         }
@@ -77,13 +139,75 @@ public class Main {
             GUI.writeNumber(addressday[i],(day%10),false);
             day = day / 10;
         }
-        GUI.writeText("Selecteer einddatum.");
+        GUI.writeText("Selecteer eind Dag.");
         while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
         while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectEnd(start, end.plusDays(1));
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
             SelectEnd(start, end.minusDays(1));
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            SelectEndMonth(start, end);
+        }
+    }
+    private static void SelectEndMonth(LocalDate start, LocalDate end) {
+        GUI.clearDM();
+        int year = end.getYear();
+        int month = end.getMonthValue();
+        int day = end.getDayOfMonth();
+        int[] addressyear = {0x10,0x12,0x14,0x16};
+        for (int i = 0; i < addressyear.length; i++){
+            GUI.writeNumber(addressyear[i],(year%10),false);
+            year = year / 10;
+        }
+        int[] addressmonth = {0x30,0x32};
+        for (int i = 0; i < addressmonth.length; i++){
+            GUI.writeNumber(addressmonth[i],(month%10),false);
+            month = month / 10;
+        }
+        int[] addressday = {0x20,0x22};
+        for (int i = 0; i < addressday.length; i++){
+            GUI.writeNumber(addressday[i],(day%10),false);
+            day = day / 10;
+        }
+        GUI.writeText("Selecteer eind Maand.");
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectEndMonth(start, end.plusMonths(1));
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectEndMonth(start, end.minusMonths(1));
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            SelectEndYear(start, end);
+        }
+    }
+    private static void SelectEndYear(LocalDate start, LocalDate end) {
+        GUI.clearDM();
+        int year = end.getYear();
+        int month = end.getMonthValue();
+        int day = end.getDayOfMonth();
+        int[] addressyear = {0x10,0x12,0x14,0x16};
+        for (int i = 0; i < addressyear.length; i++){
+            GUI.writeNumber(addressyear[i],(year%10),false);
+            year = year / 10;
+        }
+        int[] addressmonth = {0x30,0x32};
+        for (int i = 0; i < addressmonth.length; i++){
+            GUI.writeNumber(addressmonth[i],(month%10),false);
+            month = month / 10;
+        }
+        int[] addressday = {0x20,0x22};
+        for (int i = 0; i < addressday.length; i++){
+            GUI.writeNumber(addressday[i],(day%10),false);
+            day = day / 10;
+        }
+        GUI.writeText("Selecteer eind Jaar.");
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectEndYear(start, end.plusYears(1));
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectEndYear(start, end.minusYears(1));
         } else if (GUI.isKnopRoodIngedrukt()) {
             SelectPeriod(start, end, false);
         }
@@ -93,6 +217,9 @@ public class Main {
         if (reselect) {
             SelectStart(LocalDate.now().minus(java.time.Period.ofDays(7)));
         } else {
+            GUI.clearDM();
+            GUI.writeText("Laden ...");
+            GUI.writeNewLine();
             Period period = new Period(start, end);
             SelectDisplay(0, period);
         }
@@ -855,7 +982,7 @@ public class Main {
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
             SelectDisplay(DisplayNumber-1,period);
         } else if (GUI.isKnopRoodIngedrukt()) {
-            SelectStart(LocalDate.now().minus(java.time.Period.ofDays(7)));
+            SelectPeriod(LocalDate.now(), LocalDate.now(), true);
         }
     }
 
