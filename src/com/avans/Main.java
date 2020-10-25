@@ -849,7 +849,7 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Van deze periode");
         GUI.writeNewLine();
-        GUI.writeText("In mm/u");
+        GUI.writeText("In mm");
         GUI.writeNewLine();
         while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
         while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
