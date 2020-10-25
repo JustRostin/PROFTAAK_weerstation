@@ -531,16 +531,15 @@ public class Period {
 
     // Individuele opdracht Lieselotte Sihasale: graaddagen.
     public  int getDegreeDays(){
-        ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
+        ArrayList<Measurement> measurements = getMeasurements();
         int counter = 0;
         double pTotal = 0.0;
         double totalDegreeDays= 0.0;
         LocalDate pDay = LocalDate.of(1900,1,1);
 
-        for (RawMeasurement rawMeasurement : rawMeasurements) {
-            Measurement measurement = new Measurement(rawMeasurement);
+        for (Measurement measurement : measurements) {
             if((measurement.outsideTempConvert() > -20 && measurement.outsideTempConvert() < 45.0)){
-                LocalDate day = measurement.getTimeStamp(rawMeasurement);
+                LocalDate day = measurement.getTimeStamp();
                 if (!pDay.isEqual(LocalDate.of(1900, 1, 1))) {
                     if (!pDay.equals(day)) {
                         double avOutsideTemp = pTotal / counter;
@@ -569,17 +568,16 @@ public class Period {
 
     // Individuele opdracht Lieselotte Sihasale: gewogen graaddagen.
     public int getWeightedDegreeDays(){
-        ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
+        ArrayList<Measurement> measurements = getMeasurements();
         int counter = 0;
         double pTotal = 0.0;
         double weightingFactor;
         double totalWeightedDegreeDays= 0.0;
         LocalDate pDay = LocalDate.of(1900,1,1);
 
-        for (RawMeasurement rawMeasurement : rawMeasurements) {
-            Measurement measurement = new Measurement(rawMeasurement);
+        for (Measurement measurement : measurements) {
             if((measurement.outsideTempConvert() > -20 && measurement.outsideTempConvert() < 45.0)){
-                LocalDate day = measurement.getTimeStamp(rawMeasurement);
+                LocalDate day = measurement.getTimeStamp();
                 if (!pDay.isEqual(LocalDate.of(1900, 1, 1))) {
                     if (!pDay.equals(day)) {
                         double avOutsideTemp = pTotal / counter;
