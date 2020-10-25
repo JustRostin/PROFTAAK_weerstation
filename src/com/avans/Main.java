@@ -226,8 +226,8 @@ public class Main {
     }
 
     private static void SelectDisplay(int DisplayNumber, Period period) {
-        if (DisplayNumber < 0) { DisplayNumber = 15; }
-        if (DisplayNumber > 15) { DisplayNumber = 0; }
+        if (DisplayNumber < 0) { DisplayNumber = 16; }
+        if (DisplayNumber > 16) { DisplayNumber = 0; }
         switch(DisplayNumber) {
             case 0:
                 DisplayTemp(period, DisplayNumber);
@@ -260,23 +260,27 @@ public class Main {
                 DisplayMaxContRain(period, DisplayNumber);
                 break;
             case 10:
-                DisplayHeatwave(period, DisplayNumber);
+                DisplayWettestMonth(period, DisplayNumber);
                 break;
             case 11:
-                DisplayGoodDays(period, DisplayNumber);
+                DisplayHeatwave(period, DisplayNumber);
                 break;
             case 12:
-                DisplayDegreeDays(period, DisplayNumber);
+                DisplayGoodDays(period, DisplayNumber);
                 break;
             case 13:
-                DisplayWeightedDegreeDays(period, DisplayNumber);
+                DisplayDegreeDays(period, DisplayNumber);
                 break;
             case 14:
-                DisplayQuit(period, DisplayNumber);
+                DisplayWeightedDegreeDays(period, DisplayNumber);
                 break;
             case 15:
+                DisplayQuit(period, DisplayNumber);
+                break;
+            case 16:
                 DisplayPeriodChange(period, DisplayNumber);
                 break;
+
 
             default:
                 DisplayQuit(period, DisplayNumber);
@@ -909,6 +913,28 @@ public class Main {
         GUI.writeText("graaddagen van de");
         GUI.writeNewLine();
         GUI.writeText("geselecteerde periode");
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            SelectDisplay(0,period);
+        }
+    }
+
+    private static void DisplayWettestMonth(Period period, int DisplayNumber){
+        GUI.clearDM();
+        GUI.writeText("Getting month \nwith most rain");
+        GUI.writeNewLine();
+
+        String month = period.getWettestMonth();
+        String[] elements = month.split(",",0);
+        GUI.clearDM();
+        GUI.writeText("Month:"+elements[0]+"\n");
+        GUI.writeText("Year:"+elements[1]+"\n");
+        GUI.writeText("Amount:"+elements[2]+"\n");
         while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
         while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
