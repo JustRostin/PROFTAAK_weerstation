@@ -932,9 +932,30 @@ public class Main {
         String month = period.getWettestMonth();
         String[] elements = month.split(",",0);
         GUI.clearDM();
-        GUI.writeText("Month:"+elements[0]+"\n");
-        GUI.writeText("Year:"+elements[1]+"\n");
-        GUI.writeText("Amount:"+elements[2]+"\n");
+        double amount = Double.parseDouble(elements[2]);
+        amount = amount;
+        System.out.println(amount);
+        int length = String.valueOf((int)amount).length();
+        System.out.println(length);
+        if (length < 5){
+            GUI.writeValue("Top",(int)amount*10,1);
+            GUI.writeText("Most rain in MM\n");
+            GUI.writeText("Month:"+elements[0]+"\n");
+            GUI.writeText("Year: "+elements[1]+"\n");
+        } else if (length == 5) {
+            int first = (int)amount*10;
+            while (first >= 1000)
+                first /= 1000;
+            int last = (int)amount*10 %1000;
+            GUI.writeValue("Left",first,-1);
+            GUI.writeValue("Right",last,1);
+            GUI.writeText("Most rain in MM\n");
+            GUI.writeText("Month:"+elements[0]+"\n");
+            GUI.writeText("Year: "+elements[1]+"\n");
+        }
+        GUI.writeText("Most rain in MM\n");
+        GUI.writeText("Data out of bound");
+
         while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
         while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
