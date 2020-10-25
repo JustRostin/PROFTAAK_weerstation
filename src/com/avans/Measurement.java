@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Measurement {
 
-    private String timestamp;
+    private LocalDate timestamp;
     private short barometer;
     private short insideTemp;
     private short insideHum;
@@ -27,7 +27,7 @@ public class Measurement {
 
     public Measurement(RawMeasurement data){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        this.timestamp = data.getDateStamp().format(formatter);
+        this.timestamp = data.getDateStamp().toLocalDate();
         this.barometer = data.getBarometer();
         this.insideTemp = data.getInsideTemp();
         this.insideHum = data.getInsideHum();
@@ -49,7 +49,7 @@ public class Measurement {
                        short rainRate, short UVLevel, short xmitBatt, short battLevel,
                        short sunrise, short sunset) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        this.timestamp = LocalDateTime.now().format(formatter);
+        this.timestamp = LocalDateTime.now().toLocalDate();
         this.barometer = barometer;
         this.insideTemp = insideTemp;
         this.insideHum = insideHum;
@@ -66,9 +66,8 @@ public class Measurement {
         this.sunset = sunset;
     }
     
-    public LocalDate getTimeStamp(RawMeasurement data){
-        LocalDate stamp = data.getDateStamp().toLocalDate();
-        return stamp;
+    public LocalDate getTimeStamp(){
+        return this.timestamp;
     }
 
     public double barometerConvert(){

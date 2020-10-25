@@ -886,9 +886,9 @@ public class Main {
         GUI.clearDM();
         GUI.writeText("Graaddagen processing...");
         GUI.writeNewLine();
-
+        int result = period.getDegreeDays();
         GUI.clearDM();
-        GUI.writeValue("Top", period.getDegreeDays(), 0);
+        GUI.writeValue("Top", result, 0);
         GUI.writeText("Het aantal");
         GUI.writeNewLine();
         GUI.writeText("graaddagen van de");
@@ -909,9 +909,9 @@ public class Main {
         GUI.clearDM();
         GUI.writeText("Gewogen graaddagen processing...");
         GUI.writeNewLine();
-
+        int result = period.getWeightedDegreeDays();
         GUI.clearDM();
-        GUI.writeValue("Top", period.getWeightedDegreeDays(), 0);
+        GUI.writeValue("Top", result, 0);
         GUI.writeText("Het aantal gewogen");
         GUI.writeNewLine();
         GUI.writeText("graaddagen van de");
