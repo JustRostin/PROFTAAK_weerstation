@@ -99,8 +99,8 @@ public class Main {
     }
 
     private static void SelectDisplay(int DisplayNumber, Period period) {
-        if (DisplayNumber < 0) { DisplayNumber = 14; }
-        if (DisplayNumber > 14) { DisplayNumber = 0; }
+        if (DisplayNumber < 0) { DisplayNumber = 15; }
+        if (DisplayNumber > 15) { DisplayNumber = 0; }
         switch(DisplayNumber) {
             case 0:
                 DisplayTemp(period, DisplayNumber);
@@ -139,11 +139,15 @@ public class Main {
                 DisplayGoodDays(period, DisplayNumber);
                 break;
             case 12:
-                DisplayWeightedDegreeDays(period, DisplayNumber);
+                DisplayDegreeDays(period, DisplayNumber);
+                break;
             case 13:
-                DisplayQuit(period, DisplayNumber);
+                DisplayWeightedDegreeDays(period, DisplayNumber);
                 break;
             case 14:
+                DisplayQuit(period, DisplayNumber);
+                break;
+            case 15:
                 DisplayPeriodChange(period, DisplayNumber);
                 break;
 
@@ -810,8 +814,8 @@ public class Main {
             goodDayscount = goodDayscount / 10;
         }
 
-        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {}
-        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {}
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {
             SelectDisplay(DisplayNumber+1,period);
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
