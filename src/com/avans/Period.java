@@ -710,7 +710,7 @@ public class Period {
         }
         return heatwave;
     }
-    public static void testjason() {
+    public static void testjason1() {
         Period periode = new Period();
         periode.setStart(1, 8, 2019);
         periode.setEnd(30, 9, 2019);
@@ -785,5 +785,15 @@ public class Period {
             }
 
          */
+
+    public static void testjason2() {
+        Period periode = new Period();
+        periode.setStart(1, 10, 2020);
+        periode.setEnd(25, 10, 2020);
+        if (!periode.heatwave()) {
+            System.out.print("HIJ WERKT!");
+        }
+        //werkt als er geen hittegolf was (was er deze maand niet. moet dus "HIJ WERKT!" terug geven)
+    }
 
 }
