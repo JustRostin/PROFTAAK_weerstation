@@ -22,7 +22,7 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Rood: Selecteren");
         while (!(GUI.isKnopRoodIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt())) {}
-        SelectStart(LocalDate.now().minus(java.time.Period.ofDays(7)));
+        SelectStartMonth(LocalDate.now().minus(java.time.Period.ofDays(7)));
     }
 
     private static void SelectStart(LocalDate start) {
@@ -53,7 +53,7 @@ public class Main {
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
             SelectStart(start.minusDays(1));
         } else if (GUI.isKnopRoodIngedrukt()) {
-            SelectStartMonth(start);
+            SelectStartYear(start);
         }
     }
     private static void SelectStartMonth(LocalDate start) {
@@ -84,7 +84,7 @@ public class Main {
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
             SelectStartMonth(start.minusMonths(1));
         } else if (GUI.isKnopRoodIngedrukt()) {
-            SelectStartYear(start);
+            SelectStart(start);
         }
     }
     private static void SelectStartYear(LocalDate start) {
@@ -115,7 +115,7 @@ public class Main {
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
             SelectStartYear(start.minusYears(1));
         } else if (GUI.isKnopRoodIngedrukt()) {
-            SelectEnd(start, LocalDate.now());
+            SelectEndMonth(start, LocalDate.now());
         }
     }
 
@@ -147,7 +147,7 @@ public class Main {
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
             SelectEnd(start, end.minusDays(1));
         } else if (GUI.isKnopRoodIngedrukt()) {
-            SelectEndMonth(start, end);
+            SelectEndYear(start, end);
         }
     }
     private static void SelectEndMonth(LocalDate start, LocalDate end) {
@@ -178,7 +178,7 @@ public class Main {
         } else if (GUI.isKnopBlauwLinksIngedrukt()){
             SelectEndMonth(start, end.minusMonths(1));
         } else if (GUI.isKnopRoodIngedrukt()) {
-            SelectEndYear(start, end);
+            SelectEnd(start, end);
         }
     }
     private static void SelectEndYear(LocalDate start, LocalDate end) {
@@ -215,7 +215,7 @@ public class Main {
 
     private static void SelectPeriod(LocalDate start, LocalDate end, boolean reselect){
         if (reselect) {
-            SelectStart(LocalDate.now().minus(java.time.Period.ofDays(7)));
+            SelectStartMonth(LocalDate.now().minus(java.time.Period.ofDays(7)));
         } else {
             GUI.clearDM();
             GUI.writeText("Laden ...");
@@ -849,7 +849,7 @@ public class Main {
         GUI.writeNewLine();
         GUI.writeText("Van deze periode");
         GUI.writeNewLine();
-        GUI.writeText("In mm/u");
+        GUI.writeText("In mm");
         GUI.writeNewLine();
         while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
         while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
