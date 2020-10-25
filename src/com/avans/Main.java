@@ -934,7 +934,7 @@ public class Main {
 
     private static void DisplayWettestMonth(Period period, int DisplayNumber){
         GUI.clearDM();
-        GUI.writeText("Getting month \nwith most rain");
+        GUI.writeText("Maand ophalen \nmet de meeste regen");
         GUI.writeNewLine();
 
         String month = period.getWettestMonth();
@@ -947,22 +947,22 @@ public class Main {
         System.out.println(length);
         if (length < 5){
             GUI.writeValue("Top",(int)amount*10,1);
-            GUI.writeText("Most rain in MM\n");
-            GUI.writeText("Month:"+elements[0]+"\n");
-            GUI.writeText("Year: "+elements[1]+"\n");
+            GUI.writeText("Meeste regen in MM\n");
+            GUI.writeText("Maand:"+elements[0]+"\n");
+            GUI.writeText("Jaar: "+elements[1]+"\n");
         } else if (length == 5) {
             int first = (int)amount*10;
             while (first >= 1000)
                 first /= 1000;
             int last = (int)amount*10 %1000;
-            GUI.writeValue("Left",first,-1);
-            GUI.writeValue("Right",last,1);
-            GUI.writeText("Most rain in MM\n");
-            GUI.writeText("Month:"+elements[0]+"\n");
-            GUI.writeText("Year: "+elements[1]+"\n");
+            GUI.writeValue("Links",first,-1);
+            GUI.writeValue("Rechts",last,1);
+            GUI.writeText("Meeste regen in MM\n");
+            GUI.writeText("Maand:"+elements[0]+"\n");
+            GUI.writeText("Jaar: "+elements[1]+"\n");
         }
-        GUI.writeText("Most rain in MM\n");
-        GUI.writeText("Data out of bound");
+        GUI.writeText("Meeste regen in MM\n");
+        GUI.writeText("Gegevens buiten het bereik");
 
         while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
         while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
@@ -977,11 +977,11 @@ public class Main {
 
     private static void DisplayGoodDays(Period period, int DisplayNumber) {
         GUI.clearDM();
-        GUI.writeText("Good Days Processing");
+        GUI.writeText("Goede Dagen Laden.......");
         GUI.writeNewLine();
 
         int goodDayscount = period.getGoodDays();
-        String goodDays = "Good Days: " + goodDayscount;
+        String goodDays = "Goede Dagen: " + goodDayscount;
         GUI.clearDM();
         GUI.writeText(goodDays);
         GUI.writeNewLine();
