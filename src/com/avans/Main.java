@@ -884,6 +884,10 @@ public class Main {
 
     private static void DisplayDegreeDays(Period period, int DisplayNumber){
         GUI.clearDM();
+        GUI.writeText("Graaddagen processing...");
+        GUI.writeNewLine();
+
+        GUI.clearDM();
         GUI.writeValue("Top", period.getDegreeDays(), 0);
         GUI.writeText("Het aantal");
         GUI.writeNewLine();
@@ -902,6 +906,10 @@ public class Main {
     }
 
     private static void DisplayWeightedDegreeDays(Period period, int DisplayNumber){
+        GUI.clearDM();
+        GUI.writeText("Gewogen graaddagen processing...");
+        GUI.writeNewLine();
+
         GUI.clearDM();
         GUI.writeValue("Top", period.getWeightedDegreeDays(), 0);
         GUI.writeText("Het aantal gewogen");
