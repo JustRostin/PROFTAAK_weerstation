@@ -101,8 +101,8 @@ public class Main {
     }
 
     private static void SelectDisplay(int DisplayNumber, Period period) {
-        if (DisplayNumber < 0) { DisplayNumber = 13; }
-        if (DisplayNumber > 13) { DisplayNumber = 0; }
+        if (DisplayNumber < 0) { DisplayNumber = 14; }
+        if (DisplayNumber > 14) { DisplayNumber = 0; }
         switch(DisplayNumber) {
             case 0:
                 DisplayTemp(period, DisplayNumber);
@@ -141,11 +141,14 @@ public class Main {
                 DisplayDegreeDays(period, DisplayNumber);
                 break;
             case 12:
+                DisplayWeightedDegreeDays(period, DisplayNumber);
+            case 13:
                 DisplayQuit(period, DisplayNumber);
                 break;
-            case 13:
+            case 14:
                 DisplayPeriodChange(period, DisplayNumber);
                 break;
+
             default:
                 DisplayQuit(period, DisplayNumber);
         }
@@ -739,6 +742,44 @@ public class Main {
         }
         GUI.writeText("Hittegolf");
         GUI.writeNewLine();
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            SelectDisplay(0,period);
+        }
+    }
+
+    private static void DisplayDegreeDays(Period period, int DisplayNumber){
+        GUI.clearDM();
+        GUI.writeValue("Top", period.getDegreeDays(), 0);
+        GUI.writeText("Het aantal");
+        GUI.writeNewLine();
+        GUI.writeText("graaddagen van de");
+        GUI.writeNewLine();
+        GUI.writeText("geselecteerde periode");
+        while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
+        while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
+        if (GUI.isKnopBlauwRechtsIngedrukt()) {
+            SelectDisplay(DisplayNumber+1,period);
+        } else if (GUI.isKnopBlauwLinksIngedrukt()){
+            SelectDisplay(DisplayNumber-1,period);
+        } else if (GUI.isKnopRoodIngedrukt()) {
+            SelectDisplay(0,period);
+        }
+    }
+
+    private static void DisplayWeightedDegreeDays(Period period, int DisplayNumber){
+        GUI.clearDM();
+        GUI.writeValue("Top", period.getWeightedDegreeDays(), 0);
+        GUI.writeText("Het aantal gewogen");
+        GUI.writeNewLine();
+        GUI.writeText("graaddagen van de");
+        GUI.writeNewLine();
+        GUI.writeText("geselecteerde periode");
         while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
         while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}
         if (GUI.isKnopBlauwRechtsIngedrukt()) {

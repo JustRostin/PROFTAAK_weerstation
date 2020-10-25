@@ -530,7 +530,7 @@ public class Period {
     }
 
     // Individuele opdracht Lieselotte Sihasale: graaddagen.
-    public  String degreeDays(){
+    public  int getDegreeDays(){
         ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
         int counter = 0;
         double pTotal = 0.0;
@@ -545,11 +545,11 @@ public class Period {
                     if (!pDay.equals(day)) {
                         double avOutsideTemp = pTotal / counter;
                         double avInsideTemp = 18.0;
-                        double weightedDegreeDays = avInsideTemp - avOutsideTemp;
-                        if(weightedDegreeDays < 0){
-                            weightedDegreeDays = 0;
+                        double degreeDays = avInsideTemp - avOutsideTemp;
+                        if(degreeDays < 0){
+                            degreeDays = 0;
                         }
-                        totalDegreeDays += weightedDegreeDays;
+                        totalDegreeDays += degreeDays;
                         pTotal = 0.0;
                         counter = 0;
                     }
@@ -560,13 +560,15 @@ public class Period {
             }
         }
 
-        String resultValue = String.format("%.0f",totalDegreeDays);
-        String result = "Degree days: " + resultValue;
+        //String resultValue = String.format("%.0f",totalDegreeDays);
+        //String result = "Graaddagen: " + resultValue;
+
+        int result = (int)Math.round(totalDegreeDays);
         return result;
     }
 
     // Individuele opdracht Lieselotte Sihasale: gewogen graaddagen.
-    public String weightedDegreeDays(){
+    public int getWeightedDegreeDays(){
         ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
         int counter = 0;
         double pTotal = 0.0;
@@ -604,8 +606,10 @@ public class Period {
             }
         }
 
-        String resultValue = String.format("%.0f",totalWeightedDegreeDays);
-        String result = "Weighted degree days: " + resultValue;
+        //String resultValue = String.format("%.0f",totalWeightedDegreeDays);
+        //String result = "Gewogen graaddagen: " + resultValue;
+
+        int result = (int)Math.round(totalWeightedDegreeDays);
 
         return result;
     }
