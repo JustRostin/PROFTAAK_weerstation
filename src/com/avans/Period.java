@@ -532,7 +532,7 @@ public class Period {
 
     // Individuele opdracht Lieselotte Sihasale: graaddagen.
     public  int getDegreeDays(){
-        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Measurement> measurements = this.getMeasurements();
         int counter = 0;
         double pTotal = 0.0;
         double totalDegreeDays= 0.0;
@@ -569,7 +569,7 @@ public class Period {
 
     // Individuele opdracht Lieselotte Sihasale: gewogen graaddagen.
     public int getWeightedDegreeDays(){
-        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Measurement> measurements = this.getMeasurements();
         int counter = 0;
         double pTotal = 0.0;
         double weightingFactor;
