@@ -734,19 +734,18 @@ public class Period {
         LocalDate firstDay = this.beginDate;
         LocalDate currentDay = this.endDate;
         LocalDate lastDay = this.endDate;
-
-        ArrayList<Measurement> measurements = getMeasurements();
+        
         int goodDays = 0;
         int counter = 0;
-        long numberOfDays = getNumberOfDays();
+        long numberOfDays = this.getNumberOfDays();
 
         while( counter < numberOfDays) {
-            setStart(currentDay);
-            setEnd(currentDay);
+            this.setStart(currentDay);
+            this.setEnd(currentDay);
 
-            windChillDay = getAverageWindChill();
-            windSpeedAVGDay = getAverageWind();
-            rainfallMAXDay = getHighestRainrate();
+            windChillDay = this.getAverageWindChill();
+            windSpeedAVGDay = this.getAverageWind();
+            rainfallMAXDay = this.getHighestRainrate();
 
             if ( windChillDay >= goodWindChillLow && windChillDay <= goodWindChillHigh ){
                 if (windSpeedAVGDay <= goodWindSpeedAVG) {
