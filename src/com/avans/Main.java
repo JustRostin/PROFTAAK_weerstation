@@ -955,13 +955,13 @@ public class Main {
             while (first >= 1000)
                 first /= 1000;
             int last = (int)amount*10 %1000;
-            GUI.writeValue("Links",first,-1);
-            GUI.writeValue("Rechts",last,1);
+            GUI.writeValue("Left",first,-1);
+            GUI.writeValue("Right",last,1);
             GUI.writeText("Meeste regen in MM\n");
             GUI.writeText("Maand:"+elements[0]+"\n");
             GUI.writeText("Jaar: "+elements[1]+"\n");
         }
-        GUI.writeText("Meeste regen in MM\n");
+
         GUI.writeText("Gegevens buiten het bereik");
 
         while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
