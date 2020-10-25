@@ -742,12 +742,12 @@ public class Period {
         long numberOfDays = getNumberOfDays();
 
         while( counter < numberOfDays) {
-            setStart(currentDay);
-            setEnd(currentDay);
+            this.setStart(currentDay);
+            this.setEnd(currentDay);
 
-            windChillDay = getAverageWindChill();
-            windSpeedAVGDay = getAverageWind();
-            rainfallMAXDay = getHighestRainrate();
+            windChillDay = this.getAverageWindChill();
+            windSpeedAVGDay = this.getAverageWind();
+            rainfallMAXDay = this.getHighestRainrate();
 
             if ( windChillDay >= goodWindChillLow && windChillDay <= goodWindChillHigh ){
                 if (windSpeedAVGDay <= goodWindSpeedAVG) {
