@@ -1,14 +1,12 @@
 package com.avans;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) {
         IO.init();
         menu();
-
     }
 
     public static void menu() {
@@ -138,7 +136,7 @@ public class Main {
                 DisplayHeatwave(period, DisplayNumber);
                 break;
             case 11:
-                DisplayDegreeDays(period, DisplayNumber);
+                DisplayGoodDays(period, DisplayNumber);
                 break;
             case 12:
                 DisplayQuit(period, DisplayNumber);
