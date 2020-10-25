@@ -123,7 +123,7 @@ public class Period {
     }
 
     public void calcStats() {
-        if (stats) {
+        if (this.stats) {
             return;
         }
         ArrayList<Measurement> measurements = this.getMeasurements();
@@ -214,92 +214,92 @@ public class Period {
     }
 
     public double getLowestTemp() {
-        calcStats();
+        this.calcStats();
         return this.LowestTemp;
     }
     public double getLowestTempOut() {
-        calcStats();
+        this.calcStats();
         return this.LowestTempOut;
     }
     public double getLowestHum() {
-        calcStats();
+        this.calcStats();
         return this.LowestHum;
     }
     public double getLowestHumOut() {
-        calcStats();
+        this.calcStats();
         return this.LowestHumOut;
     }
     public double getLowestPress() {
-        calcStats();
+        this.calcStats();
         return this.LowestPress;
     }
     public double getLowestRainrate() {
-        calcStats();
+        this.calcStats();
         return this.LowestRainrate;
     }
     public double getHighestTemp() {
-        calcStats();
+        this.calcStats();
         return this.HighestTemp;
     }
     public double getHighestHum() {
-        calcStats();
+        this.calcStats();
         return this.HighestHum;
     }
     public double getHighestPress() {
-        calcStats();
+        this.calcStats();
         return this.HighestPress;
     }
     public double getHighestRainrate() {
-        calcStats();
+        this.calcStats();
         return this.HighestRainrate;
     }
     public double getLowestWind() {
-        calcStats();
+        this.calcStats();
         return this.LowestWind;
     }
     public double getHighestTempOut() {
-        calcStats();
+        this.calcStats();
         return this.HighestTempOut;
     }
     public double getHighestHumOut() {
-        calcStats();
+        this.calcStats();
         return this.HighestHumOut;
     }
     public double getHighestWind() {
-        calcStats();
+        this.calcStats();
         return this.HighestWind;
     }
     public double getAverageTemp() {
-        calcStats();
+        this.calcStats();
         return this.AverageTemp;
     }
     public double getAverageTempOut() {
-        calcStats();
+        this.calcStats();
         return this.AverageTempOut;
     }
     public double getAverageHum() {
-        calcStats();
+        this.calcStats();
         return this.AverageHum;
     }
     public double getAverageHumOut() {
-        calcStats();
+        this.calcStats();
         return this.AverageHumOut;
     }
     public double getAveragePress() {
-        calcStats();
+        this.calcStats();
         return this.AveragePress;
     }
     public double getAverageRainrate() {
-        calcStats();
+        this.calcStats();
         return this.AverageRainrate;
     }
     public double getAverageWind() {
-        calcStats();
+        this.calcStats();
         return this.AverageWind;
     }
     public double getAverageWindChill() {
-        calcStats();
-        return AverageWindChill;
+        this.calcStats();
+        return this.AverageWindChill;
     }
 
 
@@ -532,7 +532,7 @@ public class Period {
 
     // Individuele opdracht Lieselotte Sihasale: graaddagen.
     public  int getDegreeDays(){
-        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Measurement> measurements = this.getMeasurements();
         int counter = 0;
         double pTotal = 0.0;
         double totalDegreeDays= 0.0;
@@ -569,7 +569,7 @@ public class Period {
 
     // Individuele opdracht Lieselotte Sihasale: gewogen graaddagen.
     public int getWeightedDegreeDays(){
-        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Measurement> measurements = this.getMeasurements();
         int counter = 0;
         double pTotal = 0.0;
         double weightingFactor;
