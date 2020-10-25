@@ -299,7 +299,7 @@ public class Period {
     }
     public double getAverageWindChill() {
         this.calcStats();
-        return AverageWindChill;
+        return this.AverageWindChill;
     }
 
 
