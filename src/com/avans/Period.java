@@ -759,7 +759,7 @@ public class Period {
             counter++;
 
             }
-        System.out.println("Good days between " + firstDay + " and " + lastDay + ": " + goodDays);
+        System.out.println("Goede dagen tussen " + firstDay + " en" + lastDay + ": " + goodDays);
         return goodDays;
     }
 
