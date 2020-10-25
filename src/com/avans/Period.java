@@ -477,7 +477,7 @@ public class Period {
     }
 
 
-    public void getWettestMonth()
+    public String getWettestMonth()
     {
         ArrayList<Integer> months = new ArrayList<>();
         ArrayList<Double> rain = new ArrayList<>();
@@ -527,6 +527,7 @@ public class Period {
         LocalDate localDate = LocalDate.of(0, Integer.parseInt(monthonly), 1);
         String name = localDate.getMonth().name();
         System.out.println("Meeste regen is gevallen in de maand: "+name+" "+yearonly+" met een hoeveelheid van: "+maxVal);
+        return name+","+yearonly+","+maxVal;
     }
 
     // Individuele opdracht Lieselotte Sihasale: graaddagen.
