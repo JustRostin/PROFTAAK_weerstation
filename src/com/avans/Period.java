@@ -749,7 +749,7 @@ public class Period {
             windSpeedAVGDay = getAverageWind();
             rainfallMAXDay = getHighestRainrate();
 
-            if ( windChillDay >= goodWindChillLow && windChillDay >= goodWindChillHigh ){
+            if ( windChillDay >= goodWindChillLow && windChillDay <= goodWindChillHigh ){
                 if (windSpeedAVGDay <= goodWindSpeedAVG) {
                         if (rainfallMAXDay <= goodMAXRainfall) {
                             goodDays = goodDays + 1;
