@@ -976,25 +976,17 @@ public class Main {
     }
 
     private static void DisplayGoodDays(Period period, int DisplayNumber) {
-        GUI.clearDM();
-        GUI.writeText("Goede Dagen Laden.......");
-        GUI.writeNewLine();
+        GUI.clearDM(); // Dit leegt het scherm.
+        GUI.writeText("Goede Dagen Laden......."); // Klein laad tekstje dat aangeeft dat de functie bezig is.
+        GUI.writeNewLine(); // Dit zorgt ervoor dat er op de volgende lijn van de dotmatrix wordt geschreven.
 
-        int goodDayscount = period.getGoodDays();
-        String goodDays = "Goede Dagen: " + goodDayscount;
+        int goodDayscount = period.getGoodDays(); // Hiermee zorg ik ervoor dat mijn functie start en dat de return resultaat in goodDayscount komt te staan.
+        String goodDays = "Goede Dagen: " + goodDayscount; // Ik maak een string om te laten zien op het dotmatrix scherm waarin de goodDayscount verwerkt is.
         GUI.clearDM();
         GUI.writeText(goodDays);
         GUI.writeNewLine();
 
-        int[] address = {0x20,0x22,0x24};
-        for (int i = 0; i < address.length; i++){
-            if (i==1){
-                GUI.writeNumber(address[i],(goodDayscount%10),false);
-            } else {
-                GUI.writeNumber(address[i],(goodDayscount%10),false);
-            }
-            goodDayscount = goodDayscount / 10;
-        }
+        GUI.writeValue("Left", goodDayscount, 0); // Ik gebruik een functie gemaakt door Raoul om de goodDayscount ook nog te laten zien op de 7 segment display
 
         while (GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopRoodIngedrukt()) {IO.delay(100);}
         while (!(GUI.isKnopBlauwLinksIngedrukt() || GUI.isKnopBlauwRechtsIngedrukt() || GUI.isKnopRoodIngedrukt())) {IO.delay(100);}

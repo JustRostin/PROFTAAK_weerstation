@@ -722,32 +722,32 @@ public class Period {
     //Wesley individuele opdracht J
     //get good days
     public int getGoodDays(){
-        double goodWindChillLow = 15.0;
+        double goodWindChillLow = 15.0; // Hiermee bepaal ik de waardes die aan zullen tonen of het een goede dag was qua weer.
         double goodWindChillHigh = 20.0;
         double goodWindSpeedAVG = 10.0;
         double goodMAXRainfall = 0.3;
 
-        double windChillDay;
+        double windChillDay; // Ik declareer de waardes die de dagelijkse waardes zullen aangeven.
         double windSpeedAVGDay;
         double rainfallMAXDay;
 
-        LocalDate firstDay = this.beginDate;
-        LocalDate currentDay = this.endDate;
+        LocalDate firstDay = this.beginDate; // Hiermee zet ik vast waar de periode begint en eindigt.
+        LocalDate currentDay = this.endDate; // Met currentDay geef ik aan welke dag er naar wordt gekeken. Dit is relevant in de while loop van mijn check.
         LocalDate lastDay = this.endDate;
         
-        int goodDays = 0;
-        int counter = 0;
-        long numberOfDays = this.getNumberOfDays();
+        int goodDays = 0; // Dit is de counter die ik ga gebruiken om de goede dagen te tellen.
+        int counter = 0; // Dit is de counter die ik ga gebruiken om ervoor te zorgen dat ik alle dagen af ga.
+        long numberOfDays = this.getNumberOfDays(); // Dit is een functie die ik gebruik om de aantal dagen te gebruiken als counter voor de while loop.
 
         while( counter < numberOfDays) {
-            this.setStart(currentDay);
+            this.setStart(currentDay); // Door steeds de start en end te bepalen kan ik elke dag in de periode afgaan.
             this.setEnd(currentDay);
 
-            windChillDay = this.getAverageWindChill();
+            windChillDay = this.getAverageWindChill(); // Hiermee zorg ik ervoor dat alle data van een dag omgezet wordt in een average en max waarde.
             windSpeedAVGDay = this.getAverageWind();
             rainfallMAXDay = this.getHighestRainrate();
 
-            if ( windChillDay >= goodWindChillLow && windChillDay <= goodWindChillHigh ){
+            if ( windChillDay >= goodWindChillLow && windChillDay <= goodWindChillHigh ){ // Hierin wordt de dag data vergeleken met de ideale waardes.
                 if (windSpeedAVGDay <= goodWindSpeedAVG) {
                         if (rainfallMAXDay <= goodMAXRainfall) {
                             goodDays = goodDays + 1;
@@ -755,12 +755,12 @@ public class Period {
                     }
                 }
 
-            currentDay = currentDay.minusDays(1);
+            currentDay = currentDay.minusDays(1); // Hiermee zorg ik ervoor dat er langs elke dag gegaan wordt
             counter++;
 
             }
-        System.out.println("Goede dagen tussen " + firstDay + " en" + lastDay + ": " + goodDays);
-        return goodDays;
+        System.out.println("Goede dagen tussen " + firstDay + " en " + lastDay + ": " + goodDays); // Dit is om aan te geven in de console dat het daadwerkelijk werkt.
+        return goodDays; // Hiermee return ik de goodDays counter om te gebruiken in de display.
     }
 
 
